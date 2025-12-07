@@ -11,8 +11,12 @@ export class AuthController {
   }
 
   @Post('login')
-  login() {}
+  login() {
+    return 'login';
+  }
 
   @Post('logout')
-  logout() {}
+  logout() {
+    return 'logout';
+  }
 }

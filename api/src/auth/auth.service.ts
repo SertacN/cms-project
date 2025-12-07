@@ -8,7 +8,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/wasm-compi
 export class AuthService {
   constructor(private prisma: PrismaService) {}
 
-  async register(dto: AuthDto) {
+  async register(dto: AuthDto): Promise<any> {
     const hashedPassword = await bcrypt.hash(dto.password, 10);
     try {
       const user = await this.prisma.user.create({
