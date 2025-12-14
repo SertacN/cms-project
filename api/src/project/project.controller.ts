@@ -26,27 +26,31 @@ export class ProjectController {
     return this.projectService.getAllProject();
   }
 
-  @Get(':id')
+  @Get('id/:id')
   getProjectById(@Param('id', ParseIntPipe) projectId: number) {
     return this.projectService.getProjectById(projectId);
   }
 
+  @Get(':sef')
+  getProjectBySef(@Param('sef') projectSef: string) {
+    return this.projectService.getProjectBySef(projectSef);
+  }
+
   @Post()
   createProject(@Body() dto: CreateProjectDto) {
-    return 'create project';
+    return this.projectService.createProject(dto);
   }
 
   @Patch(':id')
-  editProject(
+  editProjectById(
     @Param('id', ParseIntPipe) projectId: Number,
     @Body() dto: EditProjectDto,
   ) {
-    return 'edit project';
+    return `Edit project ${projectId}`;
   }
-
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
   deleteProjectById(@Param('id', ParseIntPipe) projectId: number) {
-    return 'delete project';
+    return this.projectService.deleteProjectById(projectId);
   }
 }
