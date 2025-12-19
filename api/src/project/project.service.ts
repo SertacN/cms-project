@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateProjectDto } from './dto';
+import { CreateProjectDto, EditProjectDto } from './dto';
 import slugify from 'slugify';
 
 @Injectable()
@@ -90,7 +90,24 @@ export class ProjectService {
     }
   }
   // Edit Project
-  async editProject() {}
+  async editProjectById(projectId: number, dto: EditProjectDto) {
+    const project = await this.prisma.project.findUnique({
+      where: {
+        id: projectId,
+      },
+    });
+    if (!project) {
+      throw new NotFoundException(`Project ID ${projectId} not found`);
+    }
+    return this.prisma.project.update({
+      where: {
+        id: projectId,
+      },
+      data: {
+        ...dto,
+      },
+    });
+  }
   // Delete project
   async deleteProjectById(projectId: number) {
     const project = await this.prisma.project.findUnique({

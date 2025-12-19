@@ -43,10 +43,10 @@ export class ProjectController {
 
   @Patch(':id')
   editProjectById(
-    @Param('id', ParseIntPipe) projectId: Number,
+    @Param('id', ParseIntPipe) projectId: number,
     @Body() dto: EditProjectDto,
   ) {
-    return `Edit project ${projectId}`;
+    return this.projectService.editProjectById(projectId, dto);
   }
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
