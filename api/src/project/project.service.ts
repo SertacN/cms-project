@@ -13,12 +13,28 @@ export class ProjectService {
   constructor(private prisma: PrismaService) {}
   // Get All Project
   getAllProject() {
-    const project = this.prisma.project.findMany({
+    const projects = this.prisma.project.findMany({
       where: {
         isDeleted: false,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      select: {
+        id: true,
+        title: true,
+        summary: true,
+        content: true,
+        slug: true,
+        tech: true,
+        version: true,
+        imageUrl: true,
+        techLogoImageUrl: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
-    return project;
+    return projects;
   }
   // Get Project By ID
   async getProjectById(projectId: number) {
@@ -31,7 +47,8 @@ export class ProjectService {
     if (!project) {
       throw new NotFoundException(`Project ID ${projectId} not found`);
     }
-    return project;
+    const { isDeleted, deletedAt, ...projectData } = project;
+    return projectData;
   }
   // Get Project By SEF
   async getProjectBySef(projectSef: string) {
@@ -44,7 +61,8 @@ export class ProjectService {
     if (!project) {
       throw new NotFoundException(`Project SEF ${projectSef} not found`);
     }
-    return project;
+    const { isDeleted, deletedAt, ...projectData } = project;
+    return projectData;
   }
   // Create Project
   async createProject(dto: CreateProjectDto, file?: Express.Multer.File) {
@@ -70,10 +88,11 @@ export class ProjectService {
       if (file && fileName) {
         saveFileToDisk(file.buffer, fileName, 'uploads/projects');
       }
+      const { isDeleted, deletedAt, ...projectData } = project;
       return {
         success: true,
         message: 'Project created successfully',
-        data: project,
+        data: projectData,
       };
     } catch (error) {
       throw new InternalServerErrorException('Project could not be created');
@@ -98,10 +117,11 @@ export class ProjectService {
         ...dto,
       },
     });
+    const { isDeleted, deletedAt, ...projectData } = updatedProject;
     return {
       success: true,
       message: 'Project updated successfully',
-      data: updatedProject,
+      data: { projectData },
     };
   }
   // Delete project

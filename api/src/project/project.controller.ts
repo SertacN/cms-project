@@ -17,8 +17,6 @@ import { JwtGuard } from 'src/auth/guard';
 import { CreateProjectDto, EditProjectDto } from './dto';
 import { ProjectService } from './project.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
 
 @Controller('project')
 @UseGuards(ApiKeyGuard)
