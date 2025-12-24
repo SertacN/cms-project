@@ -1,19 +1,23 @@
 import {
-  ConflictException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProjectDto, EditProjectDto } from './dto';
-import slugify from 'slugify';
+import { generateUniqueSlug, saveFileToDisk } from './utils';
+import path from 'path';
 
 @Injectable()
 export class ProjectService {
   constructor(private prisma: PrismaService) {}
   // Get All Project
   getAllProject() {
-    const project = this.prisma.project.findMany();
+    const project = this.prisma.project.findMany({
+      where: {
+        isDeleted: false,
+      },
+    });
     return project;
   }
   // Get Project By ID
@@ -21,6 +25,7 @@ export class ProjectService {
     const project = await this.prisma.project.findFirst({
       where: {
         id: projectId,
+        isDeleted: false,
       },
     });
     if (!project) {
@@ -33,6 +38,7 @@ export class ProjectService {
     const project = await this.prisma.project.findUnique({
       where: {
         slug: projectSef,
+        isDeleted: false,
       },
     });
     if (!project) {
@@ -41,52 +47,36 @@ export class ProjectService {
     return project;
   }
   // Create Project
-  async createProject(dto: CreateProjectDto) {
-    const baseSlug = slugify(dto.title, { lower: true, strict: true });
-    let finalSlug = baseSlug;
-    const similarProjects = await this.prisma.project.findMany({
-      where: {
-        slug: {
-          startsWith: baseSlug,
-        },
-      },
-      select: {
-        slug: true,
-      },
-    });
-    // Check if similar projects exist
-    if (similarProjects.length > 0) {
-      // If similar projects exist, find the maximum number
-      const regex = new RegExp(`^${baseSlug}(?:-(\\d+))?$`);
-      const maxNumber = similarProjects.reduce((max, project) => {
-        const match = project.slug.match(regex);
-        if (match) {
-          // If the slug matches the regex, extract the number
-          const number = match[1] ? parseInt(match[1], 10) : 0;
-          return number > max ? number : max;
-        }
-        return max;
-      }, -1);
-      if (maxNumber > -1) {
-        finalSlug = `${baseSlug}-${maxNumber + 1}`;
-      }
+  async createProject(dto: CreateProjectDto, file?: Express.Multer.File) {
+    // 1. Create SefUrl
+    const finalSlug = await generateUniqueSlug(dto.title, this.prisma.project);
+    // 2. Create File Name
+    let fileName: string | null = null;
+    if (file) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+      fileName = `${uniqueSuffix}${path.extname(file.originalname)}`;
     }
     try {
+      // 3. Create Database Record
       const project = await this.prisma.project.create({
         data: {
           ...dto,
           slug: finalSlug,
+          imageUrl: fileName ? `/uploads/projects/${fileName}` : null,
         },
       });
-      return project;
-    } catch (error) {
-      // Çok nadir de olsa milisaniyelik çakışma olursa (Concurrency)
-      if (error.code === 'P2002') {
-        throw new ConflictException(
-          'Aynı anda benzer kayıt girildi, lütfen tekrar deneyin.',
-        );
+
+      // 4. If file and fileName is not null, save file to disk
+      if (file && fileName) {
+        saveFileToDisk(file.buffer, fileName, 'uploads/projects');
       }
-      throw new InternalServerErrorException();
+      return {
+        success: true,
+        message: 'Project created successfully',
+        data: project,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException('Project could not be created');
     }
   }
   // Edit Project
@@ -94,12 +84,13 @@ export class ProjectService {
     const project = await this.prisma.project.findUnique({
       where: {
         id: projectId,
+        isDeleted: false,
       },
     });
     if (!project) {
       throw new NotFoundException(`Project ID ${projectId} not found`);
     }
-    return this.prisma.project.update({
+    const updatedProject = await this.prisma.project.update({
       where: {
         id: projectId,
       },
@@ -107,21 +98,35 @@ export class ProjectService {
         ...dto,
       },
     });
+    return {
+      success: true,
+      message: 'Project updated successfully',
+      data: updatedProject,
+    };
   }
   // Delete project
   async deleteProjectById(projectId: number) {
     const project = await this.prisma.project.findUnique({
       where: {
         id: projectId,
+        isDeleted: false,
       },
     });
     if (!project) {
       throw new NotFoundException(`Project ID ${projectId} not found`);
     }
-    return this.prisma.project.delete({
+    await this.prisma.project.update({
       where: {
         id: projectId,
       },
+      data: {
+        isDeleted: true,
+        deletedAt: new Date(),
+      },
     });
+    return {
+      success: true,
+      message: 'Project deleted successfully',
+    };
   }
 }
