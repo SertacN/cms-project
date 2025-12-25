@@ -1,0 +1,10 @@
+model File{
+    id Int @id @default(autoincrement())
+    fileName String
+    originalName String
+    path String
+    mimeType String
+    size Int
+    contentId Int?
+    content Content? @relation(fields: [contentId], references: [id], onDelete: Cascade)
+}
