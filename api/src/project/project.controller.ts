@@ -8,13 +8,14 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiKeyGuard } from './guard';
 import { JwtGuard } from 'src/auth/guard';
-import { CreateProjectDto, EditProjectDto } from './dto';
+import { CreateProjectDto, EditProjectDto, PaginationDto } from './dto';
 import { ProjectService } from './project.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -24,8 +25,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class ProjectController {
   constructor(private projectService: ProjectService) {}
   @Get()
-  getAllProject() {
-    return this.projectService.getAllProject();
+  getAllProject(@Query() paginationDto: PaginationDto) {
+    return this.projectService.getAllProject(paginationDto);
   }
 
   @Get('id/:id')

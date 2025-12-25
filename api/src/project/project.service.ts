@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateProjectDto, EditProjectDto } from './dto';
+import { CreateProjectDto, EditProjectDto, PaginationDto } from './dto';
 import { generateUniqueSlug, saveFileToDisk } from './utils';
 import path from 'path';
 
@@ -12,29 +12,45 @@ import path from 'path';
 export class ProjectService {
   constructor(private prisma: PrismaService) {}
   // Get All Project
-  getAllProject() {
-    const projects = this.prisma.project.findMany({
-      where: {
-        isDeleted: false,
+  async getAllProject(paginationDto: PaginationDto) {
+    const page = paginationDto.page || 1;
+    const limit = paginationDto.limit || 10;
+    const skip = (page - 1) * limit;
+    const [projects, total] = await Promise.all([
+      this.prisma.project.findMany({
+        skip,
+        take: limit,
+        where: { isDeleted: false },
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          title: true,
+          summary: true,
+          content: true,
+          slug: true,
+          tech: true,
+          version: true,
+          imageUrl: true,
+          techLogoImageUrl: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      }),
+      this.prisma.project.count({
+        where: { isDeleted: false }, // Filter count
+      }),
+    ]);
+    return {
+      success: true,
+      message: 'Projects fetched successfully',
+      data: projects,
+      meta: {
+        total,
+        page,
+        limit,
+        lastPage: Math.ceil(total / limit),
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      select: {
-        id: true,
-        title: true,
-        summary: true,
-        content: true,
-        slug: true,
-        tech: true,
-        version: true,
-        imageUrl: true,
-        techLogoImageUrl: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-    return projects;
+    };
   }
   // Get Project By ID
   async getProjectById(projectId: number) {
