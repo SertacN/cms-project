@@ -4,10 +4,11 @@ model Content{
     summary String?
     content String?
     sefUrl String @unique
-    order Int @default(0)
+    orderBy Int @default(0)
     categoryId Int
     category Category @relation(fields: [categoryId], references: [id])
     files File[]
+    isActive Boolean @default(true)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     deletedAt DateTime?
