@@ -5,9 +5,13 @@ model Content{
     content String?
     sefUrl String @unique
     orderBy Int @default(0)
+
     categoryId Int
-    category Category @relation(fields: [categoryId], references: [id])
-    files File[]
+    category ContentCategory @relation(fields: [categoryId], references: [id])
+
+    files ContentFile[]
+    parameters ContentParameterValue[]
+
     isActive Boolean @default(true)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

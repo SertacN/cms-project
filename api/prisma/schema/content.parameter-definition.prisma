@@ -1,0 +1,16 @@
+model ContentParameterDefinition{
+    id Int @id @default(autoincrement())
+    name String
+    label String
+    type String
+    options String?
+    isRequired Boolean @default(false)
+    orderBy Int @default(0)
+
+    categoryId Int
+    category ContentCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    
+    values ContentParameterValue[]
+
+    @@unique([categoryId, name])
+}

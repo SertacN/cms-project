@@ -1,0 +1,12 @@
+model ContentParameterValue{
+    id Int @id @default(autoincrement())
+    value String                
+    
+    contentId Int
+    content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+    
+    definitionId Int
+    definition ContentParameterDefinition @relation(fields: [definitionId], references: [id], onDelete: Cascade)
+
+    @@unique([contentId, definitionId])
+}

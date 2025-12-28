@@ -1,10 +1,13 @@
-model Category{
+model ContentCategory{
     id Int @default(autoincrement()) @id
     title String @unique
     sefUrl String @unique
     orderBy Int @default(0)
     isActive Boolean @default(true)
+
     content Content[]
+    parameterDefinitions ContentParameterDefinition[]
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     deletedAt DateTime?

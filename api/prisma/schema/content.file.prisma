@@ -1,4 +1,4 @@
-model File{
+model ContentFile{
     id Int @id @default(autoincrement())
     fileName String
     originalName String
