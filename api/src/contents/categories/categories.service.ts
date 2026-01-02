@@ -1,12 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateCategoryDto } from './dto';
+import { generateUniqueUrl } from 'src/common/utils';
 
 @Injectable()
 export class CategoriesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createCategory() {
-    return 'create category service';
+  async createCategory(dto: CreateCategoryDto) {
+    const finalUrl = await generateUniqueUrl(
+      dto.title,
+      this.prisma.contentCategory,
+    );
+    try {
+      const category = await this.prisma.contentCategory.create({
+        data: {
+          ...dto,
+          sefUrl: finalUrl,
+        },
+      });
+      const { isDeleted, deletedAt, ...categoryData } = category;
+      return {
+        success: true,
+        message: 'Category created successfully',
+        data: categoryData,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async getAllCategory() {

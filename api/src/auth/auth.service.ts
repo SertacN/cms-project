@@ -34,6 +34,16 @@ export class AuthService {
       throw error;
     }
   }
+  async logout(userId: number) {
+    // Revoke refresh token
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        refreshToken: null,
+      },
+    });
+    return true;
+  }
   async login(dto: AuthDto): Promise<any> {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -50,18 +60,12 @@ export class AuthService {
     // Generate token
     const tokens = await this.getTokens(user.id, user.email);
     // Store hashed refresh token
-    await this.updateRefreshToken(user.id, tokens.refresh_token);
+    await this.updateRefreshToken(
+      user.id,
+      tokens.refresh_token,
+      user.updatedAt,
+    );
     return tokens;
-  }
-  async logout(userId: number) {
-    // Revoke refresh token
-    await this.prisma.user.update({
-      where: { id: userId },
-      data: {
-        refreshToken: null,
-      },
-    });
-    return true;
   }
   private async getTokens(
     userId: number,
@@ -85,13 +89,18 @@ export class AuthService {
       refresh_token: refreshToken,
     };
   }
-  private async updateRefreshToken(userId: number, refreshToken: string) {
+  private async updateRefreshToken(
+    userId: number,
+    refreshToken: string,
+    currentUpdatedAt: Date,
+  ) {
     // Hash refresh token before storing
     const hash = await bcrypt.hash(refreshToken, 10);
     await this.prisma.user.update({
       where: { id: userId },
       data: {
         refreshToken: hash,
+        updatedAt: currentUpdatedAt,
       },
     });
   }
@@ -114,7 +123,7 @@ export class AuthService {
       }
 
       // Since refreshToken is optional in the schema, use type assertion
-      const storedToken = (user as any).refreshToken as string | null;
+      const storedToken = user.refreshToken;
       if (!storedToken) {
         throw new ForbiddenException('Access Denied');
       }
@@ -139,7 +148,11 @@ export class AuthService {
       // Generate new tokens
       const tokens = await this.getTokens(user.id, user.email);
       // Update refresh token
-      await this.updateRefreshToken(user.id, tokens.refresh_token);
+      await this.updateRefreshToken(
+        user.id,
+        tokens.refresh_token,
+        user.updatedAt,
+      );
 
       return tokens;
     } catch (error) {

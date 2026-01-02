@@ -13,15 +13,17 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiKeyGuard } from './guard';
+import { ApiKeyGuard, RolesGuard } from '../common/guards';
 import { JwtGuard } from 'src/auth/guard';
 import { CreateProjectDto, EditProjectDto, PaginationDto } from './dto';
 import { ProjectService } from './project.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Roles } from 'src/common/decorators';
+import { Role } from '@prisma/client';
 
 @Controller('project')
-@UseGuards(ApiKeyGuard)
-@UseGuards(JwtGuard)
+@UseGuards(ApiKeyGuard, JwtGuard, RolesGuard)
+@Roles(Role.ADMIN)
 export class ProjectController {
   constructor(private projectService: ProjectService) {}
   @Get()

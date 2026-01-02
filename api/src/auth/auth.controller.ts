@@ -12,7 +12,7 @@ import { AuthDto } from './dto';
 import { AuthService } from './auth.service';
 import type { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
-import { Cookies, GetUser } from './decorator';
+import { Cookies, GetUser } from '../common/decorators';
 import { JwtGuard } from './guard';
 
 @Controller('auth')

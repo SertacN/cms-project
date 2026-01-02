@@ -1,15 +1,15 @@
 import slugify from 'slugify';
 
-export async function generateUniqueSlug(
+export async function generateUniqueUrl(
   title: string,
   model: any, // Prisma model delegate (örn: prisma.project)
 ): Promise<string> {
   const baseSlug = slugify(title, { lower: true, strict: true });
 
-  // Veritabanında aynı baseSlug ile başlayan tüm kayıtları bul
+  // Veritabanında aynı SefUrl ile başlayan tüm kayıtları bul
   const similarItems = await model.findMany({
-    where: { slug: { startsWith: baseSlug } },
-    select: { slug: true },
+    where: { sefUrl: { startsWith: baseSlug } },
+    select: { sefUrl: true },
   });
 
   if (similarItems.length === 0) return baseSlug;

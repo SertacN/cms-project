@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProjectDto, EditProjectDto, PaginationDto } from './dto';
-import { generateUniqueSlug, saveFileToDisk } from './utils';
+import { generateUniqueUrl, saveFileToDisk } from '../common/utils';
 import path from 'path';
 
 @Injectable()
@@ -83,7 +83,7 @@ export class ProjectService {
   // Create Project
   async createProject(dto: CreateProjectDto, file?: Express.Multer.File) {
     // 1. Create SefUrl
-    const finalSlug = await generateUniqueSlug(dto.title, this.prisma.project);
+    const finalSlug = await generateUniqueUrl(dto.title, this.prisma.project);
     // 2. Create File Name
     let fileName: string | null = null;
     if (file) {
