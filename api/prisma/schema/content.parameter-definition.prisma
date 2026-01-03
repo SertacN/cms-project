@@ -1,9 +1,18 @@
+enum ParameterType {
+  TEXT
+  NUMBER
+  SELECT
+  CHECKBOX
+  DATE
+  TEXTAREA
+}
+
 model ContentParameterDefinition{
     id Int @id @default(autoincrement())
     name String
     label String
-    type String
-    options String?
+    type ParameterType
+    options Json?
     isRequired Boolean @default(false)
     orderBy Int @default(0)
 

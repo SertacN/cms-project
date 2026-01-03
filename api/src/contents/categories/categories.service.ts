@@ -70,15 +70,25 @@ export class CategoriesService {
         id: categoryId,
         isDeleted: false,
       },
+      select: {
+        id: true,
+        title: true,
+        sefUrl: true,
+        orderBy: true,
+        isActive: true,
+        content: true,
+        parameterDefinitions: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
     if (!category) {
       throw new NotFoundException(`Category ID ${categoryId} not found`);
     }
-    const { isDeleted, deletedAt, ...categoryData } = category;
     return {
       success: true,
       message: 'Category fetched successfully',
-      data: categoryData,
+      data: category,
     };
   }
 
