@@ -3,7 +3,10 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateParametersDefinitionDto } from './dto';
+import {
+  CreateParametersDefinitionDto,
+  EditCategoryParametersDto,
+} from './dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ContentParameterDefinition } from '@prisma/client';
 import { ApiResponse } from 'src/common/types';
@@ -37,6 +40,75 @@ export class ParametersService {
         );
       }
       throw new NotFoundException('Kategori Bulunamadı');
+    }
+  }
+
+  async getCategoryParametersById(
+    categoryId: number,
+  ): Promise<ApiResponse<ContentParameterDefinition[]>> {
+    const categoryParams =
+      await this.prisma.contentParameterDefinition.findMany({
+        where: {
+          categoryId,
+        },
+      });
+    if (categoryParams.length <= 0) {
+      throw new NotFoundException('Kategoriye ait parametre bulunamadı');
+    }
+    return {
+      success: true,
+      message: 'Parametreler başarıyla listelendi.',
+      data: categoryParams,
+    };
+  }
+
+  async editCategoryParametersById(
+    categoryId: number,
+    dto: EditCategoryParametersDto,
+  ): Promise<ApiResponse<ContentParameterDefinition[]>> {
+    try {
+      // 1. Önce kategorinin gerçekten var olup olmadığını kontrol et
+      const categoryExists = await this.prisma.contentCategory.findUnique({
+        where: { id: categoryId },
+      });
+      if (!categoryExists) {
+        throw new NotFoundException('Kategori bulunamadı');
+      }
+
+      // 2. Transaction başlat (Ya hepsi güncellenir ya hiçbiri)
+      const results = await this.prisma.$transaction(
+        dto.parameters.map((param) => {
+          return this.prisma.contentParameterDefinition.upsert({
+            where: {
+              // Bileşik unique anahtarımız: categoryId ve name
+              categoryId_name: {
+                categoryId: categoryId,
+                name: param.name,
+              },
+            },
+            update: {
+              label: param.label,
+              type: param.type,
+              options: param.options,
+              orderBy: param.orderBy ?? 0,
+            },
+            create: {
+              ...param,
+              categoryId: categoryId,
+            },
+          });
+        }),
+      );
+
+      return {
+        success: true,
+        message: 'Parametreler başarıyla güncellendi.',
+        data: results,
+      };
+    } catch (error) {
+      throw new NotFoundException(
+        'Güncelleme sırasında bir hata oluştu: ' + error.message,
+      );
     }
   }
 }

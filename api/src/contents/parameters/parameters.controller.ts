@@ -1,14 +1,21 @@
 import {
   Body,
   Controller,
+  Get,
+  Param,
   ParseArrayPipe,
+  ParseIntPipe,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
 import { ParametersService } from './parameters.service';
 import { JwtGuard } from 'src/auth/guard';
 import { ApiKeyGuard } from 'src/common/guards';
-import { CreateParametersDefinitionDto } from './dto';
+import {
+  CreateParametersDefinitionDto,
+  EditCategoryParametersDto,
+} from './dto';
 import { ContentParameterDefinition } from '@prisma/client';
 import { ApiResponse } from 'src/common/types';
 
@@ -28,5 +35,20 @@ export class ParametersController {
     dtos: CreateParametersDefinitionDto | CreateParametersDefinitionDto[],
   ): Promise<ApiResponse<ContentParameterDefinition[]>> {
     return this.parametersService.createCategoryParameters(dtos);
+  }
+
+  @Get(':id')
+  async getCategoryParametersById(
+    @Param('id', ParseIntPipe) categoryId: number,
+  ): Promise<ApiResponse<ContentParameterDefinition[]>> {
+    return this.parametersService.getCategoryParametersById(categoryId);
+  }
+
+  @Patch(':id')
+  async editCategoryParametersById(
+    @Param('id', ParseIntPipe) categoryId: number,
+    @Body() dto: EditCategoryParametersDto,
+  ): Promise<ApiResponse<ContentParameterDefinition[]>> {
+    return this.parametersService.editCategoryParametersById(categoryId, dto);
   }
 }
