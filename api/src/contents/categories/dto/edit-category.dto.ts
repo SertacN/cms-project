@@ -1,25 +1,30 @@
 import {
   IsBoolean,
-  IsNotEmpty,
   IsNumber,
-  IsString,
   IsOptional,
-  MinLength,
+  IsString,
   MaxLength,
+  MinLength,
 } from 'class-validator';
 
-export class CreateCategoryDto {
-  @IsNotEmpty()
+export class EditCategoryDto {
   @IsString()
+  @IsOptional()
   @MinLength(3, { message: 'Title must be at least 3 characters long' })
   @MaxLength(50, { message: 'Title must be at most 50 characters long' })
-  title: string;
+  title?: string;
 
-  @IsOptional()
   @IsNumber()
+  @IsOptional()
   orderBy?: number;
 
-  @IsOptional()
   @IsBoolean()
+  @IsOptional()
   isActive?: boolean;
+
+  @IsString()
+  @IsOptional()
+  @MinLength(3, { message: 'Title must be at least 3 characters long' })
+  @MaxLength(50, { message: 'Title must be at most 50 characters long' })
+  sefUrl?: string;
 }

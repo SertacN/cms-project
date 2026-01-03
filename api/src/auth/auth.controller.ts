@@ -34,7 +34,7 @@ export class AuthController {
       httpOnly: true, // JS erişemez
       secure: this.config.get('NODE_ENV') === 'production', // development için false, production'da true
       sameSite: 'lax', // CSRF önlemi
-      maxAge: 15 * 60 * 1000, // 15 dakika
+      maxAge: 5000, // 15 dakika
     });
     res.cookie('refresh_token', tokens.refresh_token, {
       httpOnly: true,

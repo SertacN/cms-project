@@ -1,13 +1,21 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateCategoryDto } from './dto';
+import { CreateCategoryDto, EditCategoryDto } from './dto';
 import { generateUniqueUrl } from 'src/common/utils';
+import { ApiResponse, Public } from 'src/common/types';
+import { ContentCategory } from '@prisma/client';
 
 @Injectable()
 export class CategoriesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createCategory(dto: CreateCategoryDto) {
+  async createCategory(
+    dto: CreateCategoryDto,
+  ): Promise<ApiResponse<Public<ContentCategory>>> {
     const finalUrl = await generateUniqueUrl(
       dto.title,
       this.prisma.contentCategory,
@@ -30,19 +38,108 @@ export class CategoriesService {
     }
   }
 
-  async getAllCategory() {
-    return 'get all category service';
+  async getAllCategory(): Promise<ApiResponse<Public<ContentCategory>[]>> {
+    const categories = await this.prisma.contentCategory.findMany({
+      where: {
+        isDeleted: false,
+      },
+      select: {
+        id: true,
+        title: true,
+        sefUrl: true,
+        orderBy: true,
+        isActive: true,
+        content: true,
+        parameterDefinitions: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    return {
+      success: true,
+      message: 'Categories fetched successfully',
+      data: categories,
+    };
   }
 
-  async getCategoryById() {
-    return 'get category by id service';
+  async getCategoryById(
+    categoryId: number,
+  ): Promise<ApiResponse<Public<ContentCategory>>> {
+    const category = await this.prisma.contentCategory.findUnique({
+      where: {
+        id: categoryId,
+        isDeleted: false,
+      },
+    });
+    if (!category) {
+      throw new NotFoundException(`Category ID ${categoryId} not found`);
+    }
+    const { isDeleted, deletedAt, ...categoryData } = category;
+    return {
+      success: true,
+      message: 'Category fetched successfully',
+      data: categoryData,
+    };
   }
 
-  async updateCategoryById() {
-    return 'update category by id service';
+  async editCategoryById(
+    categoryId: number,
+    dto: EditCategoryDto,
+  ): Promise<ApiResponse<Public<ContentCategory>>> {
+    const category = await this.prisma.contentCategory.findUnique({
+      where: {
+        id: categoryId,
+        isDeleted: false,
+      },
+    });
+    if (!category) {
+      throw new NotFoundException(`Category ID ${categoryId} not found`);
+    }
+    if (dto.title) {
+      const finalUrl = await generateUniqueUrl(
+        dto.title,
+        this.prisma.contentCategory,
+      );
+      dto.sefUrl = finalUrl;
+    }
+    const updatedCategory = await this.prisma.contentCategory.update({
+      where: {
+        id: categoryId,
+      },
+      data: dto,
+    });
+    return {
+      success: true,
+      message: 'Category updated successfully',
+      data: updatedCategory,
+    };
   }
 
-  async deleteCategoryById() {
-    return 'delete category by id service';
+  async deleteCategoryById(
+    categoryId: number,
+  ): Promise<ApiResponse<Public<ContentCategory>>> {
+    const category = await this.prisma.contentCategory.findUnique({
+      where: {
+        id: categoryId,
+        isDeleted: false,
+      },
+    });
+    if (!category) {
+      throw new NotFoundException(`Category ID ${categoryId} not found`);
+    }
+    await this.prisma.contentCategory.update({
+      where: {
+        id: categoryId,
+      },
+      data: {
+        isDeleted: true,
+        isActive: false,
+        deletedAt: new Date(),
+      },
+    });
+    return {
+      success: true,
+      message: 'Category deleted successfully',
+    };
   }
 }

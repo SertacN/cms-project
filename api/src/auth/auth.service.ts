@@ -14,7 +14,7 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
-  async register(dto: AuthDto): Promise<any> {
+  async register(dto: AuthDto) {
     const hashedPassword = await bcrypt.hash(dto.password, 10);
     try {
       const user = await this.prisma.user.create({
@@ -24,7 +24,11 @@ export class AuthService {
         },
       });
       const { password, ...result } = user;
-      return { success: 1, result };
+      return {
+        success: true,
+        message: 'User created successfully',
+        data: result,
+      };
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
