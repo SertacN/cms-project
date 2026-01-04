@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseArrayPipe,
@@ -50,5 +51,12 @@ export class ParametersController {
     @Body() dto: EditCategoryParametersDto,
   ): Promise<ApiResponse<ContentParameterDefinition[]>> {
     return this.parametersService.editCategoryParametersById(categoryId, dto);
+  }
+
+  @Delete(':id')
+  async deleteCategoryParametersById(
+    @Param('id', ParseIntPipe) parameterId: number,
+  ): Promise<ApiResponse<ContentParameterDefinition>> {
+    return this.parametersService.deleteCategoryParametersById(parameterId);
   }
 }

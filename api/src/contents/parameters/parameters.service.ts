@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import {
@@ -108,6 +109,39 @@ export class ParametersService {
     } catch (error) {
       throw new NotFoundException(
         'Güncelleme sırasında bir hata oluştu: ' + error.message,
+      );
+    }
+  }
+
+  async deleteCategoryParametersById(
+    parameterId: number,
+  ): Promise<ApiResponse<ContentParameterDefinition>> {
+    try {
+      const parameter = await this.prisma.contentParameterDefinition.findUnique(
+        {
+          where: {
+            id: parameterId,
+          },
+        },
+      );
+      if (!parameter) {
+        throw new NotFoundException(
+          `${parameterId} id'li parametre bulunamadı`,
+        );
+      }
+      await this.prisma.contentParameterDefinition.delete({
+        where: {
+          id: parameterId,
+        },
+      });
+      return {
+        success: true,
+        message: 'Parametre başarıyla silindi.',
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new InternalServerErrorException(
+        'Parametre silinirken bir hata oluştu: ' + error.message,
       );
     }
   }
