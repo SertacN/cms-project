@@ -10,7 +10,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ParametersService } from './parameters.service';
+import { ParametersDefinitionService } from './parameters-definition.service';
 import { JwtGuard } from 'src/auth/guard';
 import { ApiKeyGuard } from 'src/common/guards';
 import {
@@ -22,8 +22,10 @@ import { ApiResponse } from 'src/common/types';
 
 @UseGuards(JwtGuard, ApiKeyGuard)
 @Controller('contents/parameters')
-export class ParametersController {
-  constructor(private readonly parametersService: ParametersService) {}
+export class ParametersDefinitionController {
+  constructor(
+    private readonly parametersService: ParametersDefinitionService,
+  ) {}
 
   @Post()
   async createCategoryParameters(

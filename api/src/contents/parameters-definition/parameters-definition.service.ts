@@ -13,7 +13,7 @@ import { ContentParameterDefinition } from '@prisma/client';
 import { ApiResponse } from 'src/common/types';
 
 @Injectable()
-export class ParametersService {
+export class ParametersDefinitionService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createCategoryParameters(

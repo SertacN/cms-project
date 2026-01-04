@@ -1,10 +1,16 @@
 import { Module } from '@nestjs/common';
 import { CategoriesModule } from './categories/categories.module';
 import { PostsModule } from './posts/posts.module';
-import { ParametersModule } from './parameters/parameters.module';
+import { ParametersDefinitionModule } from './parameters-definition/parameters-definition.module';
+import { ParametersValueModule } from './parameters-value/parameters-value.module';
 
 @Module({
-  imports: [CategoriesModule, PostsModule, ParametersModule],
+  imports: [
+    CategoriesModule,
+    PostsModule,
+    ParametersDefinitionModule,
+    ParametersValueModule,
+  ],
 })
 export class ContentsModule {}
 
