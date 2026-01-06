@@ -21,7 +21,7 @@ import { ContentParameterDefinition } from '@prisma/client';
 import { ApiResponse } from 'src/common/types';
 
 @UseGuards(JwtGuard, ApiKeyGuard)
-@Controller('contents/parameters')
+@Controller('contents/parameters-definition')
 export class ParametersDefinitionController {
   constructor(
     private readonly parametersService: ParametersDefinitionService,
