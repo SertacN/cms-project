@@ -5,10 +5,11 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CategoriesService } from '../categories/categories.service';
-import { CreatePostDto } from './dto';
+import { CreatePostDto, GetAllPostDto } from './dto';
 import { generateUniqueUrl } from 'src/common/utils';
 import { ApiResponse, Public } from 'src/common/types';
 import { Content } from '@prisma/client';
+import { PaginationDto } from 'src/common/dto';
 
 @Injectable()
 export class PostsService {
@@ -58,8 +59,48 @@ export class PostsService {
     }
   }
 
-  async getAllPost() {
-    return 'get all post service';
+  async getAllPost(
+    paginationDto: PaginationDto,
+    postDto: GetAllPostDto,
+  ): Promise<ApiResponse<Public<Content>[]>> {
+    const page = paginationDto.page || 1;
+    const limit = paginationDto.limit || 10;
+    const skip = (page - 1) * limit;
+
+    const [contents, total] = await Promise.all([
+      this.prisma.content.findMany({
+        skip,
+        take: limit,
+        where: { isDeleted: false, categoryId: postDto.categoryId },
+        orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
+        select: {
+          id: true,
+          title: true,
+          summary: true,
+          content: true,
+          sefUrl: true,
+          isActive: true,
+          orderBy: true,
+          createdAt: true,
+          updatedAt: true,
+          categoryId: true,
+        },
+      }),
+      this.prisma.content.count({
+        where: { isDeleted: false, categoryId: postDto.categoryId }, // Filter count
+      }),
+    ]);
+    return {
+      success: true,
+      message: 'Content Fetched successfully',
+      data: contents,
+      meta: {
+        total,
+        page,
+        limit,
+        lastPage: Math.ceil(total / limit),
+      },
+    };
   }
 
   async getPostById() {

@@ -15,11 +15,12 @@ import {
 } from '@nestjs/common';
 import { ApiKeyGuard, RolesGuard } from '../common/guards';
 import { JwtGuard } from 'src/auth/guard';
-import { CreateProjectDto, EditProjectDto, PaginationDto } from './dto';
+import { CreateProjectDto, EditProjectDto } from './dto';
 import { ProjectService } from './project.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles } from 'src/common/decorators';
 import { Role } from '@prisma/client';
+import { PaginationDto } from 'src/common/dto';
 
 @Controller('project')
 @UseGuards(ApiKeyGuard, JwtGuard, RolesGuard)

@@ -4,9 +4,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateProjectDto, EditProjectDto, PaginationDto } from './dto';
+import { CreateProjectDto, EditProjectDto } from './dto';
 import { generateUniqueUrl, saveFileToDisk } from '../common/utils';
 import path from 'path';
+import { PaginationDto } from 'src/common/dto';
 
 @Injectable()
 export class ProjectService {
