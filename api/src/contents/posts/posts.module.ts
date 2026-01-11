@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { PostsService } from './posts.service';
-import { PostsController } from './posts.controller';
 import { CategoriesModule } from '../categories/categories.module';
+import { AdminPostController } from './post-admin-controller/admin-post.controller';
+import { PublicPostController } from './post-public-controller/public-post.controller';
 
 @Module({
   providers: [PostsService],
-  controllers: [PostsController],
+  controllers: [AdminPostController, PublicPostController],
   imports: [CategoriesModule],
   exports: [PostsService],
 })
