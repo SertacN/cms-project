@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { ApiKeyGuard } from 'src/common/guards';
 import { PostsService } from '../posts.service';
-import { CreatePostDto, GetAllPostDto } from '../dto';
+import { GetAllPostDto, GetPostBySefDto } from '../dto';
 import { ApiResponse, Public } from 'src/common/types';
 import { Content } from '@prisma/client';
 import { PaginationDto } from 'src/common/dto';
@@ -17,5 +17,10 @@ export class PublicPostController {
     @Body() postDto: GetAllPostDto,
   ): Promise<ApiResponse<Public<Content>[]>> {
     return this.postService.getAllPosts(paginationDto, postDto);
+  }
+
+  @Get(':categorySef/:postSef')
+  async getPostBySefUrl(@Param() params: GetPostBySefDto): Promise<ApiResponse<Public<Content>>> {
+    return this.postService.getPostBySefUrl(params);
   }
 }

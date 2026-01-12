@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CategoriesService } from '../categories/categories.service';
-import { CreatePostDto, GetAllPostDto } from './dto';
+import { CreatePostDto, GetAllPostDto, GetPostBySefDto } from './dto';
 import { generateUniqueUrl } from 'src/common/utils';
 import { ApiResponse, Public } from 'src/common/types';
 import { Content } from '@prisma/client';
@@ -64,6 +64,7 @@ export class PostsService {
         select: {
           id: true,
           title: true,
+          sefUrl: true,
           isActive: true,
           orderBy: true,
           categoryId: true,
@@ -164,7 +165,34 @@ export class PostsService {
     };
   }
 
-  async getPostBySefUrl() {
-    return 'get post by id service';
+  async getPostBySefUrl(dto: GetPostBySefDto): Promise<ApiResponse<Public<Content>>> {
+    const content = await this.prisma.content.findFirst({
+      where: {
+        sefUrl: dto.postSef,
+        isActive: true,
+        isDeleted: false,
+        category: {
+          sefUrl: dto.categorySef,
+          isActive: true,
+          isDeleted: false,
+        },
+      },
+      include: {
+        files: true,
+        parameters: {
+          include: { definition: true },
+        },
+      },
+    });
+    if (!content) {
+      throw new NotFoundException(`${dto.postSef} içeriği veya ${dto.categorySef} kategorisi bulunamadı`);
+    }
+
+    const { isDeleted, deletedAt, ...contentResult } = content;
+    return {
+      success: true,
+      message: `${dto.postSef} içeriği başarıyla çekildi`,
+      data: contentResult,
+    };
   }
 }
