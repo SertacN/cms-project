@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCategoryDto, EditCategoryDto } from './dto';
 import { generateUniqueUrl } from 'src/common/utils';
@@ -13,13 +9,8 @@ import { ContentCategory } from '@prisma/client';
 export class CategoriesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createCategory(
-    dto: CreateCategoryDto,
-  ): Promise<ApiResponse<Public<ContentCategory>>> {
-    const finalUrl = await generateUniqueUrl(
-      dto.title,
-      this.prisma.contentCategory,
-    );
+  async createCategory(dto: CreateCategoryDto): Promise<ApiResponse<Public<ContentCategory>>> {
+    const finalUrl = await generateUniqueUrl(dto.title, this.prisma.contentCategory);
     try {
       const category = await this.prisma.contentCategory.create({
         data: {
@@ -62,9 +53,7 @@ export class CategoriesService {
     };
   }
 
-  async getCategoryById(
-    categoryId: number,
-  ): Promise<ApiResponse<Public<ContentCategory>>> {
+  async getCategoryById(categoryId: number): Promise<ApiResponse<Public<ContentCategory>>> {
     const category = await this.prisma.contentCategory.findUnique({
       where: {
         id: categoryId,
@@ -92,10 +81,7 @@ export class CategoriesService {
     };
   }
 
-  async editCategoryById(
-    categoryId: number,
-    dto: EditCategoryDto,
-  ): Promise<ApiResponse<Public<ContentCategory>>> {
+  async editCategoryById(categoryId: number, dto: EditCategoryDto): Promise<ApiResponse<Public<ContentCategory>>> {
     const category = await this.prisma.contentCategory.findUnique({
       where: {
         id: categoryId,
@@ -106,10 +92,7 @@ export class CategoriesService {
       throw new NotFoundException(`Category ID ${categoryId} not found`);
     }
     if (dto.title) {
-      const finalUrl = await generateUniqueUrl(
-        dto.title,
-        this.prisma.contentCategory,
-      );
+      const finalUrl = await generateUniqueUrl(dto.title, this.prisma.contentCategory);
       dto.sefUrl = finalUrl;
     }
     const updatedCategory = await this.prisma.contentCategory.update({
@@ -125,9 +108,7 @@ export class CategoriesService {
     };
   }
 
-  async deleteCategoryById(
-    categoryId: number,
-  ): Promise<ApiResponse<Public<ContentCategory>>> {
+  async deleteCategoryById(categoryId: number): Promise<ApiResponse<Public<ContentCategory>>> {
     const category = await this.prisma.contentCategory.findUnique({
       where: {
         id: categoryId,
@@ -152,4 +133,6 @@ export class CategoriesService {
       message: 'Category deleted successfully',
     };
   }
+
+  // TODO: Get Category Bu SefUrl
 }

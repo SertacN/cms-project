@@ -1,13 +1,5 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
-import {
-  CreateParametersDefinitionDto,
-  EditCategoryParametersDto,
-} from './dto';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { CreateParametersDefinitionDto, EditCategoryParametersDto } from './dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ContentParameterDefinition } from '@prisma/client';
 import { ApiResponse } from 'src/common/types';
@@ -36,23 +28,18 @@ export class ParametersDefinitionService {
       };
     } catch (error) {
       if (error.code === 'P2002') {
-        throw new BadRequestException(
-          'Bu kategori altında aynı isimde bir parametre zaten mevcut.',
-        );
+        throw new BadRequestException('Bu kategori altında aynı isimde bir parametre zaten mevcut.');
       }
       throw new NotFoundException('Kategori Bulunamadı');
     }
   }
 
-  async getCategoryParametersById(
-    categoryId: number,
-  ): Promise<ApiResponse<ContentParameterDefinition[]>> {
-    const categoryParams =
-      await this.prisma.contentParameterDefinition.findMany({
-        where: {
-          categoryId,
-        },
-      });
+  async getCategoryParametersById(categoryId: number): Promise<ApiResponse<ContentParameterDefinition[]>> {
+    const categoryParams = await this.prisma.contentParameterDefinition.findMany({
+      where: {
+        categoryId,
+      },
+    });
     if (categoryParams.length <= 0) {
       throw new NotFoundException('Kategoriye ait parametre bulunamadı');
     }
@@ -107,27 +94,19 @@ export class ParametersDefinitionService {
         data: results,
       };
     } catch (error) {
-      throw new NotFoundException(
-        'Güncelleme sırasında bir hata oluştu: ' + error.message,
-      );
+      throw new NotFoundException('Güncelleme sırasında bir hata oluştu: ' + error.message);
     }
   }
 
-  async deleteCategoryParametersById(
-    parameterId: number,
-  ): Promise<ApiResponse<ContentParameterDefinition>> {
+  async deleteCategoryParametersById(parameterId: number): Promise<ApiResponse<ContentParameterDefinition>> {
     try {
-      const parameter = await this.prisma.contentParameterDefinition.findUnique(
-        {
-          where: {
-            id: parameterId,
-          },
+      const parameter = await this.prisma.contentParameterDefinition.findUnique({
+        where: {
+          id: parameterId,
         },
-      );
+      });
       if (!parameter) {
-        throw new NotFoundException(
-          `${parameterId} id'li parametre bulunamadı`,
-        );
+        throw new NotFoundException(`${parameterId} id'li parametre bulunamadı`);
       }
       await this.prisma.contentParameterDefinition.delete({
         where: {
@@ -140,9 +119,7 @@ export class ParametersDefinitionService {
       };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new InternalServerErrorException(
-        'Parametre silinirken bir hata oluştu: ' + error.message,
-      );
+      throw new InternalServerErrorException('Parametre silinirken bir hata oluştu: ' + error.message);
     }
   }
 }

@@ -13,19 +13,14 @@ import {
 import { ParametersDefinitionService } from './parameters-definition.service';
 import { JwtGuard } from 'src/auth/guard';
 import { ApiKeyGuard } from 'src/common/guards';
-import {
-  CreateParametersDefinitionDto,
-  EditCategoryParametersDto,
-} from './dto';
+import { CreateParametersDefinitionDto, EditCategoryParametersDto } from './dto';
 import { ContentParameterDefinition } from '@prisma/client';
 import { ApiResponse } from 'src/common/types';
 
 @UseGuards(JwtGuard, ApiKeyGuard)
 @Controller('contents/parameters-definition')
 export class ParametersDefinitionController {
-  constructor(
-    private readonly parametersService: ParametersDefinitionService,
-  ) {}
+  constructor(private readonly parametersService: ParametersDefinitionService) {}
 
   @Post()
   async createCategoryParameters(

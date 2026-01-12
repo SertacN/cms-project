@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateParameterValuesDto } from './dto';
 
@@ -16,9 +12,7 @@ export class ParametersValueService {
     });
 
     if (!contentExists) {
-      throw new NotFoundException(
-        `ID'si ${dto.contentId} olan içerik bulunamadı. Lütfen önce içeriği oluşturun.`,
-      );
+      throw new NotFoundException(`ID'si ${dto.contentId} olan içerik bulunamadı. Lütfen önce içeriği oluşturun.`);
     }
 
     try {
@@ -46,9 +40,7 @@ export class ParametersValueService {
     } catch (error) {
       // Buraya düşüyorsa artık sorun contentId değildir, muhtemelen definitionId yanlıştır veya veritabanı kilitlenmiştir.
       if (error.code === 'P2003') {
-        throw new NotFoundException(
-          'Geçersiz bir parametre tanımı (Definition ID) gönderdiniz.',
-        );
+        throw new NotFoundException('Geçersiz bir parametre tanımı (Definition ID) gönderdiniz.');
       }
       throw new InternalServerErrorException(error.message);
     }

@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  ParseIntPipe,
-  Post,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards } from '@nestjs/common';
 import { Content, Role } from '@prisma/client';
 import { JwtGuard } from 'src/auth/guard';
 import { Roles } from 'src/common/decorators';
@@ -23,24 +14,17 @@ import { PaginationDto } from 'src/common/dto';
 export class AdminPostController {
   constructor(private postService: PostsService) {}
   @Post()
-  async createPost(
-    @Body() dto: CreatePostDto,
-  ): Promise<ApiResponse<Public<Content>>> {
+  async createPost(@Body() dto: CreatePostDto): Promise<ApiResponse<Public<Content>>> {
     return this.postService.createPost(dto);
   }
 
   @Get()
-  async getAllPostsAdmin(
-    @Query() paginationDto: PaginationDto,
-    @Body() postDto: GetAllPostDto,
-  ) {
+  async getAllPostsAdmin(@Query() paginationDto: PaginationDto, @Body() postDto: GetAllPostDto) {
     return this.postService.getAllPostsAdmin(paginationDto, postDto);
   }
 
   @Get(':id')
-  async getPostById(
-    @Param('id', ParseIntPipe) postId: number,
-  ): Promise<ApiResponse<Content>> {
+  async getPostById(@Param('id', ParseIntPipe) postId: number): Promise<ApiResponse<Content>> {
     return this.postService.getPostById(postId);
   }
 }

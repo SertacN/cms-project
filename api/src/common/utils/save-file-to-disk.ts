@@ -1,11 +1,7 @@
 import path from 'path';
 import * as fs from 'fs';
 import { InternalServerErrorException } from '@nestjs/common';
-export const saveFileToDisk = (
-  buffer: Buffer,
-  fileName: string,
-  destination: string,
-): void => {
+export const saveFileToDisk = (buffer: Buffer, fileName: string, destination: string): void => {
   try {
     const uploadPath = path.join(process.cwd(), destination);
 

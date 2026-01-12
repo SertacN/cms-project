@@ -7,9 +7,7 @@ import { ApiKeyGuard } from 'src/common/guards';
 @UseGuards(JwtGuard, ApiKeyGuard)
 @Controller('contents/parameters-value')
 export class ParametersValueController {
-  constructor(
-    private readonly parametersValueService: ParametersValueService,
-  ) {}
+  constructor(private readonly parametersValueService: ParametersValueService) {}
 
   @Post()
   async createOrUpdateValues(@Body() dto: CreateParameterValuesDto) {

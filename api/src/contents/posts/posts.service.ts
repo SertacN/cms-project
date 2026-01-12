@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CategoriesService } from '../categories/categories.service';
 import { CreatePostDto, GetAllPostDto } from './dto';
@@ -20,13 +16,9 @@ export class PostsService {
 
   // Admin
   async createPost(dto: CreatePostDto): Promise<ApiResponse<Public<Content>>> {
-    const categoryExist = await this.categoriesService.getCategoryById(
-      dto.categoryId,
-    );
+    const categoryExist = await this.categoriesService.getCategoryById(dto.categoryId);
     if (!categoryExist) {
-      throw new NotFoundException(
-        `${dto.categoryId} ID'li Kategori Bulunamadı`,
-      );
+      throw new NotFoundException(`${dto.categoryId} ID'li Kategori Bulunamadı`);
     }
     const sefUrl = await generateUniqueUrl(dto.title, this.prisma.content);
     try {
@@ -54,9 +46,7 @@ export class PostsService {
         data: result,
       };
     } catch (error) {
-      throw new InternalServerErrorException(
-        `İçerik oluşturulurken teknik bir hata oluştu: ${error.message}`,
-      );
+      throw new InternalServerErrorException(`İçerik oluşturulurken teknik bir hata oluştu: ${error.message}`);
     }
   }
 
@@ -133,10 +123,7 @@ export class PostsService {
   }
 
   // Public
-  async getAllPosts(
-    paginationDto: PaginationDto,
-    postDto: GetAllPostDto,
-  ): Promise<ApiResponse<Public<Content>[]>> {
+  async getAllPosts(paginationDto: PaginationDto, postDto: GetAllPostDto): Promise<ApiResponse<Public<Content>[]>> {
     const page = paginationDto.page || 1;
     const limit = paginationDto.limit || 10;
     const skip = (page - 1) * limit;
