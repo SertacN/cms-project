@@ -64,17 +64,10 @@ export class AuthService {
     // Generate token
     const tokens = await this.getTokens(user.id, user.email);
     // Store hashed refresh token
-    await this.updateRefreshToken(
-      user.id,
-      tokens.refresh_token,
-      user.updatedAt,
-    );
+    await this.updateRefreshToken(user.id, tokens.refresh_token, user.updatedAt);
     return tokens;
   }
-  private async getTokens(
-    userId: number,
-    email: string,
-  ): Promise<{ access_token: string; refresh_token: string }> {
+  private async getTokens(userId: number, email: string): Promise<{ access_token: string; refresh_token: string }> {
     const payload = { sub: userId, email };
 
     const [accessToken, refreshToken] = await Promise.all([
@@ -93,11 +86,7 @@ export class AuthService {
       refresh_token: refreshToken,
     };
   }
-  private async updateRefreshToken(
-    userId: number,
-    refreshToken: string,
-    currentUpdatedAt: Date,
-  ) {
+  private async updateRefreshToken(userId: number, refreshToken: string, currentUpdatedAt: Date) {
     // Hash refresh token before storing
     const hash = await bcrypt.hash(refreshToken, 10);
     await this.prisma.user.update({
@@ -133,10 +122,7 @@ export class AuthService {
       }
 
       // Validate stored refresh token
-      const refreshTokenMatches = await bcrypt.compare(
-        refreshToken,
-        storedToken,
-      );
+      const refreshTokenMatches = await bcrypt.compare(refreshToken, storedToken);
 
       if (!refreshTokenMatches) {
         // Possible token reuse - revoke all tokens for security
@@ -152,11 +138,7 @@ export class AuthService {
       // Generate new tokens
       const tokens = await this.getTokens(user.id, user.email);
       // Update refresh token
-      await this.updateRefreshToken(
-        user.id,
-        tokens.refresh_token,
-        user.updatedAt,
-      );
+      await this.updateRefreshToken(user.id, tokens.refresh_token, user.updatedAt);
 
       return tokens;
     } catch (error) {

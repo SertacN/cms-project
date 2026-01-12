@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  ForbiddenException,
-  HttpCode,
-  HttpStatus,
-  Post,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, ForbiddenException, HttpCode, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthDto } from './dto';
 import { AuthService } from './auth.service';
 import type { Response } from 'express';
@@ -48,10 +39,7 @@ export class AuthController {
   @UseGuards(JwtGuard)
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  async logout(
-    @GetUser('id') userId: number,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async logout(@GetUser('id') userId: number, @Res({ passthrough: true }) res: Response) {
     await this.authService.logout(userId);
 
     // Clear both cookies
@@ -62,10 +50,7 @@ export class AuthController {
   }
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  async refreshTokens(
-    @Cookies('refresh_token') refreshToken: string,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async refreshTokens(@Cookies('refresh_token') refreshToken: string, @Res({ passthrough: true }) res: Response) {
     if (!refreshToken) {
       throw new ForbiddenException('Refresh token not found');
     }
