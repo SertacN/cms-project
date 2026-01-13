@@ -1,7 +1,7 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CategoriesService } from '../categories/categories.service';
-import { CreatePostDto, GetAllPostDto, GetPostBySefDto } from './dto';
+import { CreatePostDto, EditPostDto, GetAllPostDto, GetPostBySefDto } from './dto';
 import { generateUniqueUrl } from 'src/common/utils';
 import { ApiResponse, Public } from 'src/common/types';
 import { Content } from '@prisma/client';
@@ -115,8 +115,51 @@ export class PostsService {
     };
   }
 
-  async editPostById() {
-    return 'update post by id service';
+  async editPostById(postId: number, dto: EditPostDto): Promise<ApiResponse<Content>> {
+    try {
+      return await this.prisma.$transaction(async (tx) => {
+        const content = await tx.content.findUnique({
+          where: {
+            id: postId,
+          },
+        });
+        if (!content) throw new NotFoundException('Content not found');
+        const categoryChanged = dto.categoryId && dto.categoryId !== content.categoryId;
+
+        const updated = await tx.content.update({
+          where: {
+            id: postId,
+          },
+          data: dto,
+        });
+
+        // Kategori değiştiyse parametreleri sil
+        if (categoryChanged) {
+          await tx.contentParameterValue.deleteMany({
+            where: {
+              contentId: postId,
+            },
+          });
+        }
+
+        return {
+          success: true,
+          message: `${postId} ID'li içerik başarıyla güncellendi`,
+          data: updated,
+        };
+      });
+    } catch (error) {
+      // Prisma foreign key veya unique hatalar
+      if (error.code === 'P2002') {
+        throw new ConflictException('SefUrl zaten mevcut. Lütfen farklı bir sefUrl girin.');
+      }
+      if (error.code === 'P2003') {
+        throw new NotFoundException('Geçersiz categoryId gönderdiniz.');
+      }
+
+      // Diğer tüm hatalar için generic Internal Server Error
+      throw new NotFoundException(error.message);
+    }
   }
 
   async deletePostById() {
@@ -195,4 +238,6 @@ export class PostsService {
       data: contentResult,
     };
   }
+
+  //TODO: GetAllContent By Category SEF
 }

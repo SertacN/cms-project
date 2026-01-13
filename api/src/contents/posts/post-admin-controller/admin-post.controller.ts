@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { Content, Role } from '@prisma/client';
 import { JwtGuard } from 'src/auth/guard';
 import { Roles } from 'src/common/decorators';
 import { ApiKeyGuard, RolesGuard } from 'src/common/guards';
-import { CreatePostDto, GetAllPostDto } from '../dto';
+import { CreatePostDto, EditPostDto, GetAllPostDto } from '../dto';
 import { ApiResponse, Public } from 'src/common/types';
 import { PostsService } from '../posts.service';
 import { PaginationDto } from 'src/common/dto';
@@ -26,5 +26,13 @@ export class AdminPostController {
   @Get(':id')
   async getPostById(@Param('id', ParseIntPipe) postId: number): Promise<ApiResponse<Content>> {
     return this.postService.getPostById(postId);
+  }
+
+  @Patch(':id')
+  async editPostById(
+    @Param('id', ParseIntPipe) postId: number,
+    @Body() dto: EditPostDto,
+  ): Promise<ApiResponse<Content>> {
+    return this.postService.editPostById(postId, dto);
   }
 }

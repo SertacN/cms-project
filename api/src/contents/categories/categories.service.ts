@@ -134,5 +134,5 @@ export class CategoriesService {
     };
   }
 
-  // TODO: Get Category Bu SefUrl
+  // TODO: Get Category By SefUrl
 }
