@@ -8,7 +8,9 @@ export class ParametersValueService {
   async createOrUpdateValues(dto: CreateParameterValuesDto) {
     // ADIM 0: Önce İçerik Var mı Kontrol Et!
     const contentExists = await this.prisma.content.findUnique({
-      where: { id: dto.contentId },
+      where: {
+        id: dto.contentId,
+      },
     });
 
     if (!contentExists) {
@@ -19,7 +21,9 @@ export class ParametersValueService {
       const result = await this.prisma.$transaction(async (tx) => {
         // ... (transaction kodların aynı kalacak) ...
         await tx.contentParameterValue.deleteMany({
-          where: { contentId: dto.contentId },
+          where: {
+            contentId: dto.contentId,
+          },
         });
 
         const createdValues = await tx.contentParameterValue.createMany({
@@ -45,4 +49,6 @@ export class ParametersValueService {
       throw new InternalServerErrorException(error.message);
     }
   }
+  // TODO: Hangi content'in hangi definition parametresi?
+  async deleteValueById() {}
 }

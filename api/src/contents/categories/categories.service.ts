@@ -80,7 +80,7 @@ export class CategoriesService {
       data: category,
     };
   }
-
+  // TODO: Transaction dene
   async editCategoryById(categoryId: number, dto: EditCategoryDto): Promise<ApiResponse<Public<ContentCategory>>> {
     const category = await this.prisma.contentCategory.findUnique({
       where: {
@@ -108,6 +108,7 @@ export class CategoriesService {
     };
   }
 
+  // TODO: UpdateMany ile değiştir. bulma silme işlemi tek bir sorguda olsun
   async deleteCategoryById(categoryId: number): Promise<ApiResponse<Public<ContentCategory>>> {
     const category = await this.prisma.contentCategory.findUnique({
       where: {

@@ -57,7 +57,9 @@ export class ParametersDefinitionService {
     try {
       // 1. Önce kategorinin gerçekten var olup olmadığını kontrol et
       const categoryExists = await this.prisma.contentCategory.findUnique({
-        where: { id: categoryId },
+        where: {
+          id: categoryId,
+        },
       });
       if (!categoryExists) {
         throw new NotFoundException('Kategori bulunamadı');
@@ -97,7 +99,7 @@ export class ParametersDefinitionService {
       throw new NotFoundException('Güncelleme sırasında bir hata oluştu: ' + error.message);
     }
   }
-
+  // TODO: UpdateMany ile değiştir. bulma silme işlemi tek bir sorguda olsun
   async deleteCategoryParametersById(parameterId: number): Promise<ApiResponse<ContentParameterDefinition>> {
     try {
       const parameter = await this.prisma.contentParameterDefinition.findUnique({

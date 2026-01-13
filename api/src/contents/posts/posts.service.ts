@@ -125,7 +125,10 @@ export class PostsService {
         });
         if (!content) throw new NotFoundException('Content not found');
         const categoryChanged = dto.categoryId && dto.categoryId !== content.categoryId;
-
+        if (dto.title) {
+          const finalUrl = await generateUniqueUrl(dto.title, this.prisma.content);
+          dto.sefUrl = finalUrl;
+        }
         const updated = await tx.content.update({
           where: {
             id: postId,
@@ -162,11 +165,31 @@ export class PostsService {
     }
   }
 
-  async deletePostById() {
-    return 'delete post by id service';
+  async deletePostById(postId: number): Promise<ApiResponse<Content>> {
+    const result = await this.prisma.content.updateMany({
+      where: {
+        id: postId,
+        isDeleted: false,
+      },
+      data: {
+        isDeleted: true,
+        isActive: false,
+        deletedAt: new Date(),
+      },
+    });
+
+    if (result.count === 0) {
+      throw new NotFoundException(`${postId}' ID'li kayıt bulunamadı`);
+    }
+
+    return {
+      success: true,
+      message: `${postId}' ID'li kayıt başarıyla silindi.`,
+    };
   }
 
   // Public
+  // TODO: isActive true olanları getir.
   async getAllPosts(paginationDto: PaginationDto, postDto: GetAllPostDto): Promise<ApiResponse<Public<Content>[]>> {
     const page = paginationDto.page || 1;
     const limit = paginationDto.limit || 10;
@@ -207,7 +230,7 @@ export class PostsService {
       },
     };
   }
-
+  // TODO: isActive true olanları getir.
   async getPostBySefUrl(dto: GetPostBySefDto): Promise<ApiResponse<Public<Content>>> {
     const content = await this.prisma.content.findFirst({
       where: {

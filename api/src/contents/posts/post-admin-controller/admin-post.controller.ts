@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { Content, Role } from '@prisma/client';
 import { JwtGuard } from 'src/auth/guard';
 import { Roles } from 'src/common/decorators';
@@ -34,5 +34,10 @@ export class AdminPostController {
     @Body() dto: EditPostDto,
   ): Promise<ApiResponse<Content>> {
     return this.postService.editPostById(postId, dto);
+  }
+
+  @Delete(':id')
+  async deletePostById(@Param('id', ParseIntPipe) postId: number) {
+    return this.postService.deletePostById(postId);
   }
 }
