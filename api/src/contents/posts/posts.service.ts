@@ -15,8 +15,9 @@ export class PostsService {
   ) {}
 
   // Admin
+  // TODO: Oluşturmayı kontrol et
   async createPost(dto: CreatePostDto): Promise<ApiResponse<Public<Content>>> {
-    const categoryExist = await this.categoriesService.getCategoryById(dto.categoryId);
+    const categoryExist = await this.categoriesService.getCategoryDetails(dto.categoryId);
     if (!categoryExist) {
       throw new NotFoundException(`${dto.categoryId} ID'li Kategori Bulunamadı`);
     }
@@ -86,7 +87,7 @@ export class PostsService {
       },
     };
   }
-
+  // TODO: Id ve Sef url ile çalışmasını sağlayalım. categories service sadece aktif olanları getirelim
   async getPostById(postId: number): Promise<ApiResponse<Content>> {
     const content = await this.prisma.content.findFirst({
       where: {
@@ -189,7 +190,6 @@ export class PostsService {
   }
 
   // Public
-  // TODO: isActive true olanları getir.
   async getAllPosts(paginationDto: PaginationDto, postDto: GetAllPostDto): Promise<ApiResponse<Public<Content>[]>> {
     const page = paginationDto.page || 1;
     const limit = paginationDto.limit || 10;
@@ -199,7 +199,7 @@ export class PostsService {
       this.prisma.content.findMany({
         skip,
         take: limit,
-        where: { isDeleted: false, categoryId: postDto.categoryId },
+        where: { isDeleted: false, categoryId: postDto.categoryId, isActive: true },
         orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
         select: {
           id: true,
@@ -215,7 +215,7 @@ export class PostsService {
         },
       }),
       this.prisma.content.count({
-        where: { isDeleted: false, categoryId: postDto.categoryId }, // Filter count
+        where: { isDeleted: false, categoryId: postDto.categoryId, isActive: true }, // Filter count
       }),
     ]);
     return {
@@ -230,7 +230,7 @@ export class PostsService {
       },
     };
   }
-  // TODO: isActive true olanları getir.
+
   async getPostBySefUrl(dto: GetPostBySefDto): Promise<ApiResponse<Public<Content>>> {
     const content = await this.prisma.content.findFirst({
       where: {
@@ -261,6 +261,4 @@ export class PostsService {
       data: contentResult,
     };
   }
-
-  //TODO: GetAllContent By Category SEF
 }

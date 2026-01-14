@@ -22,9 +22,11 @@ export class CategoriesController {
     return this.categoriesService.getAllCategory();
   }
 
-  @Get(':id')
-  async getCategoryById(@Param('id', ParseIntPipe) categoryId: number): Promise<ApiResponse<Public<ContentCategory>>> {
-    return this.categoriesService.getCategoryById(categoryId);
+  @Get(':identifier')
+  async getCategoryDetails(@Param('identifier') identifier: string): Promise<ApiResponse<Public<ContentCategory>>> {
+    const isNumeric = /^\d+$/.test(identifier);
+    const parsedIdentifier = isNumeric ? parseInt(identifier, 10) : identifier;
+    return this.categoriesService.getCategoryDetails(parsedIdentifier);
   }
 
   @Patch(':id')
