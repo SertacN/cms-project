@@ -5,6 +5,7 @@ import { GetAllPostDto, GetPostBySefDto } from '../dto';
 import { ApiResponse, Public } from 'src/common/types';
 import { Content } from '@prisma/client';
 import { PaginationDto } from 'src/common/dto';
+import { parseIdentifier } from 'src/common/utils';
 
 @UseGuards(ApiKeyGuard)
 @Controller('contents/posts')
@@ -19,8 +20,9 @@ export class PublicPostController {
     return this.postService.getAllPosts(paginationDto, postDto);
   }
 
-  @Get(':categorySef/:postSef')
-  async getPostBySefUrl(@Param() params: GetPostBySefDto): Promise<ApiResponse<Public<Content>>> {
-    return this.postService.getPostBySefUrl(params);
+  @Get(':identifier')
+  async getPostDetils(@Param('identifier') identifier: string) {
+    const parsedIdentifier = parseIdentifier(identifier);
+    return this.postService.getPostDetails(parsedIdentifier);
   }
 }

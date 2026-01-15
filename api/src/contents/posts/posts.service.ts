@@ -2,7 +2,7 @@ import { ConflictException, Injectable, InternalServerErrorException, Logger, No
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CategoriesService } from '../categories/categories.service';
 import { CreatePostDto, EditPostDto, GetAllPostDto, GetPostBySefDto } from './dto';
-import { generateUniqueUrl } from 'src/common/utils';
+import { generateUniqueUrl, getByIdentifier } from 'src/common/utils';
 import { ApiResponse, Public } from 'src/common/types';
 import { Content } from '@prisma/client';
 import { PaginationDto } from 'src/common/dto';
@@ -15,7 +15,6 @@ export class PostsService {
   ) {}
 
   // Admin
-  // TODO: Oluşturmayı kontrol et
   async createPost(dto: CreatePostDto): Promise<ApiResponse<Public<Content>>> {
     const categoryExist = await this.categoriesService.getCategoryDetails(dto.categoryId);
     if (!categoryExist) {
@@ -50,7 +49,7 @@ export class PostsService {
       throw new InternalServerErrorException(`İçerik oluşturulurken teknik bir hata oluştu: ${error.message}`);
     }
   }
-
+  // TODO: Pagination genel bir utils oluşturalım
   async getAllPostsAdmin(paginationDto: PaginationDto, postDto: GetAllPostDto) {
     const page = paginationDto.page || 1;
     const limit = paginationDto.limit || 10;
@@ -87,7 +86,7 @@ export class PostsService {
       },
     };
   }
-  // TODO: Id ve Sef url ile çalışmasını sağlayalım. categories service sadece aktif olanları getirelim
+
   async getPostById(postId: number): Promise<ApiResponse<Content>> {
     const content = await this.prisma.content.findFirst({
       where: {
@@ -231,34 +230,33 @@ export class PostsService {
     };
   }
 
-  async getPostBySefUrl(dto: GetPostBySefDto): Promise<ApiResponse<Public<Content>>> {
-    const content = await this.prisma.content.findFirst({
-      where: {
-        sefUrl: dto.postSef,
+  async getPostDetails(identifier: number | string): Promise<ApiResponse<Public<Content>>> {
+    const post = await this.prisma.content.findFirst({
+      where: getByIdentifier(identifier, { isDeleted: false, isActive: true }),
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        summary: true,
+        sefUrl: true,
+        orderBy: true,
         isActive: true,
-        isDeleted: false,
-        category: {
-          sefUrl: dto.categorySef,
-          isActive: true,
-          isDeleted: false,
-        },
-      },
-      include: {
+        categoryId: true,
+        category: true,
+        parameters: true,
         files: true,
-        parameters: {
-          include: { definition: true },
-        },
+        createdAt: true,
+        updatedAt: true,
       },
     });
-    if (!content) {
-      throw new NotFoundException(`${dto.postSef} içeriği veya ${dto.categorySef} kategorisi bulunamadı`);
+    if (!post) {
+      throw new NotFoundException(`${identifier} İçeriği bulunamadı`);
     }
 
-    const { isDeleted, deletedAt, ...contentResult } = content;
     return {
       success: true,
-      message: `${dto.postSef} içeriği başarıyla çekildi`,
-      data: contentResult,
+      message: `${identifier} İçerik Bilgileri Başarıyla Çekildi`,
+      data: post,
     };
   }
 }

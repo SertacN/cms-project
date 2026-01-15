@@ -99,7 +99,7 @@ export class ParametersDefinitionService {
       throw new NotFoundException('Güncelleme sırasında bir hata oluştu: ' + error.message);
     }
   }
-  // TODO: UpdateMany ile değiştir. bulma silme işlemi tek bir sorguda olsun
+
   async deleteCategoryParametersById(parameterId: number): Promise<ApiResponse<ContentParameterDefinition>> {
     try {
       const parameter = await this.prisma.contentParameterDefinition.findUnique({

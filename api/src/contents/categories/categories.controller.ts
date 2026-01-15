@@ -6,6 +6,7 @@ import { ContentCategory } from '@prisma/client';
 import { UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/auth/guard';
 import { ApiKeyGuard } from 'src/common/guards';
+import { parseIdentifier } from 'src/common/utils';
 
 @UseGuards(JwtGuard, ApiKeyGuard)
 @Controller('contents/categories')
@@ -24,8 +25,7 @@ export class CategoriesController {
 
   @Get(':identifier')
   async getCategoryDetails(@Param('identifier') identifier: string): Promise<ApiResponse<Public<ContentCategory>>> {
-    const isNumeric = /^\d+$/.test(identifier);
-    const parsedIdentifier = isNumeric ? parseInt(identifier, 10) : identifier;
+    const parsedIdentifier = parseIdentifier(identifier);
     return this.categoriesService.getCategoryDetails(parsedIdentifier);
   }
 
