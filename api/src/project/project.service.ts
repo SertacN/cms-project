@@ -1,26 +1,19 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProjectDto, EditProjectDto } from './dto';
 import { generateUniqueUrl, saveFileToDisk } from '../common/utils';
 import path from 'path';
-import { PaginationDto } from 'src/common/dto';
+import { Pagination } from 'src/common/types';
 
 @Injectable()
 export class ProjectService {
   constructor(private prisma: PrismaService) {}
   // Get All Project
-  async getAllProject(paginationDto: PaginationDto) {
-    const page = paginationDto.page || 1;
-    const limit = paginationDto.limit || 10;
-    const skip = (page - 1) * limit;
+  async getAllProject(pagination: Pagination) {
     const [projects, total] = await Promise.all([
       this.prisma.project.findMany({
-        skip,
-        take: limit,
+        skip: pagination.skip,
+        take: pagination.take,
         where: { isDeleted: false },
         orderBy: { createdAt: 'desc' },
         select: {
@@ -47,9 +40,6 @@ export class ProjectService {
       data: projects,
       meta: {
         total,
-        page,
-        limit,
-        lastPage: Math.ceil(total / limit),
       },
     };
   }

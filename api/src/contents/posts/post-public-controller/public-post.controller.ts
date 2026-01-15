@@ -1,23 +1,25 @@
-import { Body, Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiKeyGuard } from 'src/common/guards';
 import { PostsService } from '../posts.service';
-import { GetAllPostDto, GetPostBySefDto } from '../dto';
-import { ApiResponse, Public } from 'src/common/types';
+import { GetAllPostDto } from '../dto';
+import { ApiResponse, type Pagination, Public } from 'src/common/types';
 import { Content } from '@prisma/client';
-import { PaginationDto } from 'src/common/dto';
 import { parseIdentifier } from 'src/common/utils';
+import { PaginationInterceptor } from 'src/common/interceptors';
+import { PaginationParam } from 'src/common/decorators';
 
 @UseGuards(ApiKeyGuard)
 @Controller('contents/posts')
 export class PublicPostController {
   constructor(private readonly postService: PostsService) {}
 
+  @UseInterceptors(PaginationInterceptor)
   @Get()
   async getAllPosts(
-    @Query() paginationDto: PaginationDto,
+    @PaginationParam() pagination: Pagination,
     @Body() postDto: GetAllPostDto,
   ): Promise<ApiResponse<Public<Content>[]>> {
-    return this.postService.getAllPosts(paginationDto, postDto);
+    return this.postService.getAllPosts(pagination, postDto);
   }
 
   @Get(':identifier')

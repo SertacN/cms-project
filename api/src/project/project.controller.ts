@@ -18,18 +18,21 @@ import { JwtGuard } from 'src/auth/guard';
 import { CreateProjectDto, EditProjectDto } from './dto';
 import { ProjectService } from './project.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Roles } from 'src/common/decorators';
+import { PaginationParam, Roles } from 'src/common/decorators';
 import { Role } from '@prisma/client';
-import { PaginationDto } from 'src/common/dto';
+import { PaginationInterceptor } from 'src/common/interceptors';
+import { type Pagination } from 'src/common/types';
 
 @Controller('project')
 @UseGuards(ApiKeyGuard, JwtGuard, RolesGuard)
 @Roles(Role.ADMIN)
 export class ProjectController {
   constructor(private projectService: ProjectService) {}
+
+  @UseInterceptors(PaginationInterceptor)
   @Get()
-  getAllProject(@Query() paginationDto: PaginationDto) {
-    return this.projectService.getAllProject(paginationDto);
+  getAllProject(@PaginationParam() pagination: Pagination) {
+    return this.projectService.getAllProject(pagination);
   }
 
   @Get('id/:id')
@@ -49,27 +52,18 @@ export class ProjectController {
       limits: { fileSize: 90000 }, // 9mb
       fileFilter: (req, file, callback) => {
         if (!file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
-          return callback(
-            new BadRequestException('Sadece resim dosyaları!'),
-            false,
-          );
+          return callback(new BadRequestException('Sadece resim dosyaları!'), false);
         }
         callback(null, true);
       },
     }),
   )
-  createProject(
-    @Body() dto: CreateProjectDto,
-    @UploadedFile() file?: Express.Multer.File,
-  ) {
+  createProject(@Body() dto: CreateProjectDto, @UploadedFile() file?: Express.Multer.File) {
     return this.projectService.createProject(dto, file);
   }
 
   @Patch(':id')
-  editProjectById(
-    @Param('id', ParseIntPipe) projectId: number,
-    @Body() dto: EditProjectDto,
-  ) {
+  editProjectById(@Param('id', ParseIntPipe) projectId: number, @Body() dto: EditProjectDto) {
     return this.projectService.editProjectById(projectId, dto);
   }
   @Delete(':id')

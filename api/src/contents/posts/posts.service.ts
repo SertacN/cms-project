@@ -3,9 +3,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CategoriesService } from '../categories/categories.service';
 import { CreatePostDto, EditPostDto, GetAllPostDto, GetPostBySefDto } from './dto';
 import { generateUniqueUrl, getByIdentifier } from 'src/common/utils';
-import { ApiResponse, Public } from 'src/common/types';
+import { ApiResponse, Pagination, Public } from 'src/common/types';
 import { Content } from '@prisma/client';
-import { PaginationDto } from 'src/common/dto';
 
 @Injectable()
 export class PostsService {
@@ -49,16 +48,12 @@ export class PostsService {
       throw new InternalServerErrorException(`İçerik oluşturulurken teknik bir hata oluştu: ${error.message}`);
     }
   }
-  // TODO: Pagination genel bir utils oluşturalım
-  async getAllPostsAdmin(paginationDto: PaginationDto, postDto: GetAllPostDto) {
-    const page = paginationDto.page || 1;
-    const limit = paginationDto.limit || 10;
-    const skip = (page - 1) * limit;
 
+  async getAllPostsAdmin(pagination: Pagination, postDto: GetAllPostDto) {
     const [contents, total] = await Promise.all([
       this.prisma.content.findMany({
-        skip,
-        take: limit,
+        skip: pagination.skip,
+        take: pagination.take,
         where: { isDeleted: false, categoryId: postDto.categoryId },
         orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
         select: {
@@ -80,9 +75,6 @@ export class PostsService {
       data: contents,
       meta: {
         total,
-        page,
-        limit,
-        lastPage: Math.ceil(total / limit),
       },
     };
   }
@@ -189,15 +181,11 @@ export class PostsService {
   }
 
   // Public
-  async getAllPosts(paginationDto: PaginationDto, postDto: GetAllPostDto): Promise<ApiResponse<Public<Content>[]>> {
-    const page = paginationDto.page || 1;
-    const limit = paginationDto.limit || 10;
-    const skip = (page - 1) * limit;
-
+  async getAllPosts(pagination: Pagination, postDto: GetAllPostDto): Promise<ApiResponse<Public<Content>[]>> {
     const [contents, total] = await Promise.all([
       this.prisma.content.findMany({
-        skip,
-        take: limit,
+        skip: pagination.skip,
+        take: pagination.take,
         where: { isDeleted: false, categoryId: postDto.categoryId, isActive: true },
         orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
         select: {
@@ -223,9 +211,6 @@ export class PostsService {
       data: contents,
       meta: {
         total,
-        page,
-        limit,
-        lastPage: Math.ceil(total / limit),
       },
     };
   }

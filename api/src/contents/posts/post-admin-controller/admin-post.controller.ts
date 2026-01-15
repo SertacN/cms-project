@@ -1,12 +1,23 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { Content, Role } from '@prisma/client';
 import { JwtGuard } from 'src/auth/guard';
-import { Roles } from 'src/common/decorators';
+import { PaginationParam, Roles } from 'src/common/decorators';
 import { ApiKeyGuard, RolesGuard } from 'src/common/guards';
 import { CreatePostDto, EditPostDto, GetAllPostDto } from '../dto';
-import { ApiResponse, Public } from 'src/common/types';
+import { ApiResponse, type Pagination, Public } from 'src/common/types';
 import { PostsService } from '../posts.service';
-import { PaginationDto } from 'src/common/dto';
+import { PaginationInterceptor } from 'src/common/interceptors';
 
 @UseGuards(JwtGuard, ApiKeyGuard, RolesGuard)
 @Roles(Role.ADMIN)
@@ -18,9 +29,10 @@ export class AdminPostController {
     return this.postService.createPost(dto);
   }
 
+  @UseInterceptors(PaginationInterceptor)
   @Get()
-  async getAllPostsAdmin(@Query() paginationDto: PaginationDto, @Body() postDto: GetAllPostDto) {
-    return this.postService.getAllPostsAdmin(paginationDto, postDto);
+  async getAllPostsAdmin(@PaginationParam() pagination: Pagination, @Body() postDto: GetAllPostDto) {
+    return this.postService.getAllPostsAdmin(pagination, postDto);
   }
 
   @Get(':id')
