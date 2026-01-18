@@ -5,12 +5,7 @@ import { ParametersDefinitionModule } from './parameters-definition/parameters-d
 import { ParametersValueModule } from './parameters-value/parameters-value.module';
 
 @Module({
-  imports: [
-    CategoriesModule,
-    PostsModule,
-    ParametersDefinitionModule,
-    ParametersValueModule,
-  ],
+  imports: [CategoriesModule, PostsModule, ParametersDefinitionModule, ParametersValueModule],
 })
 export class ContentsModule {}
 

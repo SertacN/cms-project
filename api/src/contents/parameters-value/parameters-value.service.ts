@@ -1,11 +1,13 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateParameterValuesDto } from './dto';
+import { CreateParameterValuesDto, DeleteParameterValueDto } from './dto';
+import { ApiResponse } from 'src/common/types';
+import { ContentParameterValue } from '@prisma/client';
 
 @Injectable()
 export class ParametersValueService {
   constructor(private readonly prisma: PrismaService) {}
-  async createOrUpdateValues(dto: CreateParameterValuesDto) {
+  async createOrUpdateValues(dto: CreateParameterValuesDto): Promise<ApiResponse<any>> {
     // ADIM 0: Önce İçerik Var mı Kontrol Et!
     const contentExists = await this.prisma.content.findUnique({
       where: {
@@ -49,6 +51,21 @@ export class ParametersValueService {
       throw new InternalServerErrorException(error.message);
     }
   }
-  // TODO: Hangi content'in hangi definition parametresi?
-  async deleteValueById() {}
+
+  async deleteParamValue(dto: DeleteParameterValueDto): Promise<ApiResponse<ContentParameterValue>> {
+    const result = await this.prisma.contentParameterValue.deleteMany({
+      where: {
+        contentId: dto.contentId,
+        definitionId: dto.definationId,
+      },
+    });
+    if (result.count === 0) {
+      throw new NotFoundException(`Siliniecek parametre değeri bulunamadı`);
+    }
+
+    return {
+      success: true,
+      message: 'Parametre değeri başarıyla silindi',
+    };
+  }
 }

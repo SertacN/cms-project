@@ -1,10 +1,27 @@
+enum FileType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+}
+
 model ContentFile{
     id Int @id @default(autoincrement())
     fileName String
     originalName String
     path String
     mimeType String
+    type FileType @default(IMAGE)
     size Int
+    isThumbnail Boolean @default(false)
+    orderBy Int @default(0)
+    isActive Boolean @default(true)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    
+    isTemp Boolean @default(false)
+    deletedAt DateTime?
+
     contentId Int?
     content Content? @relation(fields: [contentId], references: [id], onDelete: Cascade)
 }

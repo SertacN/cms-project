@@ -1,6 +1,6 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Post, UseGuards } from '@nestjs/common';
 import { ParametersValueService } from './parameters-value.service';
-import { CreateParameterValuesDto } from './dto';
+import { CreateParameterValuesDto, DeleteParameterValueDto } from './dto';
 import { JwtGuard } from 'src/auth/guard';
 import { ApiKeyGuard } from 'src/common/guards';
 
@@ -12,5 +12,10 @@ export class ParametersValueController {
   @Post()
   async createOrUpdateValues(@Body() dto: CreateParameterValuesDto) {
     return this.parametersValueService.createOrUpdateValues(dto);
+  }
+
+  @Delete()
+  async deleteParamValue(@Body() dto: DeleteParameterValueDto) {
+    return this.parametersValueService.deleteParamValue(dto);
   }
 }
