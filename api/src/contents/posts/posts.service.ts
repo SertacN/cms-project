@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CategoriesService } from '../categories/categories.service';
-import { CreatePostDto, EditPostDto, GetAllPostDto, GetPostBySefDto } from './dto';
+import { CreatePostDto, EditPostDto, GetAllPostDto } from './dto';
 import { generateUniqueUrl, getByIdentifier } from 'src/common/utils';
 import { ApiResponse, Pagination, Public } from 'src/common/types';
 import { Content } from '@prisma/client';

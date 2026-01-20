@@ -3,9 +3,10 @@ import { CategoriesModule } from './categories/categories.module';
 import { PostsModule } from './posts/posts.module';
 import { ParametersDefinitionModule } from './parameters-definition/parameters-definition.module';
 import { ParametersValueModule } from './parameters-value/parameters-value.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
-  imports: [CategoriesModule, PostsModule, ParametersDefinitionModule, ParametersValueModule],
+  imports: [CategoriesModule, PostsModule, ParametersDefinitionModule, ParametersValueModule, FilesModule],
 })
 export class ContentsModule {}
 
