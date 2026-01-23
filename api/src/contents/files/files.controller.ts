@@ -47,7 +47,14 @@ export class FilesController {
     if (!file) {
       throw new BadRequestException('Dosya bulunamadı');
     }
-
     return this.filesService.uploadFile(contentId, file);
+  }
+
+  @Post('thumbnail/:fileId/:contentId')
+  async setThumbnail(
+    @Param('fileId', ParseIntPipe) fileId: number,
+    @Param('contentId', ParseIntPipe) contentId: number,
+  ): Promise<ApiResponse<ContentFile>> {
+    return this.filesService.setThumbnail(fileId, contentId);
   }
 }

@@ -59,4 +59,39 @@ export class FilesService {
       throw new InternalServerErrorException('Dosya yüklenirken bir hata oluştu');
     }
   }
+
+  async setThumbnail(contentId: number, fileId: number): Promise<ApiResponse<ContentFile>> {
+    const file = await this.prisma.contentFile.findUnique({
+      where: {
+        id: fileId,
+      },
+    });
+    if (!file || file.contentId !== contentId) {
+      throw new NotFoundException('Dosya bulunamadı veya içerik uyuşmuyor');
+    }
+    // true olan varsa onları false yap ki her zaman tek bir thumbnail olsun
+    await this.prisma.contentFile.updateMany({
+      where: {
+        contentId,
+        isThumbnail: true,
+      },
+      data: {
+        isThumbnail: false,
+      },
+    });
+    // thumbnail güncelle
+    await this.prisma.contentFile.update({
+      where: {
+        id: fileId,
+      },
+      data: {
+        isThumbnail: true,
+      },
+    });
+
+    return {
+      success: true,
+      message: 'Thumbnail başarıyla ayarlandı',
+    };
+  }
 }
