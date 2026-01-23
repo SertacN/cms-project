@@ -1,10 +1,11 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { ContentFile } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import path from 'path';
 import { ApiResponse } from 'src/common/types';
 import { deleteFileFromDisk, getFileTypeFromMime, saveFileToDisk } from 'src/common/utils';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { UpdateFileOrderDto } from './dto';
 
 @Injectable()
 export class FilesService {
@@ -64,6 +65,8 @@ export class FilesService {
     const file = await this.prisma.contentFile.findUnique({
       where: {
         id: fileId,
+        deletedAt: null,
+        isActive: true,
       },
     });
     if (!file || file.contentId !== contentId) {
@@ -92,6 +95,91 @@ export class FilesService {
     return {
       success: true,
       message: 'Thumbnail başarıyla ayarlandı',
+    };
+  }
+
+  // Drag & Drop uyumlu fileIds: [3,1,2]
+  async updateFileOrder(contentId: number, dto: UpdateFileOrderDto): Promise<ApiResponse<ContentFile>> {
+    const files = await this.prisma.contentFile.findMany({
+      where: {
+        contentId,
+        id: { in: dto.fileIds },
+        isActive: true,
+        deletedAt: null,
+      },
+    });
+
+    if (files.length !== dto.fileIds.length) {
+      throw new BadRequestException('Bazı dosyalar bu içeriğe ait değil');
+    }
+    // transaction -> yarım kalmış sıralama olamaz
+    await this.prisma.$transaction(
+      dto.fileIds.map((fileId, index) =>
+        this.prisma.contentFile.update({
+          where: { id: fileId },
+          data: { orderBy: index },
+        }),
+      ),
+    );
+
+    return {
+      success: true,
+      message: 'Dosya sıralaması güncellendi',
+    };
+  }
+
+  async deleteFile(contentId: number, fileId: number): Promise<ApiResponse<ContentFile>> {
+    // 1. Dosya var mı & bu content’e mi ait?
+    const file = await this.prisma.contentFile.findFirst({
+      where: {
+        id: fileId,
+        contentId,
+        isActive: true,
+        deletedAt: null,
+      },
+    });
+
+    if (!file) {
+      throw new NotFoundException('Dosya bulunamadı');
+    }
+
+    // 2. Diskten sil
+    deleteFileFromDisk(file.path);
+
+    // 3. Soft delete
+    await this.prisma.contentFile.update({
+      where: { id: fileId },
+      data: {
+        isActive: false,
+        deletedAt: new Date(),
+        isThumbnail: false,
+      },
+    });
+
+    // 4. Eğer silinen dosya thumbnail ise → yenisini ata
+    if (file.isThumbnail) {
+      const nextThumbnail = await this.prisma.contentFile.findFirst({
+        where: {
+          contentId,
+          isActive: true,
+          deletedAt: null,
+        },
+        orderBy: {
+          orderBy: 'asc',
+        },
+      });
+
+      if (nextThumbnail) {
+        await this.prisma.contentFile.update({
+          where: { id: nextThumbnail.id },
+          data: { isThumbnail: true },
+        });
+      }
+    }
+
+    return {
+      success: true,
+      message: 'Dosya başarıyla silindi',
     };
   }
 }

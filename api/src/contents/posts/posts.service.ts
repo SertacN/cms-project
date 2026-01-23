@@ -87,7 +87,7 @@ export class PostsService {
       },
       include: {
         category: false,
-        files: true,
+        files: { where: { deletedAt: null } },
         parameters: {
           include: {
             definition: true,
@@ -199,6 +199,7 @@ export class PostsService {
           createdAt: true,
           updatedAt: true,
           categoryId: true,
+          files: { where: { isActive: true, deletedAt: null, isThumbnail: true } },
         },
       }),
       this.prisma.content.count({
@@ -229,7 +230,7 @@ export class PostsService {
         categoryId: true,
         category: true,
         parameters: true,
-        files: true,
+        files: { where: { isActive: true, deletedAt: null } },
         createdAt: true,
         updatedAt: true,
       },

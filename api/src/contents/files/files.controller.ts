@@ -1,8 +1,11 @@
 import {
   BadRequestException,
+  Body,
   Controller,
+  Delete,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   UploadedFile,
   UseGuards,
@@ -15,6 +18,7 @@ import { ApiKeyGuard, RolesGuard } from 'src/common/guards';
 import { Roles } from 'src/common/decorators';
 import { ContentFile, Role } from '@prisma/client';
 import { ApiResponse } from 'src/common/types';
+import { UpdateFileOrderDto } from './dto';
 
 @UseGuards(JwtGuard, ApiKeyGuard, RolesGuard)
 @Roles(Role.ADMIN)
@@ -50,11 +54,21 @@ export class FilesController {
     return this.filesService.uploadFile(contentId, file);
   }
 
-  @Post('thumbnail/:fileId/:contentId')
+  @Post('content/:contentId/thumbnail/:fileId')
   async setThumbnail(
-    @Param('fileId', ParseIntPipe) fileId: number,
     @Param('contentId', ParseIntPipe) contentId: number,
+    @Param('fileId', ParseIntPipe) fileId: number,
   ): Promise<ApiResponse<ContentFile>> {
-    return this.filesService.setThumbnail(fileId, contentId);
+    return this.filesService.setThumbnail(contentId, fileId);
+  }
+
+  @Patch('order/:contentId')
+  async updateFileOrder(@Param('contentId', ParseIntPipe) contentId: number, @Body() dto: UpdateFileOrderDto) {
+    return this.filesService.updateFileOrder(contentId, dto);
+  }
+
+  @Delete('content/:contentId/file/:fileId')
+  async deleteFile(@Param('contentId', ParseIntPipe) contentId: number, @Param('fileId', ParseIntPipe) fileId: number) {
+    return this.filesService.deleteFile(contentId, fileId);
   }
 }
