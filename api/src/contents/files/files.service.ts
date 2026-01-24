@@ -11,6 +11,7 @@ import { UpdateFileOrderDto } from './dto';
 export class FilesService {
   constructor(private prisma: PrismaService) {}
 
+  // All error using Global Exception Filter with Winston
   async uploadFile(contentId: number, file: Express.Multer.File): Promise<ApiResponse<ContentFile>> {
     // 1. Content var mı?
     const content = await this.prisma.content.findUnique({
@@ -54,10 +55,8 @@ export class FilesService {
     } catch (error) {
       // ❗ rollback: diskten sil
       deleteFileFromDisk(relativePath);
-
-      console.error('Upload rollback çalıştı:', error);
-
-      throw new InternalServerErrorException('Dosya yüklenirken bir hata oluştu');
+      // Winston hatayı yakalıyor
+      throw error;
     }
   }
 

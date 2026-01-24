@@ -2,11 +2,13 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateParameterValuesDto, DeleteParameterValueDto } from './dto';
 import { ApiResponse } from 'src/common/types';
-import { ContentParameterValue } from '@prisma/client';
+import { ContentParameterValue, Prisma } from '@prisma/client';
 
 @Injectable()
 export class ParametersValueService {
   constructor(private readonly prisma: PrismaService) {}
+
+  // All error using Global Exception Filter with Winston
   async createOrUpdateValues(dto: CreateParameterValuesDto): Promise<ApiResponse<any>> {
     // ADIM 0: Önce İçerik Var mı Kontrol Et!
     const contentExists = await this.prisma.content.findUnique({
@@ -45,10 +47,12 @@ export class ParametersValueService {
       };
     } catch (error) {
       // Buraya düşüyorsa artık sorun contentId değildir, muhtemelen definitionId yanlıştır veya veritabanı kilitlenmiştir.
-      if (error.code === 'P2003') {
-        throw new NotFoundException('Geçersiz bir parametre tanımı (Definition ID) gönderdiniz.');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2003') {
+          throw new NotFoundException('Geçersiz bir parametre tanımı (Definition ID) gönderdiniz.');
+        }
       }
-      throw new InternalServerErrorException(error.message);
+      throw error;
     }
   }
 
@@ -56,7 +60,7 @@ export class ParametersValueService {
     const result = await this.prisma.contentParameterValue.deleteMany({
       where: {
         contentId: dto.contentId,
-        definitionId: dto.definationId,
+        definitionId: dto.definitionId,
       },
     });
     if (result.count === 0) {

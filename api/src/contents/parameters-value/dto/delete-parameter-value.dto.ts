@@ -7,5 +7,5 @@ export class DeleteParameterValueDto {
 
   @IsInt()
   @IsNotEmpty()
-  definationId: number;
+  definitionId: number;
 }

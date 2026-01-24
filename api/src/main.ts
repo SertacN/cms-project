@@ -4,6 +4,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { AllExceptionsFilter } from './common/filters';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -30,6 +32,11 @@ async function bootstrap() {
   );
   app.setGlobalPrefix('api');
   app.use(cookieParser());
+
+  const logger = app.get(WINSTON_MODULE_NEST_PROVIDER);
+  app.useLogger(logger);
+  app.useGlobalFilters(new AllExceptionsFilter(logger));
+
   await app.listen(configService.get('PORT') ?? 3000);
 }
 bootstrap();

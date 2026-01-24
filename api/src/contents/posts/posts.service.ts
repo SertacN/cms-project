@@ -4,7 +4,7 @@ import { CategoriesService } from '../categories/categories.service';
 import { CreatePostDto, EditPostDto, GetAllPostDto } from './dto';
 import { generateUniqueUrl, getByIdentifier } from 'src/common/utils';
 import { ApiResponse, Pagination, Public } from 'src/common/types';
-import { Content } from '@prisma/client';
+import { Content, Prisma } from '@prisma/client';
 
 @Injectable()
 export class PostsService {
@@ -13,40 +13,35 @@ export class PostsService {
     private readonly categoriesService: CategoriesService,
   ) {}
 
+  // All error using Global Exception Filter with Winston
   // Admin
   async createPost(dto: CreatePostDto): Promise<ApiResponse<Public<Content>>> {
-    const categoryExist = await this.categoriesService.getCategoryDetails(dto.categoryId);
-    if (!categoryExist) {
-      throw new NotFoundException(`${dto.categoryId} ID'li Kategori Bulunamadı`);
-    }
+    // getCategoryDetails içerisinde NotFoundException mevcut
+    await this.categoriesService.getCategoryDetails(dto.categoryId);
     const sefUrl = await generateUniqueUrl(dto.title, this.prisma.content);
-    try {
-      const result = await this.prisma.content.create({
-        data: {
-          ...dto,
-          sefUrl: sefUrl,
-        },
-        select: {
-          id: true,
-          title: true,
-          summary: true,
-          content: true,
-          sefUrl: true,
-          orderBy: true,
-          isActive: true,
-          createdAt: true,
-          updatedAt: true,
-          categoryId: true,
-        },
-      });
-      return {
-        success: true,
-        message: 'İçerik Başarıyla Oluşturuldu',
-        data: result,
-      };
-    } catch (error) {
-      throw new InternalServerErrorException(`İçerik oluşturulurken teknik bir hata oluştu: ${error.message}`);
-    }
+    const result = await this.prisma.content.create({
+      data: {
+        ...dto,
+        sefUrl: sefUrl,
+      },
+      select: {
+        id: true,
+        title: true,
+        summary: true,
+        content: true,
+        sefUrl: true,
+        orderBy: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
+        categoryId: true,
+      },
+    });
+    return {
+      success: true,
+      message: 'İçerik Başarıyla Oluşturuldu',
+      data: result,
+    };
   }
 
   async getAllPostsAdmin(pagination: Pagination, postDto: GetAllPostDto) {
@@ -115,10 +110,10 @@ export class PostsService {
             id: postId,
           },
         });
-        if (!content) throw new NotFoundException('Content not found');
+        if (!content) throw new NotFoundException('Geçersiz categoryId gönderdiniz. Content Bulunamadı.');
         const categoryChanged = dto.categoryId && dto.categoryId !== content.categoryId;
         if (dto.title) {
-          const finalUrl = await generateUniqueUrl(dto.title, this.prisma.content);
+          const finalUrl = await generateUniqueUrl(dto.title, tx.content);
           dto.sefUrl = finalUrl;
         }
         const updated = await tx.content.update({
@@ -144,16 +139,17 @@ export class PostsService {
         };
       });
     } catch (error) {
-      // Prisma foreign key veya unique hatalar
-      if (error.code === 'P2002') {
-        throw new ConflictException('SefUrl zaten mevcut. Lütfen farklı bir sefUrl girin.');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        // Prisma foreign key veya unique hatalar
+        if (error.code === 'P2002') {
+          throw new ConflictException('SefUrl zaten mevcut. Lütfen farklı bir sefUrl girin.');
+        }
+        if (error.code === 'P2003') {
+          throw new NotFoundException('Geçersiz categoryId gönderdiniz.');
+        }
       }
-      if (error.code === 'P2003') {
-        throw new NotFoundException('Geçersiz categoryId gönderdiniz.');
-      }
-
-      // Diğer tüm hatalar için generic Internal Server Error
-      throw new NotFoundException(error.message);
+      // Global Filter
+      throw error;
     }
   }
 

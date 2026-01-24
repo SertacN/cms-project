@@ -1,13 +1,14 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateParametersDefinitionDto, EditCategoryParametersDto } from './dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { ContentParameterDefinition } from '@prisma/client';
+import { ContentParameterDefinition, Prisma } from '@prisma/client';
 import { ApiResponse } from 'src/common/types';
 
 @Injectable()
 export class ParametersDefinitionService {
   constructor(private readonly prisma: PrismaService) {}
 
+  // All error using Global Exception Filter with Winston
   async createCategoryParameters(
     dto: CreateParametersDefinitionDto | CreateParametersDefinitionDto[],
   ): Promise<ApiResponse<ContentParameterDefinition[]>> {
@@ -27,10 +28,18 @@ export class ParametersDefinitionService {
         data: results, // Public tipi sayesinde hassas alanlar filtrelenmiş olur
       };
     } catch (error) {
-      if (error.code === 'P2002') {
-        throw new BadRequestException('Bu kategori altında aynı isimde bir parametre zaten mevcut.');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new BadRequestException('Bu kategori altında aynı isimde bir parametre zaten mevcut.');
+        }
+
+        if (error.code === 'P2003') {
+          throw new NotFoundException('Kategori bulunamadı');
+        }
       }
-      throw new NotFoundException('Kategori Bulunamadı');
+
+      // Global filter
+      throw error;
     }
   }
 
@@ -54,17 +63,16 @@ export class ParametersDefinitionService {
     categoryId: number,
     dto: EditCategoryParametersDto,
   ): Promise<ApiResponse<ContentParameterDefinition[]>> {
+    // 1. Önce kategorinin gerçekten var olup olmadığını kontrol et
+    const categoryExists = await this.prisma.contentCategory.findUnique({
+      where: {
+        id: categoryId,
+      },
+    });
+    if (!categoryExists) {
+      throw new NotFoundException('Kategori bulunamadı');
+    }
     try {
-      // 1. Önce kategorinin gerçekten var olup olmadığını kontrol et
-      const categoryExists = await this.prisma.contentCategory.findUnique({
-        where: {
-          id: categoryId,
-        },
-      });
-      if (!categoryExists) {
-        throw new NotFoundException('Kategori bulunamadı');
-      }
-
       // 2. Transaction başlat (Ya hepsi güncellenir ya hiçbiri)
       const results = await this.prisma.$transaction(
         dto.parameters.map((param) => {
@@ -96,32 +104,37 @@ export class ParametersDefinitionService {
         data: results,
       };
     } catch (error) {
-      throw new NotFoundException('Güncelleme sırasında bir hata oluştu: ' + error.message);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new BadRequestException('Bu kategori altında aynı isimde bir parametre zaten mevcut.');
+        }
+
+        if (error.code === 'P2003') {
+          throw new NotFoundException('Kategori bulunamadı');
+        }
+      }
+      // Global filter
+      throw error;
     }
   }
 
   async deleteCategoryParametersById(parameterId: number): Promise<ApiResponse<ContentParameterDefinition>> {
-    try {
-      const parameter = await this.prisma.contentParameterDefinition.findUnique({
-        where: {
-          id: parameterId,
-        },
-      });
-      if (!parameter) {
-        throw new NotFoundException(`${parameterId} id'li parametre bulunamadı`);
-      }
-      await this.prisma.contentParameterDefinition.delete({
-        where: {
-          id: parameterId,
-        },
-      });
-      return {
-        success: true,
-        message: 'Parametre başarıyla silindi.',
-      };
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      throw new InternalServerErrorException('Parametre silinirken bir hata oluştu: ' + error.message);
+    const parameter = await this.prisma.contentParameterDefinition.findUnique({
+      where: {
+        id: parameterId,
+      },
+    });
+    if (!parameter) {
+      throw new NotFoundException(`${parameterId} id'li parametre bulunamadı`);
     }
+    await this.prisma.contentParameterDefinition.delete({
+      where: {
+        id: parameterId,
+      },
+    });
+    return {
+      success: true,
+      message: 'Parametre başarıyla silindi.',
+    };
   }
 }

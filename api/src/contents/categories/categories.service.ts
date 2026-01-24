@@ -9,34 +9,31 @@ import { ContentCategory } from '@prisma/client';
 export class CategoriesService {
   constructor(private readonly prisma: PrismaService) {}
 
+  // All error using Global Exception Filter with Winston
   async createCategory(dto: CreateCategoryDto): Promise<ApiResponse<Public<ContentCategory>>> {
     const finalUrl = await generateUniqueUrl(dto.title, this.prisma.contentCategory);
-    try {
-      const category = await this.prisma.contentCategory.create({
-        data: {
-          ...dto,
-          sefUrl: finalUrl,
-        },
-        select: {
-          id: true,
-          title: true,
-          content: true,
-          sefUrl: true,
-          isActive: true,
-          orderBy: true,
-          createdAt: true,
-          updatedAt: true,
-          parameterDefinitions: true,
-        },
-      });
-      return {
-        success: true,
-        message: 'Category created successfully',
-        data: category,
-      };
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
+    const category = await this.prisma.contentCategory.create({
+      data: {
+        ...dto,
+        sefUrl: finalUrl,
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        sefUrl: true,
+        isActive: true,
+        orderBy: true,
+        createdAt: true,
+        updatedAt: true,
+        parameterDefinitions: true,
+      },
+    });
+    return {
+      success: true,
+      message: 'Category created successfully',
+      data: category,
+    };
   }
 
   async getAllCategory(): Promise<ApiResponse<Public<ContentCategory>[]>> {

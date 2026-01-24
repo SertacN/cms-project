@@ -10,6 +10,10 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { WinstonModule } from 'nest-winston';
+import DailyRotateFile from 'winston-daily-rotate-file';
+import winston from 'winston';
+import { utilities as nestWinstonModuleUtilites } from 'nest-winston';
 
 @Module({
   imports: [
@@ -33,6 +37,31 @@ import { APP_GUARD } from '@nestjs/core';
           ttl: 60000,
           limit: 100,
         },
+      ],
+    }),
+    WinstonModule.forRoot({
+      transports: [
+        // Console loglar
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.ms(),
+            nestWinstonModuleUtilites.format.nestLike('api', {
+              prettyPrint: true,
+              colors: true,
+            }),
+          ),
+        }),
+        // Dosya ile error loglar
+        new DailyRotateFile({
+          filename: 'logs/error-%DATE%.log',
+          datePattern: 'YYYY-MM-DD',
+          zippedArchive: true,
+          maxSize: '20m',
+          maxFiles: '14d',
+          level: 'error',
+          format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+        }),
       ],
     }),
   ],
