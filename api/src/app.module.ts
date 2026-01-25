@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { ProjectModule } from './project/project.module';
@@ -14,6 +14,8 @@ import { WinstonModule } from 'nest-winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import winston from 'winston';
 import { utilities as nestWinstonModuleUtilites } from 'nest-winston';
+import { CacheModule } from '@nestjs/cache-manager';
+import KeyvRedis from '@keyv/redis';
 
 @Module({
   imports: [
@@ -34,8 +36,8 @@ import { utilities as nestWinstonModuleUtilites } from 'nest-winston';
     ThrottlerModule.forRoot({
       throttlers: [
         {
-          ttl: 60000,
-          limit: 100,
+          ttl: 60000, // 1 dakika
+          limit: 100, // 100 istek
         },
       ],
     }),
@@ -63,6 +65,16 @@ import { utilities as nestWinstonModuleUtilites } from 'nest-winston';
           format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
         }),
       ],
+    }),
+    // TODO: Setting sayfası ve ' Cache Temizle ' yeri
+    CacheModule.registerAsync({
+      isGlobal: true,
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        stores: new KeyvRedis('redis://localhost:6379'),
+        ttl: Number(configService.get('CACHE_TTL')),
+      }),
+      inject: [ConfigService],
     }),
   ],
   controllers: [AppController],
