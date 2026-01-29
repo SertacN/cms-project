@@ -6,6 +6,7 @@ export class PaginationInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
 
+    // Default Page = 1, Limit = 10
     const page = Math.max(Number(request.query.page) || 1, 1);
     const limit = Math.min(Number(request.query.limit) || 10, 100);
     const skip = (page - 1) * limit;
