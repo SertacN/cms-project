@@ -15,6 +15,7 @@ import DailyRotateFile from 'winston-daily-rotate-file';
 import winston from 'winston';
 import { utilities as nestWinstonModuleUtilites } from 'nest-winston';
 import { CacheModule } from '@nestjs/cache-manager';
+import { SettingsModule } from './settings/settings.module';
 import KeyvRedis from '@keyv/redis';
 
 @Module({
@@ -66,7 +67,6 @@ import KeyvRedis from '@keyv/redis';
         }),
       ],
     }),
-    // TODO: Setting sayfası ve ' Cache Temizle ' yeri
     CacheModule.registerAsync({
       isGlobal: true,
       imports: [ConfigModule],
@@ -76,6 +76,7 @@ import KeyvRedis from '@keyv/redis';
       }),
       inject: [ConfigService],
     }),
+    SettingsModule,
   ],
   controllers: [AppController],
   providers: [
