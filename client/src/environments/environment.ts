@@ -1,1 +1,4 @@
-export const environment = {};
+export const environment = {
+  production: true,
+  apiUrl: 'https://api.sertac.com/api', // Production URL - değiştir
+};

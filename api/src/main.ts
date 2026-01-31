@@ -17,7 +17,10 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true },
     }),
   );
-  app.enableCors();
+  app.enableCors({
+    origin: configService.get('FRONTEND_URL') as string,
+    credentials: true,
+  });
   app.use(
     session({
       secret: configService.get('SESSION_SECRET') as string,
