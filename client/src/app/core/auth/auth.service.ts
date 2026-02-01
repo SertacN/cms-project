@@ -3,7 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthResponse, LoginRequest } from '../interfaces/auth.interface';
+import { AuthResponse, LoginRequest } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +31,7 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/logout`, {}).pipe(
       tap(() => {
         this._isAuthenticated.set(false);
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
       }),
     );
   }

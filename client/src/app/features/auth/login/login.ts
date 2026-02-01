@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/auth/auth.service';
-import { LoginRequest } from '../../../core/interfaces/auth.interface';
+import { AuthService } from '../../../core/auth';
+import { LoginRequest } from '../../../core/interfaces';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +27,6 @@ export class Login {
       this.errorMessage.set('Lütfen email ve şifre giriniz.');
       return;
     }
-
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
@@ -40,7 +39,7 @@ export class Login {
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.errorMessage.set(err.error?.message || 'Giriş yapılırken bir hata oluştu.');
+        this.errorMessage.set(err.error?.message.message || 'Giriş yapılırken bir hata oluştu.');
       },
     });
   }

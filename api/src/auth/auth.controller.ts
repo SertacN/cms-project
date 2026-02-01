@@ -1,4 +1,14 @@
-import { Body, Controller, ForbiddenException, HttpCode, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthDto } from './dto';
 import { AuthService } from './auth.service';
 import type { Response } from 'express';
@@ -44,7 +54,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async refreshTokens(@Cookies('refresh_token') refreshToken: string, @Res({ passthrough: true }) res: Response) {
     if (!refreshToken) {
-      throw new ForbiddenException('Refresh token not found');
+      throw new NotFoundException('Refresh token not found');
     }
     const tokens = await this.authService.refreshTokens(refreshToken);
 
