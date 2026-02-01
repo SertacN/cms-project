@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Query, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiKeyGuard } from 'src/common/guards';
 import { PostsService } from '../posts.service';
 import { GetAllPostDto } from '../dto';

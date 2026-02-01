@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  ForbiddenException,
-  HttpCode,
-  HttpStatus,
-  NotFoundException,
-  Post,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, NotFoundException, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthDto } from './dto';
 import { AuthService } from './auth.service';
 import type { Response } from 'express';
@@ -16,7 +6,6 @@ import { ConfigService } from '@nestjs/config';
 import { Cookies, GetUser } from '../common/decorators';
 import { JwtGuard } from './guard';
 import { Throttle } from '@nestjs/throttler';
-import { msFromJwtExpires } from 'src/common/utils';
 import { clearAuthCookies, setAuthCookies } from './common';
 
 @Controller('auth')

@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/auth';
 import { LoginRequest } from '../../../core/interfaces';
+import { SharedModule } from '../../../shared/shared-module';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormsModule, SharedModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
