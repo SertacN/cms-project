@@ -14,16 +14,19 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     const message = exception instanceof HttpException ? exception.getResponse() : 'Internal server error';
 
-    this.logger.error('Unhandled exception', {
-      status,
-      method: request.method,
-      url: request.originalUrl,
-      body: request.body,
-      query: request.query,
-      params: request.params,
-      message: exception instanceof Error ? exception.message : JSON.stringify(exception),
-      stack: exception instanceof Error ? exception.stack : undefined,
-    });
+    // SADECE 5xx loglansın
+    if (status >= 500) {
+      this.logger.error('Unhandled exception', {
+        status,
+        method: request.method,
+        url: request.originalUrl,
+        body: request.body,
+        query: request.query,
+        params: request.params,
+        message: exception instanceof Error ? exception.message : JSON.stringify(exception),
+        stack: exception instanceof Error ? exception.stack : undefined,
+      });
+    }
 
     response.status(status).json({
       success: false,
