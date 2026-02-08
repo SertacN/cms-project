@@ -1,8 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
-import { AuthService } from '../../../core/auth';
-import { LoginRequest } from '../../../core/interfaces';
 import { SharedModule } from '../../../shared/shared-module';
 import { email, form, FormField, required } from '@angular/forms/signals';
+import { AuthService } from '../../../core/auth';
+import { LoginRequest } from '../../../core/auth/interfaces';
+
 @Component({
   selector: 'app-login',
   imports: [SharedModule, FormField],
