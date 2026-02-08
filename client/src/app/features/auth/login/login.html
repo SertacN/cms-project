@@ -10,7 +10,30 @@
       <p>Devam etmek için giriş yapın</p>
     </div>
 
-    <form class="login-form" (ngSubmit)="onSubmit()">
+    <form class="login-form" (submit)="onSubmit($event)">
+      @if (loginForm.email().touched() && loginForm.email().invalid()) {
+        <div class="error-message">
+          <lucide-angular
+            name="circle-alert"
+            color="currentColor"
+            class="alert-icon"
+          ></lucide-angular>
+          @for (error of loginForm.email().errors(); track error.message) {
+            <span>{{ error.message }}</span>
+          }
+        </div>
+      } @else if (loginForm.password().touched() && loginForm.password().invalid()) {
+        <div class="error-message">
+          <lucide-angular
+            name="circle-alert"
+            color="currentColor"
+            class="alert-icon"
+          ></lucide-angular>
+          @for (error of loginForm.password().errors(); track error.message) {
+            <span>{{ error.message }}</span>
+          }
+        </div>
+      }
       @if (errorMessage()) {
         <div class="error-message">
           <lucide-angular
@@ -21,7 +44,6 @@
           <span>{{ errorMessage() }}</span>
         </div>
       }
-
       <div class="form-group">
         <label for="email">Email</label>
         <div class="input-wrapper">
@@ -29,11 +51,10 @@
           <input
             type="email"
             id="email"
-            name="email"
-            [(ngModel)]="credentials.email"
+            [formField]="loginForm.email"
             placeholder="ornek@email.com"
             autocomplete="email"
-            required
+            (input)="clearServerErrorMessage()"
           />
         </div>
       </div>
@@ -43,26 +64,29 @@
         <div class="input-wrapper">
           <lucide-angular name="lock" color="currentColor" class="input-icon"></lucide-angular>
           <input
-            type="password"
+            [type]="isPasswordVisible() ? 'text' : 'password'"
             id="password"
-            name="password"
-            [(ngModel)]="credentials.password"
+            [formField]="loginForm.password"
             placeholder="••••••••"
             autocomplete="current-password"
-            required
+            (input)="clearServerErrorMessage()"
           />
+          <lucide-icon
+            [name]="isPasswordVisible() ? 'eye' : 'eye-off'"
+            color="white"
+            class="input-icon password-icon"
+            (click)="changePasswordVisible()"
+          ></lucide-icon>
         </div>
       </div>
 
-      <button type="submit" class="login-button" [disabled]="isLoading()">
+      <button type="submit" class="button first-button" [disabled]="isLoading()">
         @if (isLoading()) {
           <span class="spinner"></span>
           <span>Giriş yapılıyor...</span>
         } @else {
           <span>Giriş Yap</span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
-          </svg>
+          <lucide-angular name="arrow-right" color="currentColor" class="d-flex"></lucide-angular>
         }
       </button>
     </form>

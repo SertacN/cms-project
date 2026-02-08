@@ -1,10 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CircleAlert, Lock, LucideAngularModule, Mail } from 'lucide-angular';
+import {
+  ArrowRight,
+  CircleAlert,
+  Lock,
+  LucideAngularModule,
+  Mail,
+  Eye,
+  EyeOff,
+} from 'lucide-angular';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, LucideAngularModule.pick({ Mail, Lock, CircleAlert })],
+  imports: [
+    CommonModule,
+    LucideAngularModule.pick({ Mail, Lock, CircleAlert, ArrowRight, Eye, EyeOff }),
+  ],
   exports: [LucideAngularModule],
 })
 export class SharedModule {}

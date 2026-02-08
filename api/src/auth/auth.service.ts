@@ -13,7 +13,6 @@ export class AuthService {
     private jwt: JwtService,
     private config: ConfigService,
   ) {}
-  //TODO: Refresh kısmında error log atıyor. bunu düzelt
   async register(dto: AuthDto) {
     const hashedPassword = await bcrypt.hash(dto.password, 10);
     try {
