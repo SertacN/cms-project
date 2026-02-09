@@ -94,6 +94,13 @@ button {
   --sc-alert-error-rgb: 239, 68, 68;
 }
 
+.dashboard-container {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 /* Inputs */
 .form-group {
   display: flex;

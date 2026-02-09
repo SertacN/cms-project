@@ -1,0 +1,19 @@
+<div class="dashboard-container">
+  @if (!categories()) {
+    <p>Yükleniyor...</p>
+  } @else {
+    @let response = categories()!;
+
+    @if (response.success) {
+      <ul>
+        @for (category of response.data; track category.id) {
+          <li>{{ category.title }}</li>
+        } @empty {
+          <li>Kategori bulunamadı.</li>
+        }
+      </ul>
+    } @else {
+      <div class="error-box">⚠️ {{ response.message }}</div>
+    }
+  }
+</div>

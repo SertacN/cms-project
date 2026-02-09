@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto, EditCategoryDto } from './dto';
 import { ApiResponse, Public } from 'src/common/types';
@@ -17,7 +17,7 @@ export class CategoriesController {
   async createCategory(@Body() dto: CreateCategoryDto): Promise<ApiResponse<Public<ContentCategory>>> {
     return this.categoriesService.createCategory(dto);
   }
-
+  @HttpCode(HttpStatus.OK)
   @Get()
   async getAllCategories(): Promise<ApiResponse<Public<ContentCategory>[]>> {
     return this.categoriesService.getAllCategory();
