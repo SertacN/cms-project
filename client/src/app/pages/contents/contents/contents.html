@@ -1,0 +1,11 @@
+<div class="detail-container">
+  <h2>Kategori ID: {{ categoryId }} İçerikleri</h2>
+
+  @if (isLoading()) {
+    <p>İçerikler yükleniyor...</p>
+  } @else {
+    <div class="grid">
+      <p>Veriler buraya gelecek...</p>
+    </div>
+  }
+</div>

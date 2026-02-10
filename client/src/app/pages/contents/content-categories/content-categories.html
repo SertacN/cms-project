@@ -7,7 +7,11 @@
     @if (response.success) {
       <ul>
         @for (category of response.data; track category.id) {
-          <li>{{ category.title }}</li>
+          <li>
+            <a [routerLink]="[category.id]" routerLinkActive="active" class="category-item">{{
+              category.title
+            }}</a>
+          </li>
         } @empty {
           <li>Kategori bulunamadı.</li>
         }
@@ -16,4 +20,7 @@
       <div class="error-box">⚠️ {{ response.message }}</div>
     }
   }
+  <main class="contents-detail">
+    <router-outlet></router-outlet>
+  </main>
 </div>
