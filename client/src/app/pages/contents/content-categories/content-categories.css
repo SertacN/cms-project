@@ -2,3 +2,41 @@
   display: block;
   min-height: 100%;
 }
+.content-category-list {
+  list-style: none;
+}
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-second-gap);
+  padding-bottom: var(--sc-first-padding);
+  border-bottom: 1px solid var(--sc-border-color);
+  margin-bottom: var(--sc-second-gap);
+}
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.category-item.active {
+  color: var(--sc-first-color-light);
+  font-weight: 700;
+}
+.content-category-list-wrapper {
+  flex: 0.5;
+}
+.contents-detail {
+  flex: 1;
+}
+.create-category-btn {
+  width: fit-content;
+}
+.category-item-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-first-gap);
+}
+.category-item-wrapper:not(:last-child) {
+  margin-bottom: var(--sc-second-gap);
+  border-bottom: 1px solid var(--sc-border-color);
+}

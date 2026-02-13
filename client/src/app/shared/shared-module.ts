@@ -8,13 +8,26 @@ import {
   Mail,
   Eye,
   EyeOff,
+  ChevronRight,
+  X,
+  Check,
 } from 'lucide-angular';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    LucideAngularModule.pick({ Mail, Lock, CircleAlert, ArrowRight, Eye, EyeOff }),
+    LucideAngularModule.pick({
+      Mail,
+      Lock,
+      CircleAlert,
+      ArrowRight,
+      Eye,
+      EyeOff,
+      ChevronRight,
+      X,
+      Check,
+    }),
   ],
   exports: [LucideAngularModule],
 })

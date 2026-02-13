@@ -40,7 +40,6 @@ export class CategoriesService {
     const categories = await this.prisma.contentCategory.findMany({
       where: {
         isDeleted: false,
-        isActive: true,
       },
       select: {
         id: true,
@@ -53,6 +52,7 @@ export class CategoriesService {
         createdAt: true,
         updatedAt: true,
       },
+      orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
     });
     return {
       success: true,

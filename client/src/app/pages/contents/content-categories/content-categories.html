@@ -1,24 +1,97 @@
-<div class="dashboard-container">
+<div class="dashboard-container d-direction-row">
   @if (!categories()) {
     <p>Yükleniyor...</p>
   } @else {
     @let response = categories()!;
-
-    @if (response.success) {
-      <ul>
-        @for (category of response.data; track category.id) {
-          <li>
-            <a [routerLink]="[category.id]" routerLinkActive="active" class="category-item">{{
-              category.title
-            }}</a>
-          </li>
-        } @empty {
-          <li>Kategori bulunamadı.</li>
-        }
-      </ul>
-    } @else {
-      <div class="error-box">⚠️ {{ response.message }}</div>
-    }
+    <div class="content-category-list-wrapper">
+      <div class="category-header d-space-between">
+        <h1 class="block-title">Kategoriler</h1>
+        <button
+          class="button first-button small create-category-btn"
+          (click)="openCreateCategoryDialog()"
+        >
+          Ekle
+        </button>
+        <dialog #categoryDetailDialog class="createCategoryDialog">
+          <h2 class="d-flex d-space-between">
+            <span>Yeni Kategori Oluştur</span>
+            <lucide-angular
+              class="d-flex d-centered dialog-close-button"
+              name="x"
+              (click)="closeCreateCategoryDialog()"
+            ></lucide-angular>
+          </h2>
+          <form class="form-wrapper d-flex d-direction-column">
+            <div class="form-group">
+              <div class="form-row-item">
+                <label for="title" class="negative">Başlık</label>
+                <input
+                  type="text"
+                  id="title"
+                  [formField]="createCategoryForm.title"
+                  class="form-input"
+                />
+              </div>
+              <div class="form-row-item">
+                <label for="isActive" class="negative">Aktif</label>
+                <input
+                  type="checkbox"
+                  id="isActive"
+                  [checked]="createCategoryForm.isActive"
+                  (change)="toggleActive($event)"
+                  class="form-input"
+                />
+              </div>
+              <div class="form-row-item">
+                <label for="orderBy" class="negative">Sıralama</label>
+                <input
+                  type="number"
+                  id="orderBy"
+                  [formField]="createCategoryForm.orderBy"
+                  class="form-input"
+                />
+              </div>
+            </div>
+            <button
+              class="button first-button small"
+              (click)="createCategory($event)"
+              [disabled]="isLoading()"
+            >
+              Oluştur
+            </button>
+          </form>
+        </dialog>
+      </div>
+      @if (response.success) {
+        <ul class="content-category-list">
+          @for (category of response.data; track category.id) {
+            <li class="category-item-wrapper">
+              @if (category.isActive) {
+                <lucide-angular
+                  name="check"
+                  class="check c-pointer"
+                  (click)="editCategory(category.id, $event, false)"
+                ></lucide-angular>
+              } @else {
+                <lucide-angular
+                  name="x"
+                  class="times c-pointer"
+                  (click)="editCategory(category.id, $event, true)"
+                ></lucide-angular>
+              }
+              <a [routerLink]="[category.id]" routerLinkActive="active" class="category-item"
+                ><span>{{ category.title }}</span>
+                <lucide-angular name="chevron-right"></lucide-angular>
+              </a>
+            </li>
+          } @empty {
+            <li>Kategori bulunamadı.</li>
+          }
+        </ul>
+      } @else {
+        <div class="error-box">⚠️ {{ response.message }}</div>
+      }
+    </div>
   }
   <main class="contents-detail">
     <router-outlet></router-outlet>

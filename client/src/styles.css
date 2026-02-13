@@ -39,9 +39,23 @@ a {
 button {
   font-family: inherit;
 }
-
+/* Flexbox */
 .d-flex {
   display: flex;
+}
+.d-space-between {
+  justify-content: space-between;
+}
+.d-centered {
+  align-items: center;
+  justify-content: center;
+}
+.d-direction-row {
+  flex-direction: row !important;
+}
+.d-direction-column {
+  flex-direction: column;
+  gap: var(--sc-first-gap);
 }
 /* Scrollbar */
 ::-webkit-scrollbar {
@@ -67,14 +81,20 @@ button {
   --sc-first-color-medium: #7c3aed;
   --sc-first-button-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
   --sc-first-button-shadow-hover: 0 8px 25px rgba(124, 58, 237, 0.5);
+  --sc-second-color-light: #2a3749;
+  --sc-second-color-medium: #1f2937;
+  --sc-second-button-shadow: 0 4px 15px rgba(31, 41, 55, 0.4);
+  --sc-second-button-shadow-hover: 0 8px 25px rgba(31, 41, 55, 0.5);
   --sc-small-width: 18px;
   --sc-small-height: 18px;
   --sc-normal-width: 20px;
   --sc-normal-height: 20px;
   --sc-input-normal-width: 20px;
   --sc-input-normal-height: 20px;
+  --sc-input-height: 30px;
   --sc-input-focus-bg-color: rgba(124, 58, 237, 0.1);
   --sc-input-box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+  --sc-border-color: rgba(var(--sc-black-rgb), 0.2);
   --sc-label-font-size: 0.875rem;
   --sc-input-padding-set: 0.8rem 1rem 0.8rem 3rem;
   --sc-white: #ffffff;
@@ -86,6 +106,7 @@ button {
   --sc-transition: all 0.2s ease;
   --sc-default-font-size: 1rem;
   --sc-first-gap: 0.5rem;
+  --sc-second-gap: 1rem;
   --sc-first-padding: 0.5rem;
   --sc-second-padding: 1rem;
   --sc-third-padding: 1.5rem;
@@ -100,18 +121,36 @@ button {
   flex-direction: column;
   gap: 2rem;
 }
-
 /* Inputs */
+.form-wrapper {
+  margin: var(--sc-second-gap) 0;
+}
 .form-group {
   display: flex;
   flex-direction: column;
   gap: var(--sc-first-gap);
 }
-
+.form-row-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-first-gap);
+}
 .form-group label {
   font-size: var(--sc-label-font-size);
   font-weight: 500;
   color: rgba(var(--sc-white-rgb), 0.8);
+}
+.form-group label.negative {
+  color: var(--sc-black);
+}
+
+.form-input {
+  width: 100%;
+  outline: none;
+  height: var(--sc-input-height);
+  padding: 0 var(--sc-second-padding);
+  border-radius: var(--sc-input-radius);
+  border: 1px solid var(--sc-border-color);
 }
 
 .input-wrapper {
@@ -199,12 +238,13 @@ button {
   font-weight: 600;
   cursor: pointer;
   transition: var(--sc-transition);
-  box-shadow: var(--sc-first-button-shadow);
+}
+.button.small {
+  padding: var(--sc-first-padding-set);
 }
 
 .button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: var(--sc-first-button-shadow-hover);
 }
 
 .button:active:not(:disabled) {
@@ -232,6 +272,45 @@ button {
     var(--sc-first-color-medium) 0%,
     var(--sc-first-color-medium) 100%
   );
+  box-shadow: var(--sc-first-button-shadow);
+}
+.button.first-button:hover:not(:disabled) {
+  box-shadow: var(--sc-first-button-shadow-hover);
+}
+.button.second-button {
+  background: linear-gradient(
+    135deg,
+    var(--sc-second-color-medium) 0%,
+    var(--sc-second-color-medium) 100%
+  );
+  box-shadow: var(--sc-second-button-shadow);
+}
+.button.second-button:hover:not(:disabled) {
+  box-shadow: var(--sc-second-button-shadow-hover);
+}
+
+/* Dialog */
+dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  padding: var(--sc-third-padding);
+  border: none;
+  border-radius: var(--sc-first-radius);
+  width: 500px;
+  max-width: calc(100vw - 32px);
+}
+dialog::backdrop {
+  backdrop-filter: blur(1px);
+}
+dialog[open] {
+  animation: scaleIn 0.5s ease-out;
+}
+.dialog-close-button {
+  cursor: pointer;
+}
+.c-pointer {
+  cursor: pointer;
 }
 /* Animate */
 
@@ -261,4 +340,22 @@ button {
   to {
     transform: rotate(360deg);
   }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.check {
+  color: green;
+}
+.times {
+  color: red;
 }
