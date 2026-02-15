@@ -3,18 +3,38 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { ContentCategoriesService } from '../../../core/services/contents';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SharedModule } from '../../../shared/shared-module';
-import { form, FormField, maxLength, min, minLength, required } from '@angular/forms/signals';
+import {
+  form,
+  FormField,
+  maxLength,
+  min,
+  minLength,
+  required,
+  submit,
+} from '@angular/forms/signals';
 import { switchMap } from 'rxjs';
 import { CreateCategoryDto, EditCategoryDto } from '../../../core/services/contents/interfaces';
-
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ContentsDialog } from '../contents-dialog/contents-dialog';
 @Component({
   selector: 'app-content-categories',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, SharedModule, FormField],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    SharedModule,
+    FormField,
+    ReactiveFormsModule,
+  ],
   templateUrl: './content-categories.html',
   styleUrl: './content-categories.css',
 })
 export class ContentCategories {
   private readonly contentCategoriesService = inject(ContentCategoriesService);
+  private fb = inject(FormBuilder);
+  private dialog = inject(MatDialog);
+
   // Signals
   private refreshTrigger = signal(0);
   isLoading = signal<boolean>(false);
@@ -23,9 +43,11 @@ export class ContentCategories {
       switchMap(() => this.contentCategoriesService.getAllCategories()),
     ),
   );
-  @ViewChild('categoryDetailDialog') categoryDetailDialog!: ElementRef<HTMLDialogElement>;
+  editingId = signal<number | null>(null);
+  @ViewChild('createCategoryDialog') createCategoryDialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild('editDialog') editDialog!: ElementRef<HTMLDialogElement>;
 
-  // Validation
+  // Validation & Methods Create Category
   createCategoryModel = signal<CreateCategoryDto>({
     title: '',
     orderBy: 0,
@@ -39,74 +61,95 @@ export class ContentCategories {
     maxLength(schemaPath.title, 50, { message: 'Kategori Adı en fazla 50 karakter olmalıdır' });
   });
 
-  editCategoryModel = signal<EditCategoryDto>({
-    title: '',
-    orderBy: 0,
-    isActive: true,
-    sefUrl: '',
-  });
-
-  // Methods
   createCategory(e: Event) {
     e.preventDefault();
-    this.isLoading.set(true);
     const payload = this.createCategoryModel();
-    this.contentCategoriesService.createCategory(payload).subscribe({
+    console.log(payload);
+
+    submit(this.createCategoryForm, async () => {
+      this.isLoading.set(true);
+      this.contentCategoriesService.createCategory(payload).subscribe({
+        next: () => {
+          this.isLoading.set(false);
+          this.closeCreateCategoryDialog(this.createCategoryDialog.nativeElement);
+          this.refreshTrigger.update((value) => value + 1);
+        },
+        error: () => {
+          this.isLoading.set(false);
+        },
+      });
+    });
+  }
+
+  // Edit Category
+  editForm = this.fb.group({
+    categoryId: [0],
+    title: ['', [Validators.minLength(3)]],
+    sefUrl: ['', [Validators.minLength(3)]],
+    isActive: [true],
+    orderBy: [0],
+  });
+  editCategory(categoryId: number) {
+    this.isLoading.set(true);
+    this.editingId.set(categoryId);
+
+    this.contentCategoriesService.getCategoryDetails(categoryId.toString()).subscribe({
+      next: (res) => {
+        this.isLoading.set(false);
+        if (res.success) {
+          const categoryData: EditCategoryDto = res.data;
+          this.editForm.patchValue({
+            categoryId: categoryId,
+            title: categoryData.title,
+            sefUrl: categoryData.sefUrl,
+            isActive: categoryData.isActive,
+            orderBy: categoryData.orderBy,
+          });
+          console.log(this.editForm.value);
+          this.editDialog.nativeElement.showModal();
+        }
+      },
+    });
+  }
+  editCategoryActivated(id: number, e: Event, isActive?: boolean) {
+    e.preventDefault();
+    this.isLoading.set(true);
+    this.contentCategoriesService.editCategory(id, { isActive: isActive }).subscribe({
       next: () => {
         this.isLoading.set(false);
-        this.closeCreateCategoryDialog();
         this.refreshTrigger.update((value) => value + 1);
-        this.resetCategoryCreateForm();
       },
       error: () => {
         this.isLoading.set(false);
       },
     });
   }
-  editCategory(id: number, e: Event, isActive?: boolean) {
-    e.preventDefault();
-    this.isLoading.set(true);
-    const payload = this.editCategoryModel();
-    if (isActive != null || isActive != undefined) {
-      this.contentCategoriesService.editCategory(id, { isActive: isActive }).subscribe({
-        next: () => {
-          this.isLoading.set(false);
-          this.refreshTrigger.update((value) => value + 1);
-        },
-        error: () => {
-          this.isLoading.set(false);
-        },
-      });
-    } else {
-      this.contentCategoriesService.editCategory(id, payload).subscribe({
-        next: () => {
-          this.isLoading.set(false);
-          this.refreshTrigger.update((value) => value + 1);
-        },
-        error: () => {
-          this.isLoading.set(false);
-        },
-      });
-    }
+
+  openCreateCategoryDialog(dialog: HTMLDialogElement) {
+    dialog.showModal();
   }
 
-  openCreateCategoryDialog() {
-    this.categoryDetailDialog.nativeElement.showModal();
+  closeCreateCategoryDialog(dialog: HTMLDialogElement) {
+    dialog.close();
   }
 
-  closeCreateCategoryDialog() {
-    this.categoryDetailDialog.nativeElement.close();
-    this.resetCategoryCreateForm();
-  }
-  toggleActive(event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
-    this.createCategoryModel.update((current) => ({ ...current, isActive: checked }));
-  }
   resetCategoryCreateForm() {
     this.createCategoryModel.set({
       title: '',
       orderBy: 0,
       isActive: true,
+    });
+  }
+  openDailog() {
+    const dialogRef = this.dialog.open(ContentsDialog, {
+      width: '500px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.refreshTrigger.update((v) => v + 1);
+      }
     });
   }
 }

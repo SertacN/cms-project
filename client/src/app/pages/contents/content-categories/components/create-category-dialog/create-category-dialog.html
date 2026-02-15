@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Yeni Kategori Oluştur</h2>
+
+<mat-dialog-content>
+  <div class="form-group">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Başlık</mat-label>
+      <input matInput [formField]="createCategoryForm.title" />
+    </mat-form-field>
+
+    <mat-checkbox> Aktif </mat-checkbox>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Sıralama</mat-label>
+      <input matInput type="number" />
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">İptal</button>
+  <button mat-raised-button color="primary" (click)="createCategory()" [disabled]="isLoading()">
+    Oluştur
+  </button>
+</mat-dialog-actions>

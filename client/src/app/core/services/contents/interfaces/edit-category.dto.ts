@@ -4,3 +4,9 @@ export interface EditCategoryDto {
   isActive?: boolean;
   sefUrl?: string;
 }
+
+export interface EditCategoryResponse {
+  success: boolean;
+  message: string;
+  data: EditCategoryDto;
+}

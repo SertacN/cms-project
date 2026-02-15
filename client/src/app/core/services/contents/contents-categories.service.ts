@@ -2,7 +2,12 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { catchError, Observable, of } from 'rxjs';
-import { CategoriesResponse, CreateCategoryDto, EditCategoryDto } from './interfaces';
+import {
+  CategoriesResponse,
+  CreateCategoryDto,
+  EditCategoryDto,
+  EditCategoryResponse,
+} from './interfaces';
 import { parseIdentifier } from '../../../shared/utils';
 
 @Injectable({
@@ -28,17 +33,17 @@ export class ContentCategoriesService {
     );
   }
   // Handle by ID or SEF Url
-  getCategoryDetails(identifier: string): Observable<CategoriesResponse> {
+  getCategoryDetails(identifier: string): Observable<EditCategoryResponse> {
     const parsedIdentifier = parseIdentifier(identifier);
     return this.http
-      .get<CategoriesResponse>(`${this.apiUrl}/${parsedIdentifier}`, { headers: this.headers })
+      .get<EditCategoryResponse>(`${this.apiUrl}/${parsedIdentifier}`, { headers: this.headers })
       .pipe(
         catchError((err: HttpErrorResponse) => {
           console.error('API Hatası:', err);
-          const errorResponse: CategoriesResponse = {
+          const errorResponse: EditCategoryResponse = {
             success: false,
             message: `Veri yüklenemedi! (Hata Kodu: ${err.status})`,
-            data: [],
+            data: {},
           };
           return of(errorResponse);
         }),

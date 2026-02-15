@@ -63,7 +63,7 @@ export class CategoriesService {
   // ID ve SefUrl ile birlikte çalışır(hangisi gönderilirse)
   async getCategoryDetails(identifier: number | string): Promise<ApiResponse<Public<ContentCategory>>> {
     const category = await this.prisma.contentCategory.findFirst({
-      where: getByIdentifier(identifier, { isActive: true, isDeleted: false }),
+      where: getByIdentifier(identifier, { isDeleted: false }),
       select: {
         id: true,
         title: true,
