@@ -1,11 +1,20 @@
 import { Component, inject, signal } from '@angular/core';
-import { form, FormField, maxLength, min, minLength, required } from '@angular/forms/signals';
+import {
+  form,
+  FormField,
+  maxLength,
+  min,
+  minLength,
+  required,
+  submit,
+} from '@angular/forms/signals';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ContentCategoriesService } from '../../../../../core/services/contents';
 import { CreateCategoryDto } from '../../../../../core/services/contents/interfaces';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-create-category-dialog',
@@ -16,6 +25,7 @@ import { CreateCategoryDto } from '../../../../../core/services/contents/interfa
     MatDialogActions,
     FormField,
     MatCheckboxModule,
+    MatButtonModule,
   ],
   templateUrl: './create-category-dialog.html',
   styleUrl: './create-category-dialog.css',
@@ -23,6 +33,8 @@ import { CreateCategoryDto } from '../../../../../core/services/contents/interfa
 export class CreateCategoryDialog {
   private dialogRef = inject(MatDialogRef<CreateCategoryDialog>);
   private contentCategoriesService = inject(ContentCategoriesService);
+
+  isLoading = signal(false);
 
   createCategoryModel = signal<CreateCategoryDto>({
     title: '',
@@ -38,21 +50,21 @@ export class CreateCategoryDialog {
   createCategory() {
     const payload = this.createCategoryModel();
     console.log(payload);
-    /*
-    this.isLoading.set(true);
-
-    this.contentCategoriesService.createCategory(payload).subscribe({
-      next: () => {
-        this.isLoading.set(false);
-        this.dialogRef.close(true); // true => başarı
-      },
-      error: () => {
-        this.isLoading.set(false);
-      },
+    /*    submit(this.createCategoryForm, async () => {
+      this.isLoading.set(true);
+      this.contentCategoriesService.createCategory(payload).subscribe({
+        next: () => {
+          this.isLoading.set(false);
+          this.dialogRef.close(true);
+        },
+        error: () => {
+          this.isLoading.set(false);
+          this.dialogRef.close(false);
+        },
+      });
     });*/
   }
 
-  isLoading = signal(false);
   close() {
     this.dialogRef.close(false);
   }

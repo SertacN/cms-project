@@ -16,7 +16,7 @@ import { switchMap } from 'rxjs';
 import { CreateCategoryDto, EditCategoryDto } from '../../../core/services/contents/interfaces';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ContentsDialog } from '../contents-dialog/contents-dialog';
+import { CreateCategoryDialog } from './components/create-category-dialog/create-category-dialog';
 @Component({
   selector: 'app-content-categories',
   imports: [
@@ -36,7 +36,7 @@ export class ContentCategories {
   private dialog = inject(MatDialog);
 
   // Signals
-  private refreshTrigger = signal(0);
+  refreshTrigger = signal(0);
   isLoading = signal<boolean>(false);
   categories = toSignal(
     toObservable(this.refreshTrigger).pipe(
@@ -125,7 +125,7 @@ export class ContentCategories {
     });
   }
 
-  openCreateCategoryDialog(dialog: HTMLDialogElement) {
+  openCreateCategoryDialog2(dialog: HTMLDialogElement) {
     dialog.showModal();
   }
 
@@ -140,8 +140,8 @@ export class ContentCategories {
       isActive: true,
     });
   }
-  openDailog() {
-    const dialogRef = this.dialog.open(ContentsDialog, {
+  openCreateCategoryDialog() {
+    const dialogRef = this.dialog.open(CreateCategoryDialog, {
       width: '500px',
       disableClose: true,
     });

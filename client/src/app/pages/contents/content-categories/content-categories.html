@@ -6,7 +6,10 @@
     <div class="content-category-list-wrapper">
       <div class="category-header d-space-between">
         <h1 class="block-title">Kategoriler</h1>
-        <button class="button first-button small create-category-btn" (click)="openDailog()">
+        <button
+          class="button first-button small create-category-btn"
+          (click)="openCreateCategoryDialog()"
+        >
           Ekle
         </button>
         <dialog #createCategoryDialog class="createCategoryDialog">

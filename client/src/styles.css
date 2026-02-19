@@ -136,7 +136,7 @@ button {
   flex-direction: column;
   gap: var(--sc-first-gap);
 }
-.form-group label {
+.form-group-negative label {
   font-size: var(--sc-label-font-size);
   font-weight: 500;
   color: rgba(var(--sc-white-rgb), 0.8);
@@ -312,6 +312,9 @@ dialog[open] {
 }
 .dialog-close-button {
   cursor: pointer;
+}
+.dialog-title {
+  margin-bottom: var(--sc-second-gap);
 }
 .c-pointer {
   cursor: pointer;

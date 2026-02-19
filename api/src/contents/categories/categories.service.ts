@@ -10,6 +10,7 @@ export class CategoriesService {
   constructor(private readonly prisma: PrismaService) {}
 
   // All error using Global Exception Filter with Winston
+  // TODO: Kategorinin alt kategorisi oluşturma denensin
   async createCategory(dto: CreateCategoryDto): Promise<ApiResponse<Public<ContentCategory>>> {
     const finalUrl = await generateUniqueUrl(dto.title, this.prisma.contentCategory);
     const category = await this.prisma.contentCategory.create({
