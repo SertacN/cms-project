@@ -7,9 +7,19 @@ import { switchMap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateCategoryDialog } from './components/create-category-dialog/create-category-dialog';
 import { EditCategoryDialog } from './components/edit-category-dialog/edit-category-dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-content-categories',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, SharedModule],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    SharedModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './content-categories.html',
   styleUrl: './content-categories.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,7 +27,7 @@ import { EditCategoryDialog } from './components/edit-category-dialog/edit-categ
 export class ContentCategories {
   private readonly contentCategoriesService = inject(ContentCategoriesService);
   private dialog = inject(MatDialog);
-
+  private snackBar = inject(MatSnackBar);
   // Signals
   refreshTrigger = signal(0);
   isLoading = signal<boolean>(false);
@@ -30,6 +40,7 @@ export class ContentCategories {
   openCreateCategoryDialog() {
     const dialogRef = this.dialog.open(CreateCategoryDialog, {
       width: '500px',
+      ariaLabel: 'Create Category Dialog',
       disableClose: true,
     });
 
@@ -43,6 +54,7 @@ export class ContentCategories {
   editCategoryDialog(categoryId: number) {
     const dialogRef = this.dialog.open(EditCategoryDialog, {
       width: '750px',
+      ariaLabel: 'Edit Category Dialog',
       disableClose: true,
       data: {
         categoryId,
@@ -59,9 +71,13 @@ export class ContentCategories {
     e.preventDefault();
     this.isLoading.set(true);
     this.contentCategoriesService.editCategory(id, { isActive: isActive }).subscribe({
-      next: () => {
+      next: (res) => {
+        console.log(res);
         this.isLoading.set(false);
         this.refreshTrigger.update((value) => value + 1);
+        this.snackBar.open('Kategori Güncellendi', 'Tamam', {
+          duration: 3000,
+        });
       },
       error: () => {
         this.isLoading.set(false);

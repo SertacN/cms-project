@@ -6,31 +6,30 @@
     <div class="content-category-list-wrapper">
       <div class="category-header d-space-between">
         <h1 class="block-title">Kategoriler</h1>
-        <button
-          class="button first-button small create-category-btn"
-          (click)="openCreateCategoryDialog()"
-        >
-          Ekle
-        </button>
+        <button matButton="filled" (click)="openCreateCategoryDialog()">Ekle</button>
       </div>
       @if (response.success) {
         <ul class="content-category-list">
           @for (category of response.data; track category.id) {
             <li class="category-item-wrapper">
               @if (category.isActive) {
-                <lucide-angular
-                  name="check"
-                  class="check c-pointer"
+                <button
                   (click)="editCategoryActivated(category.id, $event, false)"
-                ></lucide-angular>
+                  [disabled]="isLoading()"
+                >
+                  <lucide-angular name="check" class="check c-pointer"></lucide-angular>
+                </button>
               } @else {
-                <lucide-angular
-                  name="x"
-                  class="times c-pointer"
+                <button
                   (click)="editCategoryActivated(category.id, $event, true)"
-                ></lucide-angular>
+                  [disabled]="isLoading()"
+                >
+                  <lucide-angular name="x" class="times c-pointer"></lucide-angular>
+                </button>
               }
-              <button (click)="editCategoryDialog(category.id)">düzenle</button>
+              <button matButton="elevated" (click)="editCategoryDialog(category.id)">
+                <lucide-angular name="pencil"></lucide-angular>
+              </button>
               <a [routerLink]="[category.id]" routerLinkActive="active" class="category-item"
                 ><span>{{ category.title }}</span>
                 <lucide-angular name="chevron-right"></lucide-angular>

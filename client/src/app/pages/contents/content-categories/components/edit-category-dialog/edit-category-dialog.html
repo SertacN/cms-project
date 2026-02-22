@@ -1,4 +1,32 @@
-<mat-dialog-actions align="end">
-  <button type="button" mat-raised-button (click)="close()">İptal</button>
-  <button type="button" mat-flat-button>Düzenle</button>
-</mat-dialog-actions>
+<div class="dialog-wrapper">
+  <form [formGroup]="editCategoryModel" (ngSubmit)="editCategory()">
+    <mat-dialog-content>
+      <h2 class="dialog-title">Kategori Düzenle</h2>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Başlık</mat-label>
+          <input type="text" matInput formControlName="title" />
+          @if (title.touched && title.hasError('minlength')) {
+            <mat-error>En az 3 karakter olmalı</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>URL Adresi (CEO)</mat-label>
+          <input type="text" matInput formControlName="sefUrl" />
+          <mat-hint>Boş bırakılırsa otomatik oluşur</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Sıra</mat-label>
+          <input type="number" matInput formControlName="orderBy" />
+        </mat-form-field>
+        <mat-checkbox align="end" formControlName="isActive"> Aktif </mat-checkbox>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button type="button" mat-raised-button (click)="close()">İptal</button>
+      <button type="submit" mat-flat-button [disabled]="editCategoryModel.invalid || isLoading()">
+        Düzenle
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

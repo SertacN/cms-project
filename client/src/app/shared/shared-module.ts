@@ -11,6 +11,7 @@ import {
   ChevronRight,
   X,
   Check,
+  Pencil,
 } from 'lucide-angular';
 
 @NgModule({
@@ -27,6 +28,7 @@ import {
       ChevronRight,
       X,
       Check,
+      Pencil,
     }),
   ],
   exports: [LucideAngularModule],

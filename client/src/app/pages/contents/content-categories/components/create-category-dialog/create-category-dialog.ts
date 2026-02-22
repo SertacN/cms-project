@@ -7,7 +7,7 @@ import { ContentCategoriesService } from '../../../../../core/services/contents'
 import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
-import { CreateCategoryDto } from '../../../../../core/services/contents/interfaces';
+import { CreateCategoryDto } from '../../../../../core/services/contents/interfaces/categories';
 @Component({
   selector: 'app-create-category-dialog',
   imports: [

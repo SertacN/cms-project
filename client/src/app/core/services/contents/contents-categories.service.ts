@@ -1,14 +1,16 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
+import { parseIdentifier } from '../../../shared/utils';
 import {
   CategoriesResponse,
+  Category,
+  CategoryDetailsResponse,
   CreateCategoryDto,
   EditCategoryDto,
-  EditCategoryResponse,
-} from './interfaces';
-import { parseIdentifier } from '../../../shared/utils';
+} from './interfaces/categories';
+import { ApiResponse } from '../../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -33,47 +35,31 @@ export class ContentCategoriesService {
     );
   }
   // Handle by ID or SEF Url
-  getCategoryDetails(identifier: string): Observable<EditCategoryResponse> {
+  getCategoryDetails(identifier: string): Observable<ApiResponse<CategoryDetailsResponse>> {
     const parsedIdentifier = parseIdentifier(identifier);
     return this.http
-      .get<EditCategoryResponse>(`${this.apiUrl}/${parsedIdentifier}`, { headers: this.headers })
+      .get<
+        ApiResponse<CategoryDetailsResponse>
+      >(`${this.apiUrl}/${parsedIdentifier}`, { headers: this.headers })
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          console.error('API Hatası:', err.status);
-          const errorResponse: EditCategoryResponse = {
-            success: false,
-            message: `Veri yüklenemedi! (Hata Kodu: ${err.status})`,
-            data: {},
-          };
-          return of(errorResponse);
+          return throwError(() => new Error(`Veri yüklenemedi! (Hata Kodu: ${err.status})`));
         }),
       );
   }
-  createCategory(dto: CreateCategoryDto): Observable<CategoriesResponse> {
-    return this.http.post<CategoriesResponse>(this.apiUrl, dto, { headers: this.headers }).pipe(
+  createCategory(dto: CreateCategoryDto): Observable<ApiResponse<Category>> {
+    return this.http.post<ApiResponse<Category>>(this.apiUrl, dto, { headers: this.headers }).pipe(
       catchError((err: HttpErrorResponse) => {
-        console.error('API Hatası:', err.status);
-        const errorResponse: CategoriesResponse = {
-          success: false,
-          message: `Veri yüklenemedi! (Hata Kodu: ${err.status})`,
-          data: [],
-        };
-        return of(errorResponse);
+        return throwError(() => new Error(`Veri yüklenemedi! (Hata Kodu: ${err.status})`));
       }),
     );
   }
-  editCategory(id: number, dto: EditCategoryDto): Observable<CategoriesResponse> {
+  editCategory(id: number, dto: EditCategoryDto): Observable<ApiResponse<EditCategoryDto>> {
     return this.http
-      .patch<CategoriesResponse>(`${this.apiUrl}/${id}`, dto, { headers: this.headers })
+      .patch<ApiResponse<EditCategoryDto>>(`${this.apiUrl}/${id}`, dto, { headers: this.headers })
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          console.error('API Hatası:', err.status);
-          const errorResponse: CategoriesResponse = {
-            success: false,
-            message: `Veri yüklenemedi! (Hata Kodu: ${err.status})`,
-            data: [],
-          };
-          return of(errorResponse);
+          return throwError(() => new Error(`Veri yüklenemedi! (Hata Kodu: ${err.status})`));
         }),
       );
   }

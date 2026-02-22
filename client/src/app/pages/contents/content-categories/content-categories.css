@@ -16,6 +16,7 @@
 .category-item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 .category-item.active {
@@ -28,15 +29,20 @@
 .contents-detail {
   flex: 1;
 }
-.create-category-btn {
+.create-category-btn,
+.edit-category-btn {
   width: fit-content;
+  margin-top: 0;
+}
+.edit-category-btn {
+  color: var(--sc-black);
 }
 .category-item-wrapper {
   display: flex;
   align-items: center;
-  gap: var(--sc-first-gap);
+  gap: var(--sc-second-gap);
+  padding: var(--sc-second-padding) 0;
 }
 .category-item-wrapper:not(:last-child) {
-  margin-bottom: var(--sc-second-gap);
   border-bottom: 1px solid var(--sc-border-color);
 }

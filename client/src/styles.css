@@ -79,12 +79,14 @@ button {
 :root {
   --sc-first-color-light: #a855f7;
   --sc-first-color-medium: #7c3aed;
-  --sc-first-button-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
-  --sc-first-button-shadow-hover: 0 8px 25px rgba(124, 58, 237, 0.5);
+  --sc-first-button-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+  --sc-first-button-shadow-hover: 0 4px 12px rgba(124, 58, 237, 0.4);
   --sc-second-color-light: #2a3749;
   --sc-second-color-medium: #1f2937;
-  --sc-second-button-shadow: 0 4px 15px rgba(31, 41, 55, 0.4);
-  --sc-second-button-shadow-hover: 0 8px 25px rgba(31, 41, 55, 0.5);
+  --sc-second-button-shadow: 0 2px 8px rgba(31, 41, 55, 0.4);
+  --sc-second-button-shadow-hover: 0 4px 12px rgba(31, 41, 55, 0.5);
+  --sc-third-color-light: #eaedf2;
+  --sc-third-color-medium: #e5e7eb;
   --sc-small-width: 18px;
   --sc-small-height: 18px;
   --sc-normal-width: 20px;
@@ -106,13 +108,13 @@ button {
   --sc-input-radius: 12px;
   --sc-transition: all 0.2s ease;
   --sc-default-font-size: 12px;
-  --sc-first-gap: 0.5rem;
-  --sc-second-gap: 1rem;
-  --sc-first-padding: 0.5rem;
-  --sc-second-padding: 1rem;
-  --sc-third-padding: 1.5rem;
-  --sc-first-padding-set: 0.5rem 1rem;
-  --sc-second-padding-set: 1rem 1.5rem;
+  --sc-first-gap: 8px;
+  --sc-second-gap: 16px;
+  --sc-first-padding: 8px;
+  --sc-second-padding: 16px;
+  --sc-third-padding: 24px;
+  --sc-first-padding-set: 8px 16px;
+  --sc-second-padding-set: 16px 24px;
   --sc-alert-error-rgb: 239, 68, 68;
 }
 
@@ -129,7 +131,7 @@ button {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: var(--sc-first-gap);
+  gap: var(--sc-second-gap);
 }
 .form-row-item {
   display: flex;
@@ -248,7 +250,7 @@ button {
 }
 
 .button:hover:not(:disabled) {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .button:active:not(:disabled) {
@@ -274,7 +276,7 @@ button {
   background: linear-gradient(
     135deg,
     var(--sc-first-color-medium) 0%,
-    var(--sc-first-color-medium) 100%
+    var(--sc-first-color-light) 100%
   );
   box-shadow: var(--sc-first-button-shadow);
 }
@@ -285,14 +287,19 @@ button {
   background: linear-gradient(
     135deg,
     var(--sc-second-color-medium) 0%,
-    var(--sc-second-color-medium) 100%
+    var(--sc-second-color-light) 100%
   );
   box-shadow: var(--sc-second-button-shadow);
 }
 .button.second-button:hover:not(:disabled) {
   box-shadow: var(--sc-second-button-shadow-hover);
 }
-
+.button.third-button {
+  background: var(--sc-third-color-light);
+}
+.button.third-button:hover:not(:disabled) {
+  background: var(--sc-third-color-medium);
+}
 /* Dialog */
 dialog {
   position: fixed;
