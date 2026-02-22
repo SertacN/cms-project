@@ -12,66 +12,6 @@
         >
           Ekle
         </button>
-        <dialog #createCategoryDialog class="createCategoryDialog">
-          <h2 class="d-flex d-space-between">
-            <span>Yeni Kategori Oluştur</span>
-            <lucide-angular
-              class="d-flex d-centered dialog-close-button"
-              name="x"
-              (click)="closeCreateCategoryDialog(createCategoryDialog)"
-            ></lucide-angular>
-          </h2>
-          <form class="form-wrapper d-flex d-direction-column" (submit)="createCategory($event)">
-            <div class="form-group">
-              <div class="form-row-item">
-                <label for="title" class="negative">Başlık</label>
-                <input
-                  type="text"
-                  id="title"
-                  [formField]="createCategoryForm.title"
-                  class="form-input"
-                />
-                @if (createCategoryForm.title().touched() && createCategoryForm.title().invalid()) {
-                  @for (error of createCategoryForm.title().errors(); track error) {
-                    <span class="input-error-message">{{ error.message }}</span>
-                  }
-                }
-              </div>
-              <div class="form-row-item">
-                <label for="isActive" class="negative">Aktif</label>
-                <input
-                  type="checkbox"
-                  id="isActive"
-                  (checked)="createCategoryForm.isActive()"
-                  [formField]="createCategoryForm.isActive"
-                  class="form-input"
-                />
-              </div>
-              <div class="form-row-item">
-                <label for="orderBy" class="negative">Sıralama</label>
-                <input
-                  type="number"
-                  id="orderBy"
-                  [formField]="createCategoryForm.orderBy"
-                  class="form-input"
-                />
-              </div>
-            </div>
-            <button type="submit" class="button first-button small" [disabled]="isLoading()">
-              Oluştur
-            </button>
-          </form>
-        </dialog>
-        <dialog #editDialog>
-          <h2 class="d-flex d-space-between">
-            <span>Kategori Düzenle</span>
-            <lucide-angular
-              class="d-flex d-centered dialog-close-button"
-              name="x"
-              (click)="closeCreateCategoryDialog(editDialog)"
-            ></lucide-angular>
-          </h2>
-        </dialog>
       </div>
       @if (response.success) {
         <ul class="content-category-list">
@@ -90,7 +30,7 @@
                   (click)="editCategoryActivated(category.id, $event, true)"
                 ></lucide-angular>
               }
-              <button (click)="editCategory(category.id)">düzenle</button>
+              <button (click)="editCategoryDialog(category.id)">düzenle</button>
               <a [routerLink]="[category.id]" routerLinkActive="active" class="category-item"
                 ><span>{{ category.title }}</span>
                 <lucide-angular name="chevron-right"></lucide-angular>

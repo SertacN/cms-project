@@ -22,7 +22,7 @@ export class ContentCategoriesService {
   getAllCategories(): Observable<CategoriesResponse> {
     return this.http.get<CategoriesResponse>(this.apiUrl, { headers: this.headers }).pipe(
       catchError((err: HttpErrorResponse) => {
-        console.error('API Hatası:', err);
+        console.error('API Hatası:', err.status);
         const errorResponse: CategoriesResponse = {
           success: false,
           message: `Veri yüklenemedi! (Hata Kodu: ${err.status})`,
@@ -39,7 +39,7 @@ export class ContentCategoriesService {
       .get<EditCategoryResponse>(`${this.apiUrl}/${parsedIdentifier}`, { headers: this.headers })
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          console.error('API Hatası:', err);
+          console.error('API Hatası:', err.status);
           const errorResponse: EditCategoryResponse = {
             success: false,
             message: `Veri yüklenemedi! (Hata Kodu: ${err.status})`,
@@ -52,7 +52,7 @@ export class ContentCategoriesService {
   createCategory(dto: CreateCategoryDto): Observable<CategoriesResponse> {
     return this.http.post<CategoriesResponse>(this.apiUrl, dto, { headers: this.headers }).pipe(
       catchError((err: HttpErrorResponse) => {
-        console.error('API Hatası:', err);
+        console.error('API Hatası:', err.status);
         const errorResponse: CategoriesResponse = {
           success: false,
           message: `Veri yüklenemedi! (Hata Kodu: ${err.status})`,
@@ -67,7 +67,7 @@ export class ContentCategoriesService {
       .patch<CategoriesResponse>(`${this.apiUrl}/${id}`, dto, { headers: this.headers })
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          console.error('API Hatası:', err);
+          console.error('API Hatası:', err.status);
           const errorResponse: CategoriesResponse = {
             success: false,
             message: `Veri yüklenemedi! (Hata Kodu: ${err.status})`,

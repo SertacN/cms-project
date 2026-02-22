@@ -1,25 +1,38 @@
 <div class="dialog-wrapper">
-  <mat-dialog-content>
-    <h2 class="dialog-title" mat-dialog-title>Yeni Kategori Oluştur</h2>
-    <div class="form-group">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Başlık</mat-label>
-        <input matInput [formField]="createCategoryForm.title" />
-      </mat-form-field>
-
-      <mat-checkbox [formField]="createCategoryForm.isActive"> Aktif </mat-checkbox>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Sıralama</mat-label>
-        <input matInput type="number" [formField]="createCategoryForm.orderBy" />
-      </mat-form-field>
-    </div>
-  </mat-dialog-content>
-
-  <mat-dialog-actions align="end">
-    <button mat-raised-button (click)="close()">İptal</button>
-    <button mat-flat-button color="primary" (click)="createCategory()" [disabled]="isLoading()">
-      Oluştur
-    </button>
-  </mat-dialog-actions>
+  <form [formGroup]="createCategoryModel" (ngSubmit)="createCategory()">
+    <mat-dialog-content>
+      <h2 class="dialog-title" mat-dialog-title>Yeni Kategori Oluştur</h2>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Başlık</mat-label>
+          <input type="text" matInput formControlName="title" />
+          @if (title.hasError('required') && title.touched) {
+            <mat-error>Başlık zorunludur</mat-error>
+          }
+          @if (title.hasError('minlength') && title.touched) {
+            <mat-error>En az 3 karakter olmalı</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Sıralama</mat-label>
+          <input matInput type="number" formControlName="orderBy" min="0" />
+          @if (orderBy.hasError('min') && orderBy.touched) {
+            <mat-error>Eksi Değer girilemez</mat-error>
+          }
+        </mat-form-field>
+        <mat-checkbox align="end" formControlName="isActive"> Aktif </mat-checkbox>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button type="button" mat-raised-button (click)="close()">İptal</button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        [disabled]="createCategoryModel.invalid || isLoading()"
+      >
+        Oluştur
+      </button>
+    </mat-dialog-actions>
+  </form>
 </div>
