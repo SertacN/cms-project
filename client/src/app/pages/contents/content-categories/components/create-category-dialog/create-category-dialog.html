@@ -1,11 +1,11 @@
 <div class="dialog-wrapper">
   <form [formGroup]="createCategoryModel" (ngSubmit)="createCategory()">
     <mat-dialog-content>
-      <h2 class="dialog-title" mat-dialog-title>Yeni Kategori Oluştur</h2>
+      <h2 mat-dialog-title align="center">Yeni Kategori Oluştur</h2>
       <div class="form-group">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Başlık</mat-label>
-          <input type="text" matInput formControlName="title" />
+          <input type="text" matInput formControlName="title"/>
           @if (title.hasError('required') && title.touched) {
             <mat-error>Başlık zorunludur</mat-error>
           }
@@ -15,12 +15,12 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Sıralama</mat-label>
-          <input matInput type="number" formControlName="orderBy" min="0" />
+          <input matInput type="number" formControlName="orderBy" min="0"/>
           @if (orderBy.hasError('min') && orderBy.touched) {
             <mat-error>Eksi Değer girilemez</mat-error>
           }
         </mat-form-field>
-        <mat-checkbox align="end" formControlName="isActive"> Aktif </mat-checkbox>
+        <mat-checkbox labelPosition="after" formControlName="isActive"> Aktif</mat-checkbox>
       </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end">

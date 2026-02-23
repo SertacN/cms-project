@@ -1,32 +1,68 @@
 <div class="dialog-wrapper">
-  <form [formGroup]="editCategoryModel" (ngSubmit)="editCategory()">
-    <mat-dialog-content>
-      <h2 class="dialog-title">Kategori Düzenle</h2>
-      <div class="form-group">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Başlık</mat-label>
-          <input type="text" matInput formControlName="title" />
-          @if (title.touched && title.hasError('minlength')) {
-            <mat-error>En az 3 karakter olmalı</mat-error>
-          }
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>URL Adresi (CEO)</mat-label>
-          <input type="text" matInput formControlName="sefUrl" />
-          <mat-hint>Boş bırakılırsa otomatik oluşur</mat-hint>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Sıra</mat-label>
-          <input type="number" matInput formControlName="orderBy" />
-        </mat-form-field>
-        <mat-checkbox align="end" formControlName="isActive"> Aktif </mat-checkbox>
+  <mat-tab-group dynamicHeight>
+    <mat-tab label="Kategori Düzenle">
+      <form [formGroup]="editCategoryModel" (ngSubmit)="editCategory()">
+        <mat-dialog-content>
+          <!--  <h2 mat-dialog-title align="center">Kategori Düzenle</h2> -->
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Başlık</mat-label>
+              <input type="text" matInput formControlName="title"/>
+              @if (title.touched && title.hasError('minlength')) {
+                <mat-error>En az 3 karakter olmalı</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>URL Adresi (CEO)</mat-label>
+              <input type="text" matInput formControlName="sefUrl"/>
+              <mat-hint>Boş bırakılırsa otomatik oluşur</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Sıra</mat-label>
+              <input type="number" matInput formControlName="orderBy"/>
+            </mat-form-field>
+            <mat-checkbox labelPosition="before" formControlName="isActive"> Aktif</mat-checkbox>
+          </div>
+        </mat-dialog-content>
+        <mat-dialog-actions align="end">
+          <button type="button" mat-raised-button (click)="close()">İptal</button>
+          <button type="button" mat-raised-button (click)="deleteCategory()">Sil</button>
+          <button type="submit" mat-flat-button [disabled]="editCategoryModel.invalid || isLoading()">
+            Düzenle
+          </button>
+        </mat-dialog-actions>
+      </form>
+    </mat-tab>
+    <mat-tab label="Parametreler">
+      <div class="tab-content-wrapper">
+        <button mat-stroked-button color="primary" class="mb-2" (click)="getContentParametersDefinition()">
+          Parametre tanım detayları
+        </button>
+
+        @if (categoryDetailsData()?.parameterDefinitions?.length > 0) {
+          <div class="parameter-list">
+            @for (param of categoryDetailsData().parameterDefinitions; track param.id) {
+              <div class="parameter-item">
+                <div class="parameter-info">
+                  <span class="parameter-label">{{ param.label }}</span>
+                  <span class="parameter-name">({{ param.name }})</span>
+                </div>
+                <div class="parameter-details">
+                  <span class="badge">{{ param.type }}</span>
+                  @if (param.isRequired) {
+                    <span class="badge danger">Zorunlu</span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty-message">
+            <p>Bu kategoriye ait parametre tanımı bulunmamaktadır.</p>
+          </div>
+        }
       </div>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button type="button" mat-raised-button (click)="close()">İptal</button>
-      <button type="submit" mat-flat-button [disabled]="editCategoryModel.invalid || isLoading()">
-        Düzenle
-      </button>
-    </mat-dialog-actions>
-  </form>
+    </mat-tab>
+  </mat-tab-group>
+
 </div>

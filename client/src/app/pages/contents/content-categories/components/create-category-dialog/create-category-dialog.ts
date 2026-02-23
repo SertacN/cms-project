@@ -1,12 +1,17 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ContentCategoriesService } from '../../../../../core/services/contents';
-import { MatButtonModule } from '@angular/material/button';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDividerModule } from '@angular/material/divider';
 import { CreateCategoryDto } from '../../../../../core/services/contents/interfaces/categories';
 @Component({
   selector: 'app-create-category-dialog',
@@ -20,6 +25,7 @@ import { CreateCategoryDto } from '../../../../../core/services/contents/interfa
     FormsModule,
     ReactiveFormsModule,
     MatDividerModule,
+    MatDialogTitle,
   ],
   templateUrl: './create-category-dialog.html',
   styleUrl: './create-category-dialog.css',
@@ -54,6 +60,9 @@ export class CreateCategoryDialog {
         this.dialogRef.close(false);
       },
     });
+  }
+  deneme() {
+    return 'deneme';
   }
   // Getter
   get title() {

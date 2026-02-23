@@ -63,4 +63,11 @@ export class ContentCategoriesService {
         }),
       );
   }
+  deleteCategory(id: number): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.apiUrl}/${id}`, { headers: this.headers }).pipe(
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => new Error(`Veri silinemedi! (Hata Kodu: ${err.status})`));
+      }),
+    );
+  }
 }

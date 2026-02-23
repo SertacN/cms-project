@@ -49,9 +49,6 @@ export class ParametersDefinitionService {
         categoryId,
       },
     });
-    if (categoryParams.length <= 0) {
-      throw new NotFoundException('Kategoriye ait parametre bulunamadı');
-    }
     return {
       success: true,
       message: 'Parametreler başarıyla listelendi.',
