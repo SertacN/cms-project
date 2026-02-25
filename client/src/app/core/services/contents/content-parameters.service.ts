@@ -21,4 +21,12 @@ export class ContentParametersService {
       }),
     );
   }
+
+  createContentsParametersDefinition(data: any[]): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(this.apiUrl, data, { headers: this.headers }).pipe(
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => new Error(`İşlem başarısız! (Hata Kodu: ${err.status})`));
+      }),
+    );
+  }
 }

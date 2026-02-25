@@ -36,7 +36,9 @@ export class Login {
     this.authService.login(credintial).subscribe({
       next: (response) => {
         this.isLoading.set(false);
-        if (response.success !== 1) {
+        if (response.success === 1) {
+          window.location.href = '/dashboard';
+        } else {
           this.errorMessage.set(response.message || 'Login sırasında bir hata oluştu');
         }
       },

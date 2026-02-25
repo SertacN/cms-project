@@ -35,8 +35,8 @@
     </mat-tab>
     <mat-tab label="Parametreler">
       <div class="tab-content-wrapper">
-        <button mat-stroked-button color="primary" class="mb-2" (click)="getContentParametersDefinition()">
-          Parametre tanım detayları
+        <button mat-stroked-button color="primary" class="mb-2" (click)="openCreateParameterDialog()">
+          Parametre Ekle
         </button>
 
         @if (categoryDetailsData()?.parameterDefinitions?.length > 0) {

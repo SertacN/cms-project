@@ -15,13 +15,14 @@ export class AuthService {
 
   private _isAuthenticated = signal<boolean>(false);
   isAuthenticated = computed(() => this._isAuthenticated());
+  private _isChecking = signal<boolean>(false);
+  isChecking = computed(() => this._isChecking());
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
       tap((response) => {
         if (response.success === 1) {
           this._isAuthenticated.set(true);
-          this.router.navigate(['/dashboard']);
         }
       }),
     );
@@ -41,6 +42,10 @@ export class AuthService {
   }
 
   checkAuth(): Observable<boolean> {
+    if (this._isAuthenticated()) return of(true);
+    if (this._isChecking()) return of(false); // Or handle concurrent calls better
+
+    this._isChecking.set(true);
     return this.refreshToken().pipe(
       map((response) => {
         const isAuth = response.success === 1;
@@ -51,6 +56,7 @@ export class AuthService {
         this._isAuthenticated.set(false);
         return of(false);
       }),
+      tap(() => this._isChecking.set(false)),
     );
   }
 }

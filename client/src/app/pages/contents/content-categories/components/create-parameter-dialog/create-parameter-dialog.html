@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>Yeni Parametre Ekle</h2>
+<form [formGroup]="parameterForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="form-container">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Parametre Adı (Teknik)</mat-label>
+        <input matInput formControlName="name" placeholder="örneğin: passenger_count"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Görünen Etiket</mat-label>
+        <input matInput formControlName="label" placeholder="örneğin: Yolcu Sayısı"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Tip</mat-label>
+        <mat-select formControlName="type" (selectionChange)="onTypeChange()">
+          @for (type of parameterTypes; track type.value) {
+            <mat-option [value]="type.value">{{ type.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="isRequired">Zorunlu Alan</mat-checkbox>
+
+      @if (parameterForm.get('type')?.value === 'SELECT') {
+        <div class="options-container">
+          <div class="options-header">
+            <h3>Seçenekler</h3>
+            <button type="button" mat-icon-button color="primary" (click)="addOption()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+
+          <div formArrayName="options">
+            @for (option of options.controls; track $index) {
+              <div class="option-row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Seçenek {{ $index + 1 }}</mat-label>
+                  <input matInput [formControlName]="$index"/>
+                </mat-form-field>
+                <button type="button" mat-icon-button color="warn" (click)="removeOption($index)"
+                        [disabled]="options.length === 1">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-button (click)="close()">İptal</button>
+    <button type="submit" mat-flat-button color="primary" [disabled]="parameterForm.invalid">Ekle</button>
+  </mat-dialog-actions>
+</form>

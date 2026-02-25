@@ -39,7 +39,7 @@ export class ContentCategories {
   // Create Category
   openCreateCategoryDialog() {
     const dialogRef = this.dialog.open(CreateCategoryDialog, {
-      width: '500px',
+      width: '1000px',
       ariaLabel: 'Create Category Dialog',
       disableClose: true,
     });
@@ -53,7 +53,7 @@ export class ContentCategories {
   // Edit Category
   editCategoryDialog(categoryId: number) {
     const dialogRef = this.dialog.open(EditCategoryDialog, {
-      width: '750px',
+      width: '1000px',
       ariaLabel: 'Edit Category Dialog',
       disableClose: true,
       data: {

@@ -5,6 +5,7 @@ import {
   MatDialogRef,
   MatDialogActions,
   MatDialogContent,
+  MatDialog,
 } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ContentCategoriesService } from '../../../../../core/services/contents';
@@ -20,6 +21,7 @@ import {
 } from '../../../../../core/services/contents/interfaces/categories';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ContentParametersService } from '../../../../../core/services/contents/content-parameters.service';
+import { CreateParameterDialog } from '../create-parameter-dialog/create-parameter-dialog';
 
 @Component({
   selector: 'app-edit-category-dialog',
@@ -46,6 +48,7 @@ export class EditCategoryDialog {
   private snackBar = inject(MatSnackBar);
   private contentCategoriesService = inject(ContentCategoriesService);
   private contentParametersService = inject(ContentParametersService);
+  private dialog = inject(MatDialog);
   private data = inject<EditCategoryDialogInterface>(MAT_DIALOG_DATA);
   // Signals
   isLoading = signal<boolean>(false);
@@ -65,8 +68,13 @@ export class EditCategoryDialog {
   // Load category details
   private loadCategoryEffect = effect(() => {
     const id = this.editingId();
-    if (!id) return;
-
+    if (!id) {
+      this.snackBar.open(`${this.editingId()} ID Bulunamadı`, 'Tamam', {
+        duration: 5000,
+      });
+      this.dialogRef.close(false);
+      return;
+    }
     this.isLoading.set(true);
 
     this.contentCategoriesService.getCategoryDetails(id.toString()).subscribe({
@@ -74,7 +82,6 @@ export class EditCategoryDialog {
         this.isLoading.set(false);
         if (res.success && res.data) {
           this.categoryDetailsData.set(res.data);
-          console.log(this.categoryDetailsData());
           const categoryData: CategoryDetailsDialog = res.data as CategoryDetailsDialog;
           this.editCategoryModel.patchValue({
             title: categoryData.title,
@@ -99,7 +106,9 @@ export class EditCategoryDialog {
       next: () => {
         this.isLoading.set(false);
         this.dialogRef.close(true);
-        this.snackBar.open('Kategori Düzenlendi', 'Tamam');
+        this.snackBar.open('Kategori Düzenlendi', 'Tamam', {
+          duration: 5000,
+        });
       },
       error: () => {
         this.isLoading.set(false);
@@ -108,8 +117,9 @@ export class EditCategoryDialog {
     });
   }
   deleteCategory() {
-    const snackBarRef = this.snackBar.open('Silmek istiyor musunuz?', 'Tamam', {
+    const snackBarRef = this.snackBar.open('Silmek istiyor musunuz?', 'Evet', {
       duration: 5000,
+      horizontalPosition: 'center',
     });
 
     snackBarRef.onAction().subscribe(() => {
@@ -120,7 +130,7 @@ export class EditCategoryDialog {
           this.isLoading.set(false);
           this.dialogRef.close(true);
           this.snackBar.open('Kategori silindi', 'Tamam', {
-            duration: 3000,
+            duration: 5000,
           });
         },
         error: () => {
@@ -132,11 +142,52 @@ export class EditCategoryDialog {
   getContentParametersDefinition() {
     this.contentParametersService.getContentsParametersDefinition(this.editingId()!).subscribe({
       next: (res) => {
-        console.log(res);
+        if (res.success && res.data) {
+          this.categoryDetailsData.update((prev: any) => ({
+            ...prev,
+            parameterDefinitions: res.data,
+          }));
+        }
       },
-      error: (err) => {
+      error: () => {
         this.isLoading.set(false);
       },
+    });
+  }
+
+  openCreateParameterDialog() {
+    const dialogRef = this.dialog.open(CreateParameterDialog, {
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const payload = [
+          {
+            ...result,
+            categoryId: this.editingId(),
+          },
+        ];
+
+        this.isLoading.set(true);
+        this.contentParametersService.createContentsParametersDefinition(payload).subscribe({
+          next: (res) => {
+            this.isLoading.set(false);
+            if (res.success) {
+              this.snackBar.open('Parametre başarıyla eklendi', 'Tamam', {
+                duration: 3000,
+              });
+              this.getContentParametersDefinition();
+            }
+          },
+          error: (err) => {
+            this.isLoading.set(false);
+            this.snackBar.open(err.message || 'Parametre eklenirken bir hata oluştu', 'Tamam', {
+              duration: 5000,
+            });
+          },
+        });
+      }
     });
   }
   // Getter
