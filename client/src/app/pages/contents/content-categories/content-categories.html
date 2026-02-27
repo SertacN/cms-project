@@ -16,6 +16,7 @@
                 <button
                   (click)="editCategoryActivated(category.id, $event, false)"
                   [disabled]="isLoading()"
+                  matIconButton
                 >
                   <lucide-angular name="check" class="check c-pointer"></lucide-angular>
                 </button>
@@ -23,6 +24,7 @@
                 <button
                   (click)="editCategoryActivated(category.id, $event, true)"
                   [disabled]="isLoading()"
+                  matIconButton
                 >
                   <lucide-angular name="x" class="times c-pointer"></lucide-angular>
                 </button>
@@ -31,7 +33,7 @@
                 <lucide-angular name="pencil"></lucide-angular>
               </button>
               <a [routerLink]="[category.id]" routerLinkActive="active" class="category-item"
-                ><span>{{ category.title }}</span>
+              ><span>{{ category.title }}</span>
                 <lucide-angular name="chevron-right"></lucide-angular>
               </a>
             </li>
