@@ -1,8 +1,8 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateParametersDefinitionDto, EditCategoryParametersDto } from './dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ContentParameterDefinition, Prisma } from '@prisma/client';
-import { ApiResponse } from 'src/common/types';
+import { ServiceResponse } from 'src/common/types';
 
 @Injectable()
 export class ParametersDefinitionService {
@@ -11,7 +11,7 @@ export class ParametersDefinitionService {
   // All error using Global Exception Filter with Winston
   async createCategoryParameters(
     dto: CreateParametersDefinitionDto | CreateParametersDefinitionDto[],
-  ): Promise<ApiResponse<ContentParameterDefinition[]>> {
+  ): Promise<ServiceResponse<ContentParameterDefinition[]>> {
     const dataArray = Array.isArray(dto) ? dto : [dto];
     try {
       const results = await this.prisma.$transaction(
@@ -23,7 +23,6 @@ export class ParametersDefinitionService {
       );
 
       return {
-        success: true,
         message: `${results.length} adet parametre başarıyla oluşturuldu.`,
         data: results, // Public tipi sayesinde hassas alanlar filtrelenmiş olur
       };
@@ -43,14 +42,13 @@ export class ParametersDefinitionService {
     }
   }
 
-  async getCategoryParametersById(categoryId: number): Promise<ApiResponse<ContentParameterDefinition[]>> {
+  async getCategoryParametersById(categoryId: number): Promise<ServiceResponse<ContentParameterDefinition[]>> {
     const categoryParams = await this.prisma.contentParameterDefinition.findMany({
       where: {
         categoryId,
       },
     });
     return {
-      success: true,
       message: 'Parametreler başarıyla listelendi.',
       data: categoryParams,
     };
@@ -59,7 +57,7 @@ export class ParametersDefinitionService {
   async editCategoryParametersById(
     categoryId: number,
     dto: EditCategoryParametersDto,
-  ): Promise<ApiResponse<ContentParameterDefinition[]>> {
+  ): Promise<ServiceResponse<ContentParameterDefinition[]>> {
     // 1. Önce kategorinin gerçekten var olup olmadığını kontrol et
     const categoryExists = await this.prisma.contentCategory.findUnique({
       where: {
@@ -96,7 +94,6 @@ export class ParametersDefinitionService {
       );
 
       return {
-        success: true,
         message: 'Parametreler başarıyla güncellendi.',
         data: results,
       };
@@ -115,7 +112,7 @@ export class ParametersDefinitionService {
     }
   }
 
-  async deleteCategoryParametersById(parameterId: number): Promise<ApiResponse<ContentParameterDefinition>> {
+  async deleteCategoryParametersById(parameterId: number): Promise<ServiceResponse<ContentParameterDefinition>> {
     const parameter = await this.prisma.contentParameterDefinition.findUnique({
       where: {
         id: parameterId,
@@ -130,7 +127,6 @@ export class ParametersDefinitionService {
       },
     });
     return {
-      success: true,
       message: 'Parametre başarıyla silindi.',
     };
   }

@@ -17,7 +17,7 @@ import { JwtGuard } from 'src/auth/guard';
 import { ApiKeyGuard, RolesGuard } from 'src/common/guards';
 import { Roles } from 'src/common/decorators';
 import { ContentFile, Role } from '@prisma/client';
-import { ApiResponse } from 'src/common/types';
+import { ServiceResponse } from 'src/common/types';
 import { UpdateFileOrderDto } from './dto';
 
 @UseGuards(JwtGuard, ApiKeyGuard, RolesGuard)
@@ -47,7 +47,7 @@ export class FilesController {
   async uploadContentFile(
     @Param('id', ParseIntPipe) contentId: number,
     @UploadedFile() file: Express.Multer.File,
-  ): Promise<ApiResponse<ContentFile>> {
+  ): Promise<ServiceResponse<ContentFile>> {
     if (!file) {
       throw new BadRequestException('Dosya bulunamadı');
     }
@@ -58,7 +58,7 @@ export class FilesController {
   async setThumbnail(
     @Param('contentId', ParseIntPipe) contentId: number,
     @Param('fileId', ParseIntPipe) fileId: number,
-  ): Promise<ApiResponse<ContentFile>> {
+  ): Promise<ServiceResponse<ContentFile>> {
     return this.filesService.setThumbnail(contentId, fileId);
   }
 

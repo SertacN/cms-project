@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CategoriesService } from '../categories/categories.service';
 import { CreatePostDto, EditPostDto, GetAllPostDto } from './dto';
 import { generateUniqueUrl, getByIdentifier } from 'src/common/utils';
-import { ApiResponse, Pagination, Public } from 'src/common/types';
+import { ServiceResponse, Pagination, Public } from 'src/common/types';
 import { Content, Prisma } from '@prisma/client';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class PostsService {
 
   // All error using Global Exception Filter with Winston
   // Admin
-  async createPost(dto: CreatePostDto): Promise<ApiResponse<Public<Content>>> {
+  async createPost(dto: CreatePostDto): Promise<ServiceResponse<Public<Content>>> {
     // getCategoryDetails içerisinde NotFoundException mevcut
     await this.categoriesService.getCategoryDetails(dto.categoryId);
     const sefUrl = await generateUniqueUrl(dto.title, this.prisma.content);
@@ -38,7 +38,6 @@ export class PostsService {
       },
     });
     return {
-      success: true,
       message: 'İçerik Başarıyla Oluşturuldu',
       data: result,
     };
@@ -65,7 +64,6 @@ export class PostsService {
       }),
     ]);
     return {
-      success: true,
       message: 'Content Fetched successfully',
       data: contents,
       meta: {
@@ -74,7 +72,7 @@ export class PostsService {
     };
   }
 
-  async getPostById(postId: number): Promise<ApiResponse<Content>> {
+  async getPostById(postId: number): Promise<ServiceResponse<Content>> {
     const content = await this.prisma.content.findFirst({
       where: {
         id: postId,
@@ -96,13 +94,12 @@ export class PostsService {
     }
 
     return {
-      success: true,
       message: `${postId} ID'li içerik bilgileri başarıyla çekildi`,
       data: content,
     };
   }
 
-  async editPostById(postId: number, dto: EditPostDto): Promise<ApiResponse<Content>> {
+  async editPostById(postId: number, dto: EditPostDto): Promise<ServiceResponse<Content>> {
     try {
       return await this.prisma.$transaction(async (tx) => {
         const content = await tx.content.findUnique({
@@ -133,7 +130,6 @@ export class PostsService {
         }
 
         return {
-          success: true,
           message: `${postId} ID'li içerik başarıyla güncellendi`,
           data: updated,
         };
@@ -153,7 +149,7 @@ export class PostsService {
     }
   }
 
-  async deletePostById(postId: number): Promise<ApiResponse<Content>> {
+  async deletePostById(postId: number): Promise<ServiceResponse<Content>> {
     const result = await this.prisma.content.updateMany({
       where: {
         id: postId,
@@ -171,13 +167,12 @@ export class PostsService {
     }
 
     return {
-      success: true,
       message: `${postId}' ID'li kayıt başarıyla silindi.`,
     };
   }
 
   // Public
-  async getAllPosts(pagination: Pagination, postDto: GetAllPostDto): Promise<ApiResponse<Public<Content>[]>> {
+  async getAllPosts(pagination: Pagination, postDto: GetAllPostDto): Promise<ServiceResponse<Public<Content>[]>> {
     const [contents, total] = await Promise.all([
       this.prisma.content.findMany({
         skip: pagination.skip,
@@ -203,7 +198,6 @@ export class PostsService {
       }),
     ]);
     return {
-      success: true,
       message: 'Content Fetched successfully',
       data: contents,
       meta: {
@@ -212,7 +206,7 @@ export class PostsService {
     };
   }
 
-  async getPostDetails(identifier: number | string): Promise<ApiResponse<Public<Content>>> {
+  async getPostDetails(identifier: number | string): Promise<ServiceResponse<Public<Content>>> {
     const post = await this.prisma.content.findFirst({
       where: getByIdentifier(identifier, { isDeleted: false, isActive: true }),
       select: {
@@ -236,7 +230,6 @@ export class PostsService {
     }
 
     return {
-      success: true,
       message: `${identifier} İçerik Bilgileri Başarıyla Çekildi`,
       data: post,
     };

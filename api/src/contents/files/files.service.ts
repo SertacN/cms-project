@@ -1,8 +1,8 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { ContentFile } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import path from 'path';
-import { ApiResponse } from 'src/common/types';
+import { ServiceResponse } from 'src/common/types';
 import { deleteFileFromDisk, getFileTypeFromMime, saveFileToDisk } from 'src/common/utils';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateFileOrderDto } from './dto';
@@ -12,7 +12,7 @@ export class FilesService {
   constructor(private prisma: PrismaService) {}
 
   // All error using Global Exception Filter with Winston
-  async uploadFile(contentId: number, file: Express.Multer.File): Promise<ApiResponse<ContentFile>> {
+  async uploadFile(contentId: number, file: Express.Multer.File): Promise<ServiceResponse<ContentFile>> {
     // 1. Content var mı?
     const content = await this.prisma.content.findUnique({
       where: {
@@ -48,7 +48,6 @@ export class FilesService {
       });
 
       return {
-        success: true,
         message: 'Dosya oluşturuldu',
         data: contentFile,
       };
@@ -60,7 +59,7 @@ export class FilesService {
     }
   }
 
-  async setThumbnail(contentId: number, fileId: number): Promise<ApiResponse<ContentFile>> {
+  async setThumbnail(contentId: number, fileId: number): Promise<ServiceResponse<ContentFile>> {
     const file = await this.prisma.contentFile.findUnique({
       where: {
         id: fileId,
@@ -92,13 +91,12 @@ export class FilesService {
     });
 
     return {
-      success: true,
       message: 'Thumbnail başarıyla ayarlandı',
     };
   }
 
   // Drag & Drop uyumlu fileIds: [3,1,2]
-  async updateFileOrder(contentId: number, dto: UpdateFileOrderDto): Promise<ApiResponse<ContentFile>> {
+  async updateFileOrder(contentId: number, dto: UpdateFileOrderDto): Promise<ServiceResponse<ContentFile>> {
     const files = await this.prisma.contentFile.findMany({
       where: {
         contentId,
@@ -122,12 +120,11 @@ export class FilesService {
     );
 
     return {
-      success: true,
       message: 'Dosya sıralaması güncellendi',
     };
   }
 
-  async deleteFile(contentId: number, fileId: number): Promise<ApiResponse<ContentFile>> {
+  async deleteFile(contentId: number, fileId: number): Promise<ServiceResponse<ContentFile>> {
     // 1. Dosya var mı & bu content’e mi ait?
     const file = await this.prisma.contentFile.findFirst({
       where: {
@@ -177,7 +174,6 @@ export class FilesService {
     }
 
     return {
-      success: true,
       message: 'Dosya başarıyla silindi',
     };
   }

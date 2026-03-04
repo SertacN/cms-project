@@ -4,7 +4,7 @@ import { type Cache } from 'cache-manager';
 import { JwtGuard } from 'src/auth/guard';
 import { Roles } from 'src/common/decorators';
 import { ApiKeyGuard, RolesGuard } from 'src/common/guards';
-import { ApiResponse } from 'src/common/types';
+import {  ServiceResponse } from 'src/common/types';
 import { SettingsService } from './settings.service';
 
 @UseGuards(JwtGuard, ApiKeyGuard, RolesGuard)
@@ -15,7 +15,7 @@ export class SettingsController {
 
   @Delete('cache/clear')
   @HttpCode(HttpStatus.OK)
-  async clearCache(): Promise<ApiResponse<Cache>> {
+  async clearCache() {
     return this.settingsService.clearCache();
   }
 }

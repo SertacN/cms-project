@@ -24,7 +24,6 @@ export class AuthService {
       });
       const { password, ...result } = user;
       return {
-        success: true,
         message: 'User created successfully',
         data: result,
       };

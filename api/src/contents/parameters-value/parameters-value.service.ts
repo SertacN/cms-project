@@ -1,7 +1,7 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateParameterValuesDto, DeleteParameterValueDto } from './dto';
-import { ApiResponse } from 'src/common/types';
+import { ServiceResponse } from 'src/common/types';
 import { ContentParameterValue, Prisma } from '@prisma/client';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class ParametersValueService {
   constructor(private readonly prisma: PrismaService) {}
 
   // All error using Global Exception Filter with Winston
-  async createOrUpdateValues(dto: CreateParameterValuesDto): Promise<ApiResponse<any>> {
+  async createOrUpdateValues(dto: CreateParameterValuesDto): Promise<ServiceResponse<any>> {
     // ADIM 0: Önce İçerik Var mı Kontrol Et!
     const contentExists = await this.prisma.content.findUnique({
       where: {
@@ -41,7 +41,6 @@ export class ParametersValueService {
       });
 
       return {
-        success: true,
         message: 'İçerik parametreleri başarıyla kaydedildi.',
         data: result,
       };
@@ -56,7 +55,7 @@ export class ParametersValueService {
     }
   }
 
-  async deleteParamValue(dto: DeleteParameterValueDto): Promise<ApiResponse<ContentParameterValue>> {
+  async deleteParamValue(dto: DeleteParameterValueDto): Promise<ServiceResponse<ContentParameterValue>> {
     const result = await this.prisma.contentParameterValue.deleteMany({
       where: {
         contentId: dto.contentId,
@@ -68,7 +67,6 @@ export class ParametersValueService {
     }
 
     return {
-      success: true,
       message: 'Parametre değeri başarıyla silindi',
     };
   }

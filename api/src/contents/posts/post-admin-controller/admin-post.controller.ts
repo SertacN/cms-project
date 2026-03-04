@@ -15,7 +15,7 @@ import { JwtGuard } from 'src/auth/guard';
 import { PaginationParam, Roles } from 'src/common/decorators';
 import { ApiKeyGuard, RolesGuard } from 'src/common/guards';
 import { CreatePostDto, EditPostDto, GetAllPostDto } from '../dto';
-import { ApiResponse, type Pagination, Public } from 'src/common/types';
+import { type Pagination, Public, ServiceResponse } from 'src/common/types';
 import { PostsService } from '../posts.service';
 import { PaginationInterceptor } from 'src/common/interceptors';
 
@@ -25,7 +25,7 @@ import { PaginationInterceptor } from 'src/common/interceptors';
 export class AdminPostController {
   constructor(private postService: PostsService) {}
   @Post()
-  async createPost(@Body() dto: CreatePostDto): Promise<ApiResponse<Public<Content>>> {
+  async createPost(@Body() dto: CreatePostDto): Promise<ServiceResponse<Public<Content>>> {
     return this.postService.createPost(dto);
   }
 
@@ -36,7 +36,7 @@ export class AdminPostController {
   }
 
   @Get(':id')
-  async getPostById(@Param('id', ParseIntPipe) postId: number): Promise<ApiResponse<Content>> {
+  async getPostById(@Param('id', ParseIntPipe) postId: number): Promise<ServiceResponse<Content>> {
     return this.postService.getPostById(postId);
   }
 
@@ -44,7 +44,7 @@ export class AdminPostController {
   async editPostById(
     @Param('id', ParseIntPipe) postId: number,
     @Body() dto: EditPostDto,
-  ): Promise<ApiResponse<Content>> {
+  ): Promise<ServiceResponse<Content>> {
     return this.postService.editPostById(postId, dto);
   }
 

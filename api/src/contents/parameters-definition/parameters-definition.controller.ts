@@ -15,7 +15,7 @@ import { JwtGuard } from 'src/auth/guard';
 import { ApiKeyGuard } from 'src/common/guards';
 import { CreateParametersDefinitionDto, EditCategoryParametersDto } from './dto';
 import { ContentParameterDefinition } from '@prisma/client';
-import { ApiResponse } from 'src/common/types';
+import { ServiceResponse } from 'src/common/types';
 
 @UseGuards(JwtGuard, ApiKeyGuard)
 @Controller('contents/parameters-definition')
@@ -31,14 +31,14 @@ export class ParametersDefinitionController {
       }),
     )
     dtos: CreateParametersDefinitionDto | CreateParametersDefinitionDto[],
-  ): Promise<ApiResponse<ContentParameterDefinition[]>> {
+  ): Promise<ServiceResponse<ContentParameterDefinition[]>> {
     return this.parametersService.createCategoryParameters(dtos);
   }
 
   @Get(':id')
   async getCategoryParametersById(
     @Param('id', ParseIntPipe) categoryId: number,
-  ): Promise<ApiResponse<ContentParameterDefinition[]>> {
+  ): Promise<ServiceResponse<ContentParameterDefinition[]>> {
     return this.parametersService.getCategoryParametersById(categoryId);
   }
 
@@ -46,14 +46,14 @@ export class ParametersDefinitionController {
   async editCategoryParametersById(
     @Param('id', ParseIntPipe) categoryId: number,
     @Body() dto: EditCategoryParametersDto,
-  ): Promise<ApiResponse<ContentParameterDefinition[]>> {
+  ): Promise<ServiceResponse<ContentParameterDefinition[]>> {
     return this.parametersService.editCategoryParametersById(categoryId, dto);
   }
 
   @Delete(':id')
   async deleteCategoryParametersById(
     @Param('id', ParseIntPipe) parameterId: number,
-  ): Promise<ApiResponse<ContentParameterDefinition>> {
+  ): Promise<ServiceResponse<ContentParameterDefinition>> {
     return this.parametersService.deleteCategoryParametersById(parameterId);
   }
 }

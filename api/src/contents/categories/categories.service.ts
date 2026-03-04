@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCategoryDto, EditCategoryDto } from './dto';
 import { generateUniqueUrl, getByIdentifier } from 'src/common/utils';
-import { ApiResponse, Public } from 'src/common/types';
+import { ServiceResponse, Public } from 'src/common/types';
 import { ContentCategory } from '@prisma/client';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class CategoriesService {
 
   // All error using Global Exception Filter with Winston
   // TODO: Kategorinin alt kategorisi oluşturma denensin
-  async createCategory(dto: CreateCategoryDto): Promise<ApiResponse<Public<ContentCategory>>> {
+  async createCategory(dto: CreateCategoryDto): Promise<ServiceResponse<Public<ContentCategory>>> {
     const finalUrl = await generateUniqueUrl(dto.title, this.prisma.contentCategory);
     const category = await this.prisma.contentCategory.create({
       data: {
@@ -31,13 +31,12 @@ export class CategoriesService {
       },
     });
     return {
-      success: true,
       message: 'Category created successfully',
       data: category,
     };
   }
 
-  async getAllCategory(): Promise<ApiResponse<Public<ContentCategory>[]>> {
+  async getAllCategory(): Promise<ServiceResponse<Public<ContentCategory>[]>> {
     const categories = await this.prisma.contentCategory.findMany({
       where: {
         isDeleted: false,
@@ -56,13 +55,12 @@ export class CategoriesService {
       orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
     });
     return {
-      success: true,
       message: 'Categories fetched successfully',
       data: categories,
     };
   }
   // ID ve SefUrl ile birlikte çalışır(hangisi gönderilirse)
-  async getCategoryDetails(identifier: number | string): Promise<ApiResponse<Public<ContentCategory>>> {
+  async getCategoryDetails(identifier: number | string): Promise<ServiceResponse<Public<ContentCategory>>> {
     const category = await this.prisma.contentCategory.findFirst({
       where: getByIdentifier(identifier, { isDeleted: false }),
       select: {
@@ -82,13 +80,12 @@ export class CategoriesService {
       throw new NotFoundException(`Category ${identifier} not found`);
     }
     return {
-      success: true,
       message: 'Category fetched successfully',
       data: category,
     };
   }
   // Tekil tablo işlemi. Transaction kullanılmadı.
-  async editCategoryById(categoryId: number, dto: EditCategoryDto): Promise<ApiResponse<Public<ContentCategory>>> {
+  async editCategoryById(categoryId: number, dto: EditCategoryDto): Promise<ServiceResponse<Public<ContentCategory>>> {
     const category = await this.prisma.contentCategory.findUnique({
       where: {
         id: categoryId,
@@ -109,13 +106,12 @@ export class CategoriesService {
       data: dto,
     });
     return {
-      success: true,
       message: 'Category updated successfully',
       data: updatedCategory,
     };
   }
   // Data geri döndürülmediği için UpdateMany ile Soft Delete
-  async deleteCategoryById(categoryId: number): Promise<ApiResponse<Public<ContentCategory>>> {
+  async deleteCategoryById(categoryId: number): Promise<ServiceResponse<Public<ContentCategory>>> {
     const result = await this.prisma.contentCategory.updateMany({
       where: {
         id: categoryId,
@@ -131,7 +127,6 @@ export class CategoriesService {
       throw new NotFoundException(`${categoryId} ID'li Kategori Bulunamadı`);
     }
     return {
-      success: true,
       message: `${categoryId} ID'li Kategori Başarıyla Silindi`,
     };
   }

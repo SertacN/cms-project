@@ -35,7 +35,6 @@ export class ProjectService {
       }),
     ]);
     return {
-      success: true,
       message: 'Projects fetched successfully',
       data: projects,
       meta: {
@@ -55,7 +54,7 @@ export class ProjectService {
       throw new NotFoundException(`Project ID ${projectId} not found`);
     }
     const { isDeleted, deletedAt, ...projectData } = project;
-    return projectData;
+    return { message: 'Project fetched successfully', data: projectData };
   }
   // Get Project By SEF
   async getProjectBySef(projectSef: string) {
@@ -69,7 +68,7 @@ export class ProjectService {
       throw new NotFoundException(`Project SEF ${projectSef} not found`);
     }
     const { isDeleted, deletedAt, ...projectData } = project;
-    return projectData;
+    return { message: 'Project fetched successfully', data: projectData };
   }
   // Create Project
   async createProject(dto: CreateProjectDto, file?: Express.Multer.File) {
@@ -126,7 +125,6 @@ export class ProjectService {
     });
     const { isDeleted, deletedAt, ...projectData } = updatedProject;
     return {
-      success: true,
       message: 'Project updated successfully',
       data: { projectData },
     };
@@ -152,7 +150,6 @@ export class ProjectService {
       },
     });
     return {
-      success: true,
       message: 'Project deleted successfully',
     };
   }

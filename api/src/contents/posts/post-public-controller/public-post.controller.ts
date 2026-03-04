@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, UseGuards, UseInterceptors } from '@nestj
 import { ApiKeyGuard } from 'src/common/guards';
 import { PostsService } from '../posts.service';
 import { GetAllPostDto } from '../dto';
-import { ApiResponse, type Pagination, Public } from 'src/common/types';
+import { type Pagination, Public, ServiceResponse } from 'src/common/types';
 import { Content } from '@prisma/client';
 import { parseIdentifier } from 'src/common/utils';
 import { PaginationInterceptor } from 'src/common/interceptors';
@@ -21,7 +21,7 @@ export class PublicPostController {
   async getAllPosts(
     @PaginationParam() pagination: Pagination,
     @Body() postDto: GetAllPostDto,
-  ): Promise<ApiResponse<Public<Content>[]>> {
+  ): Promise<ServiceResponse<Public<Content>[]>> {
     return this.postService.getAllPosts(pagination, postDto);
   }
 
