@@ -19,7 +19,9 @@ import { Roles } from 'src/common/decorators';
 import { ContentFile, Role } from '@prisma/client';
 import { ServiceResponse } from 'src/common/types';
 import { UpdateFileOrderDto } from './dto';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Content Files')
 @UseGuards(JwtGuard, ApiKeyGuard, RolesGuard)
 @Roles(Role.ADMIN)
 @Controller('contents/files')
@@ -27,6 +29,7 @@ export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
   // Upload files
+  @ApiOperation({summary: 'Upload file by content ID'})
   @Post(':id')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -37,7 +40,7 @@ export class FilesController {
         const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'video/mp4', 'application/pdf'];
 
         if (!allowedMimeTypes.includes(file.mimetype)) {
-          return callback(new BadRequestException('Desteklenmeyen dosya türü'), false);
+          return callback(new BadRequestException('Unsupported file type'), false);
         }
 
         callback(null, true);
@@ -49,11 +52,12 @@ export class FilesController {
     @UploadedFile() file: Express.Multer.File,
   ): Promise<ServiceResponse<ContentFile>> {
     if (!file) {
-      throw new BadRequestException('Dosya bulunamadı');
+      throw new BadRequestException('File not found');
     }
     return this.filesService.uploadFile(contentId, file);
   }
 
+  @ApiOperation({summary: 'Set thumbnail by content ID and file ID'})
   @Post('content/:contentId/thumbnail/:fileId')
   async setThumbnail(
     @Param('contentId', ParseIntPipe) contentId: number,
@@ -62,11 +66,13 @@ export class FilesController {
     return this.filesService.setThumbnail(contentId, fileId);
   }
 
+  @ApiOperation({summary: 'Update file order by content ID'})
   @Patch('order/:contentId')
   async updateFileOrder(@Param('contentId', ParseIntPipe) contentId: number, @Body() dto: UpdateFileOrderDto) {
     return this.filesService.updateFileOrder(contentId, dto);
   }
 
+  @ApiOperation({summary: 'Delete file by content ID and file ID'})
   @Delete('content/:contentId/file/:fileId')
   async deleteFile(@Param('contentId', ParseIntPipe) contentId: number, @Param('fileId', ParseIntPipe) fileId: number) {
     return this.filesService.deleteFile(contentId, fileId);

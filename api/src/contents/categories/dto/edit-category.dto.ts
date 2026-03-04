@@ -1,3 +1,4 @@
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsNumber,
@@ -8,23 +9,27 @@ import {
 } from 'class-validator';
 
 export class EditCategoryDto {
+  @ApiPropertyOptional({example: 'Blog'})
   @IsString()
   @IsOptional()
   @MinLength(3, { message: 'Title must be at least 3 characters long' })
   @MaxLength(50, { message: 'Title must be at most 50 characters long' })
-  title?: string;
+  declare title?: string;
 
+  @ApiPropertyOptional({example: 5})
   @IsNumber()
   @IsOptional()
-  orderBy?: number;
+  declare orderBy?: number;
 
+  @ApiPropertyOptional({example: true})
   @IsBoolean()
   @IsOptional()
-  isActive?: boolean;
+  declare isActive?: boolean;
 
+  @ApiPropertyOptional({example: 'blog-details'})
   @IsString()
   @IsOptional()
   @MinLength(3, { message: 'Title must be at least 3 characters long' })
   @MaxLength(50, { message: 'Title must be at most 50 characters long' })
-  sefUrl?: string;
+  declare sefUrl?: string;
 }

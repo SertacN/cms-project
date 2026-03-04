@@ -1,6 +1,4 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { envValidationSchema } from './config/env.validation';
 import { createWinstonConfig } from './config/winston.config';
@@ -16,12 +14,14 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { SettingsModule } from './settings/settings.module';
 import KeyvRedis from '@keyv/redis';
 import { HttpLoggerMiddleware } from './common/middleware/http-logger.middleware';
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: envValidationSchema,
+      envFilePath: '.env'
     }),
     PrismaModule,
     AuthModule,
@@ -65,9 +65,8 @@ import { HttpLoggerMiddleware } from './common/middleware/http-logger.middleware
     }),
     SettingsModule,
   ],
-  controllers: [AppController],
+  controllers: [HealthController],
   providers: [
-    AppService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,

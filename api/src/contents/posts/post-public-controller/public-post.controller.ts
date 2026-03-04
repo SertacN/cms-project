@@ -9,13 +9,16 @@ import { PaginationInterceptor } from 'src/common/interceptors';
 import { PaginationParam } from 'src/common/decorators';
 import { HttpCacheInterceptor } from 'src/common/interceptors/http-cache.interceptor';
 import { CacheTTL } from '@nestjs/cache-manager';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Public Post API')
 @UseGuards(ApiKeyGuard)
 @Controller('contents/posts')
 @UseInterceptors(HttpCacheInterceptor)
 export class PublicPostController {
   constructor(private readonly postService: PostsService) {}
 
+  @ApiOperation({summary: 'Get all posts'})
   @UseInterceptors(PaginationInterceptor)
   @Get()
   async getAllPosts(
@@ -25,6 +28,7 @@ export class PublicPostController {
     return this.postService.getAllPosts(pagination, postDto);
   }
 
+  @ApiOperation({summary: 'Get post By ID or URL'})
   @Get(':identifier')
   @CacheTTL(900000)
   async getPostDetils(@Param('identifier') identifier: string) {

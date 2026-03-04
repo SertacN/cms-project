@@ -1,38 +1,51 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ParameterType } from '@prisma/client';
 import {
   IsArray,
   IsBoolean,
   IsEnum,
   IsInt,
+  IsNotEmpty,
   IsOptional,
   IsString,
 } from 'class-validator';
 
 export class CreateParametersDefinitionDto {
+  @ApiProperty({example: 'Fabric Length'})
   @IsString()
-  name: string; // Veritabanı adı: 'renk', 'boyut'
+  @IsNotEmpty()
+  declare name: string; // DB name: 'color', 'size'
 
+  @ApiProperty({example: 'fabric-length'})
   @IsString()
-  label: string; // Arayüz adı: 'Ürün Rengi', 'Ekran Boyutu'
+  @IsNotEmpty()
+  declare label: string; // UI label: 'Product Color', 'Screen Size'
 
+  @ApiProperty({enum: ParameterType})
+  @IsNotEmpty()
   @IsEnum(ParameterType, {
     message:
-      'Geçersiz parametre tipi. Seçenekler: TEXT, NUMBER, SELECT, CHECKBOX, DATE, TEXTAREA',
+      'Invalid parameter type. Options: TEXT, NUMBER, SELECT, CHECKBOX, DATE, TEXTAREA',
   })
-  type: ParameterType; // 'text', 'select', 'number'
+  declare type: ParameterType;
 
-  @IsArray({ message: 'Options bir dizi (array) formatında olmalıdır.' })
+  @ApiPropertyOptional()
+  @IsArray({ message: 'Options must be an array.' })
   @IsOptional()
-  options?: string[]; // Eğer select ise 'Kırmızı,Mavi,Yeşil' gibi
+  declare options?: string[]; // If type is select, e.g. 'Red,Blue,Green'
 
+  @ApiPropertyOptional({example: false})
   @IsBoolean()
   @IsOptional()
-  isRequired?: boolean;
+  declare isRequired?: boolean;
 
+  @ApiPropertyOptional({example: 5})
   @IsInt()
   @IsOptional()
-  orderBy?: number;
+  declare orderBy?: number;
 
+  @ApiProperty({example: 3, description: 'Which category this belongs to'})
   @IsInt()
-  categoryId: number; // Hangi kategoriye ait olduğu
+  @IsNotEmpty()
+  declare categoryId: number;
 }

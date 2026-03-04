@@ -1,37 +1,54 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ParameterType } from '@prisma/client';
 import { Type } from 'class-transformer';
 import {
   IsArray,
   IsEnum,
   IsInt,
+  IsNotEmpty,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
 
 export class EditParameterItemDto {
+  @ApiPropertyOptional({example: 3, description: 'Update if exists, otherwise create'})
   @IsOptional()
   @IsInt()
-  id?: number; // Varsa Update, yoksa Create yapılacak
+  declare id?: number;
 
+
+  @ApiProperty({example: 'fabric-length'})
   @IsString()
-  name: string;
+  @IsNotEmpty()
+  declare name: string;
 
+  @ApiProperty({example: 'Fabric Length'})
   @IsString()
-  label: string;
+  @IsNotEmpty()
+  declare label: string;
 
-  @IsEnum(ParameterType)
-  type: ParameterType;
+  @ApiProperty({enum: ParameterType})
+  @IsEnum(ParameterType, {
+    message:
+      'Invalid parameter type. Options: TEXT, NUMBER, SELECT, CHECKBOX, DATE, TEXTAREA',
+  })
+  @IsNotEmpty()
+  declare type: ParameterType;
 
+  @ApiPropertyOptional()
   @IsOptional()
-  options?: string[];
+  @IsArray({ message: 'Options must be an array.' })
+  declare options?: string[];
 
+  @ApiPropertyOptional({example: 5})
   @IsOptional()
   @IsInt()
-  orderBy?: number;
+  declare orderBy?: number;
 }
 
 export class EditCategoryParametersDto {
+  @ApiProperty({ type: [EditParameterItemDto] })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => EditParameterItemDto)

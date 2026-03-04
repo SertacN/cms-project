@@ -7,6 +7,7 @@ import session from 'express-session';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AllExceptionsFilter } from './common/filters';
 import { ResponseTransformInterceptor } from './common/interceptors';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,12 +20,12 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: configService.get('FRONTEND_URL') as string,
+    origin: configService.get<string>('FRONTEND_URL') as string,
     credentials: true,
   });
   app.use(
     session({
-      secret: configService.get('SESSION_SECRET') as string,
+      secret: configService.get<string>('SESSION_SECRET') as string,
       resave: false,
       saveUninitialized: true,
       cookie: {
@@ -41,7 +42,16 @@ async function bootstrap() {
   app.useLogger(logger);
   app.useGlobalFilters(new AllExceptionsFilter(logger));
   app.useGlobalInterceptors(new ResponseTransformInterceptor());
-
+  if (configService.get<string>('NODE_ENV') !== 'production') {
+    const swaggerConfig = new DocumentBuilder()
+      .setTitle('Sertaç Can Dashboard API')
+      .setDescription('Sertaç Can backend API documentation')
+      .setVersion('1.0')
+      .addBearerAuth()
+      .build();
+    const document = SwaggerModule.createDocument(app, swaggerConfig);
+    SwaggerModule.setup('api/docs', app, document);
+  }
   await app.listen(configService.get('PORT') ?? 3000);
 }
 bootstrap();

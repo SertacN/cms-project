@@ -1,18 +1,26 @@
-import { IsInt, IsString, IsArray, ValidateNested } from 'class-validator';
+import { IsInt, IsString, IsArray, ValidateNested, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class ParameterValueItemDto {
+  @ApiProperty({example: 1, description: 'Parameter definition ID'})
   @IsInt()
-  definitionId: number; // Hangi parametre tanımı (Örn: Renk'in ID'si)
+  @IsNotEmpty()
+  declare definitionId: number;
 
+  @ApiProperty({example: 'Red', description: 'Selected or entered value'})
   @IsString()
-  value: string; // Seçilen veya yazılan değer (Örn: "Mavi")
+  @IsNotEmpty()
+  declare value: string;
 }
 
 export class CreateParameterValuesDto {
+  @ApiProperty({example: 1, description: 'Content ID this value belongs to'})
   @IsInt()
-  contentId: number; // Hangi içeriğe (Ürün/İlan) ait olduğu
+  @IsNotEmpty()
+  declare contentId: number;
 
+  @ApiProperty({ type: [ParameterValueItemDto] })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => ParameterValueItemDto)

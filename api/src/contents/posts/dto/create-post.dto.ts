@@ -1,28 +1,35 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreatePostDto {
+  @ApiProperty({example: 'My First Blog Post'})
   @IsString()
-  @MinLength(3, { message: 'Başlık en az 3 karakter olmalı' })
+  @MinLength(3, { message: 'Title must be at least 3 characters long' })
   @IsNotEmpty()
-  title: string;
+  declare title: string;
 
+  @ApiProperty({example: 1})
   @IsInt()
   @IsNotEmpty()
-  categoryId: number;
+  declare categoryId: number;
 
+  @ApiPropertyOptional({example: 'Short description'})
   @IsString()
   @IsOptional()
-  summary?: string;
+  declare summary?: string;
 
+  @ApiPropertyOptional({example: 'Long description'})
   @IsString()
   @IsOptional()
-  content?: string;
-
+  declare content?: string;
+  
+  @ApiPropertyOptional({example: true})
   @IsBoolean()
   @IsOptional()
-  isActive?: boolean;
+  declare isActive?: boolean;
 
+  @ApiPropertyOptional({example: 5})
   @IsInt()
   @IsOptional()
-  orderBy?: number;
+  declare orderBy?: number;
 }
