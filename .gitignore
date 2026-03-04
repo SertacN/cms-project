@@ -19,6 +19,11 @@ yarn-error.log*
 # 2. NestJS (API Klasörü)
 # --------------------
 
+# Environment dosyaları (gizli bilgiler içerir, asla commit edilmemeli)
+api/.env
+api/.env.local
+api/.env.*.local
+
 # NestJS proje klasörü (örneğin: /api)
 # Eğer NestJS projeniz ana klasörde değil de bir alt klasördeyse
 # bu yolları o klasöre göre ayarlayabilirsiniz (örn. /api/dist)

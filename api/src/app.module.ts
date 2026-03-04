@@ -72,10 +72,17 @@ import KeyvRedis from '@keyv/redis';
     CacheModule.registerAsync({
       isGlobal: true,
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        stores: new KeyvRedis('redis://localhost:6379'),
-        ttl: Number(configService.get('CACHE_TTL')),
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const host = configService.get<string>('REDIS_HOST');
+        const port = configService.get<number>('REDIS_PORT');
+        const password = configService.get<string>('REDIS_PASSWORD');
+        const auth = password ? `:${password}@` : '';
+        const redisUrl = `redis://${auth}${host}:${port}`;
+        return {
+          stores: new KeyvRedis(redisUrl),
+          ttl: Number(configService.get('CACHE_TTL')),
+        };
+      },
       inject: [ConfigService],
     }),
     SettingsModule,
