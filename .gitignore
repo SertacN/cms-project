@@ -34,7 +34,7 @@ yarn-error.log*
 *.sublime-project
 *.sublime-workspace
 .DS_Store
-
+REVIEW.md
 # Test Raporları
 /coverage
 
