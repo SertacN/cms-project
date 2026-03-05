@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { catchError, Observable, of, throwError } from 'rxjs';
 import { parseIdentifier } from '../../../shared/utils';
@@ -21,18 +21,34 @@ export class ContentCategoriesService {
   private readonly headers = new HttpHeaders({
     'x-api-key': `${environment.apiKey}`,
   });
-  getAllCategories(): Observable<CategoriesResponse> {
-    return this.http.get<CategoriesResponse>(this.apiUrl, { headers: this.headers }).pipe(
+
+  private readonly _categories = signal<Category[]>([]);
+  private readonly _isLoading = signal<boolean>(false);
+  private readonly _error = signal<string | null>(null);
+
+  readonly categories = this._categories.asReadonly();
+  readonly isLoading = this._isLoading.asReadonly();
+  readonly error = this._error.asReadonly();
+
+  loadCategories(): void {
+    this._isLoading.set(true);
+    this._error.set(null);
+    this.http.get<CategoriesResponse>(this.apiUrl, { headers: this.headers }).pipe(
       catchError((err: HttpErrorResponse) => {
-        console.error('API Hatası:', err.status);
-        const errorResponse: CategoriesResponse = {
+        return of<CategoriesResponse>({
           success: false,
           message: `Veri yüklenemedi! (Hata Kodu: ${err.status})`,
           data: [],
-        };
-        return of(errorResponse);
+        });
       }),
-    );
+    ).subscribe((response) => {
+      this._isLoading.set(false);
+      if (response.success) {
+        this._categories.set(response.data ?? []);
+      } else {
+        this._error.set(response.message);
+      }
+    });
   }
   // Handle by ID or SEF Url
   getCategoryDetails(identifier: string): Observable<ApiResponse<CategoryDetailsResponse>> {

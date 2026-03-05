@@ -1,9 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { ContentCategoriesService } from '../../../core/services/contents';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SharedModule } from '../../../shared/shared-module';
-import { switchMap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,18 +20,19 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './content-categories.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContentCategories {
+export class ContentCategories implements OnInit {
   private readonly contentCategoriesService = inject(ContentCategoriesService);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
-  // Signals
-  refreshTrigger = signal(0);
-  isLoading = signal<boolean>(false);
-  categories = toSignal(
-    toObservable(this.refreshTrigger).pipe(
-      switchMap(() => this.contentCategoriesService.getAllCategories()),
-    ),
-  );
+
+  readonly categories = this.contentCategoriesService.categories;
+  readonly isLoading = this.contentCategoriesService.isLoading;
+  readonly error = this.contentCategoriesService.error;
+
+  ngOnInit() {
+    this.contentCategoriesService.loadCategories();
+  }
+
   // Create Category
   async openCreateCategoryDialog() {
     const { CreateCategoryDialog } = await import(
@@ -47,10 +46,11 @@ export class ContentCategories {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.refreshTrigger.update((v) => v + 1);
+        this.contentCategoriesService.loadCategories();
       }
     });
   }
+
   // Edit Category
   async editCategoryDialog(categoryId: number) {
     const { EditCategoryDialog } = await import(
@@ -60,31 +60,22 @@ export class ContentCategories {
       width: '1000px',
       ariaLabel: 'Edit Category Dialog',
       disableClose: true,
-      data: {
-        categoryId,
-      },
+      data: { categoryId },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.refreshTrigger.update((v) => v + 1);
+        this.contentCategoriesService.loadCategories();
       }
     });
   }
+
   // Edit Category from icon
   editCategoryActivated(id: number, e: Event, isActive?: boolean) {
     e.preventDefault();
-    this.isLoading.set(true);
-    this.contentCategoriesService.editCategory(id, { isActive: isActive }).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.isLoading.set(false);
-        this.refreshTrigger.update((value) => value + 1);
-        this.snackBar.open('Kategori Güncellendi', 'Tamam', {
-          duration: 3000,
-        });
-      },
-      error: () => {
-        this.isLoading.set(false);
+    this.contentCategoriesService.editCategory(id, { isActive }).subscribe({
+      next: () => {
+        this.contentCategoriesService.loadCategories();
+        this.snackBar.open('Kategori Güncellendi', 'Tamam', { duration: 3000 });
       },
     });
   }

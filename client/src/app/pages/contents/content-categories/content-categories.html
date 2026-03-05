@@ -1,17 +1,18 @@
 <div class="dashboard-container d-direction-row">
-  @if (!categories()) {
+  @if (isLoading() && categories().length === 0) {
     <p>Yükleniyor...</p>
   } @else {
-    @let response = categories()!;
     <div class="content-category-list-wrapper">
       <div class="category-header d-space-between">
         <h1 class="block-title">Kategoriler</h1>
         <button matButton="filled" (click)="openCreateCategoryDialog()">Ekle</button>
       </div>
       @defer (on idle) {
-        @if (response.success) {
+        @if (error()) {
+          <div class="error-box">⚠️ {{ error() }}</div>
+        } @else {
           <ul class="content-category-list">
-            @for (category of response.data; track category.id) {
+            @for (category of categories(); track category.id) {
               <li class="category-item-wrapper">
                 @if (category.isActive) {
                   <button
@@ -34,7 +35,7 @@
                   <lucide-angular name="pencil"></lucide-angular>
                 </button>
                 <a [routerLink]="[category.id]" routerLinkActive="active" class="category-item"
-                ><span>{{ category.title }}</span>
+                  ><span>{{ category.title }}</span>
                   <lucide-angular name="chevron-right"></lucide-angular>
                 </a>
               </li>
@@ -42,12 +43,10 @@
               <li>Kategori bulunamadı.</li>
             }
           </ul>
-        } @else {
-          <div class="error-box">⚠️ {{ response.message }}</div>
         }
       } @placeholder {
         <ul class="content-category-list" aria-busy="true">
-          @for (_ of response.data; track $index) {
+          @for (_ of categories(); track $index) {
             <li class="category-item-wrapper skeleton"></li>
           }
         </ul>
