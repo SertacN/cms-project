@@ -24,4 +24,6 @@ model ContentFile{
 
     contentId Int?
     content Content? @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+    @@index([contentId])
 }

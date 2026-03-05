@@ -21,5 +21,6 @@ model ContentParameterDefinition{
     
     values ContentParameterValue[]
 
+    @@index([categoryId])
     @@unique([categoryId, name])
 }

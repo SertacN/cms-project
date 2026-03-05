@@ -12,4 +12,6 @@ model ContentCategory{
     updatedAt DateTime @updatedAt
     deletedAt DateTime?
     isDeleted Boolean @default(false)
+
+    @@index([isDeleted])
 }

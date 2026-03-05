@@ -16,4 +16,5 @@ model User{
   refreshToken String?
   deletedAt DateTime?
   isDeleted Boolean @default(false)
+  @@index([isDeleted, isActive])
 }
