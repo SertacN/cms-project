@@ -1,8 +1,9 @@
-import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
+import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import { ApiResponse } from '../../interfaces';
+import { CreateParametersDefinitionDto } from './interfaces/categories';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class ContentParametersService {
     );
   }
 
-  createContentsParametersDefinition(data: any[]): Observable<ApiResponse> {
+  createContentsParametersDefinition(data: CreateParametersDefinitionDto[]): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.apiUrl, data, { headers: this.headers }).pipe(
       catchError((err: HttpErrorResponse) => {
         return throwError(() => new Error(`İşlem başarısız! (Hata Kodu: ${err.status})`));

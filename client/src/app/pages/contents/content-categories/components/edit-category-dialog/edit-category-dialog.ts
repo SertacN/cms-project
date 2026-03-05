@@ -1,26 +1,27 @@
 import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogActions,
-  MatDialogContent,
-  MatDialog,
-} from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { ContentCategoriesService } from '../../../../../core/services/contents';
-import { EditCategoryDialogInterface } from '../../interfaces';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ContentCategoriesService } from '../../../../../core/services/contents';
+import { ContentParametersService } from '../../../../../core/services/contents/content-parameters.service';
 import {
   CategoryDetailsDialog,
+  CreateParametersDefinitionDto,
   EditCategoryDto,
 } from '../../../../../core/services/contents/interfaces/categories';
-import { MatTabsModule } from '@angular/material/tabs';
-import { ContentParametersService } from '../../../../../core/services/contents/content-parameters.service';
+import { EditCategoryDialogInterface } from '../../interfaces';
 import { CreateParameterDialog } from '../create-parameter-dialog/create-parameter-dialog';
 
 @Component({
@@ -162,10 +163,10 @@ export class EditCategoryDialog {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const payload = [
+        const payload: CreateParametersDefinitionDto[] = [
           {
             ...result,
-            categoryId: this.editingId(),
+            categoryId: this.editingId()!,
           },
         ];
 

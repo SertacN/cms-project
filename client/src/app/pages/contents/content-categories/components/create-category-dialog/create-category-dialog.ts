@@ -61,9 +61,6 @@ export class CreateCategoryDialog {
       },
     });
   }
-  deneme() {
-    return 'deneme';
-  }
   // Getter
   get title() {
     return this.createCategoryModel.controls.title;
