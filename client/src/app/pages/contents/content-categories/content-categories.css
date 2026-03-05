@@ -46,3 +46,17 @@
 .category-item-wrapper:not(:last-child) {
   border-bottom: 1px solid var(--sc-border-color);
 }
+.category-item-wrapper.skeleton {
+  height: 48px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}

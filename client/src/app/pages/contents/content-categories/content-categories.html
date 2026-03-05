@@ -8,41 +8,49 @@
         <h1 class="block-title">Kategoriler</h1>
         <button matButton="filled" (click)="openCreateCategoryDialog()">Ekle</button>
       </div>
-      @if (response.success) {
-        <ul class="content-category-list">
-          @for (category of response.data; track category.id) {
-            <li class="category-item-wrapper">
-              @if (category.isActive) {
-                <button
-                  (click)="editCategoryActivated(category.id, $event, false)"
-                  [disabled]="isLoading()"
-                  matIconButton
-                >
-                  <lucide-angular name="check" class="check c-pointer"></lucide-angular>
+      @defer (on idle) {
+        @if (response.success) {
+          <ul class="content-category-list">
+            @for (category of response.data; track category.id) {
+              <li class="category-item-wrapper">
+                @if (category.isActive) {
+                  <button
+                    (click)="editCategoryActivated(category.id, $event, false)"
+                    [disabled]="isLoading()"
+                    matIconButton
+                  >
+                    <lucide-angular name="check" class="check c-pointer"></lucide-angular>
+                  </button>
+                } @else {
+                  <button
+                    (click)="editCategoryActivated(category.id, $event, true)"
+                    [disabled]="isLoading()"
+                    matIconButton
+                  >
+                    <lucide-angular name="x" class="times c-pointer"></lucide-angular>
+                  </button>
+                }
+                <button matButton="elevated" (click)="editCategoryDialog(category.id)">
+                  <lucide-angular name="pencil"></lucide-angular>
                 </button>
-              } @else {
-                <button
-                  (click)="editCategoryActivated(category.id, $event, true)"
-                  [disabled]="isLoading()"
-                  matIconButton
-                >
-                  <lucide-angular name="x" class="times c-pointer"></lucide-angular>
-                </button>
-              }
-              <button matButton="elevated" (click)="editCategoryDialog(category.id)">
-                <lucide-angular name="pencil"></lucide-angular>
-              </button>
-              <a [routerLink]="[category.id]" routerLinkActive="active" class="category-item"
-              ><span>{{ category.title }}</span>
-                <lucide-angular name="chevron-right"></lucide-angular>
-              </a>
-            </li>
-          } @empty {
-            <li>Kategori bulunamadı.</li>
+                <a [routerLink]="[category.id]" routerLinkActive="active" class="category-item"
+                ><span>{{ category.title }}</span>
+                  <lucide-angular name="chevron-right"></lucide-angular>
+                </a>
+              </li>
+            } @empty {
+              <li>Kategori bulunamadı.</li>
+            }
+          </ul>
+        } @else {
+          <div class="error-box">⚠️ {{ response.message }}</div>
+        }
+      } @placeholder {
+        <ul class="content-category-list" aria-busy="true">
+          @for (_ of response.data; track $index) {
+            <li class="category-item-wrapper skeleton"></li>
           }
         </ul>
-      } @else {
-        <div class="error-box">⚠️ {{ response.message }}</div>
       }
     </div>
   }

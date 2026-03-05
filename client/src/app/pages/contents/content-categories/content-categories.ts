@@ -5,8 +5,6 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SharedModule } from '../../../shared/shared-module';
 import { switchMap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateCategoryDialog } from './components/create-category-dialog/create-category-dialog';
-import { EditCategoryDialog } from './components/edit-category-dialog/edit-category-dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -37,7 +35,10 @@ export class ContentCategories {
     ),
   );
   // Create Category
-  openCreateCategoryDialog() {
+  async openCreateCategoryDialog() {
+    const { CreateCategoryDialog } = await import(
+      './components/create-category-dialog/create-category-dialog'
+    );
     const dialogRef = this.dialog.open(CreateCategoryDialog, {
       width: '1000px',
       ariaLabel: 'Create Category Dialog',
@@ -51,7 +52,10 @@ export class ContentCategories {
     });
   }
   // Edit Category
-  editCategoryDialog(categoryId: number) {
+  async editCategoryDialog(categoryId: number) {
+    const { EditCategoryDialog } = await import(
+      './components/edit-category-dialog/edit-category-dialog'
+    );
     const dialogRef = this.dialog.open(EditCategoryDialog, {
       width: '1000px',
       ariaLabel: 'Edit Category Dialog',
