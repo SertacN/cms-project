@@ -3,23 +3,77 @@ services:
         image: postgres:16
         container_name: cms_project_db
         restart: always
-        ports:
-            - "5432:5432"
         environment:
             POSTGRES_USER: sertacn
             POSTGRES_PASSWORD: e3g6y11zb3
             POSTGRES_DB: cms_project_db
         volumes:
             - postgres_data:/var/lib/postgresql/data
+        networks:
+            - cms-internal
+
     redis:
         image: redis:7
         container_name: cms_project_redis
         restart: always
-        ports:
-            - "6379:6379"
         volumes:
             - redis_data:/data
         command: redis-server --appendonly yes
+        networks:
+            - cms-internal
+
+    api:
+        build:
+            context: ./api
+            dockerfile: Dockerfile
+        container_name: cms_project_api
+        restart: always
+        env_file:
+            - ./api/.env
+        volumes:
+            - uploads:/app/uploads
+            - logs:/app/logs
+        depends_on:
+            - db
+            - redis
+        networks:
+            - cms-internal
+            - traefik-net
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.cms-api.rule=Host(`cms-project.sertaccan.com`) && PathPrefix(`/api`)"
+            - "traefik.http.routers.cms-api.entrypoints=https"
+            - "traefik.http.routers.cms-api.tls.certresolver=letsencrypt"
+            - "traefik.http.services.cms-api.loadbalancer.server.port=3000"
+            - "traefik.docker.network=traefik-net"
+
+    client:
+        build:
+            context: ./client
+            dockerfile: Dockerfile
+        container_name: cms_project_client
+        restart: always
+        depends_on:
+            - api
+        networks:
+            - cms-internal
+            - traefik-net
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.cms-client.rule=Host(`cms-project.sertaccan.com`)"
+            - "traefik.http.routers.cms-client.entrypoints=https"
+            - "traefik.http.routers.cms-client.tls.certresolver=letsencrypt"
+            - "traefik.http.services.cms-client.loadbalancer.server.port=80"
+            - "traefik.docker.network=traefik-net"
+
+networks:
+    cms-internal:
+        driver: bridge
+    traefik-net:
+        external: true
+
 volumes:
     postgres_data:
     redis_data:
+    uploads:
+    logs:
