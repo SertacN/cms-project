@@ -19,6 +19,6 @@ jobs:
           script: |
             cd /opt/cms-project
             git pull origin main
-            docker-compose up -d --build
+            docker compose --env-file api/.env up -d --build
             docker exec cms_project_api npx prisma migrate deploy
             docker image prune -f
