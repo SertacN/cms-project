@@ -1,5 +1,7 @@
 # CMS Project
 
+> 🚧 **In Progress** — Aktif geliştirme aşamasında.
+
 NestJS + Angular 21 tabanlı içerik yönetim sistemi.
 
 **Canlı:** [cms-project.sertaccan.com](https://cms-project.sertaccan.com)
