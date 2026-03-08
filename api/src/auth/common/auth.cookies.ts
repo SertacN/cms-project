@@ -13,7 +13,7 @@ export const getRefreshTokenCookieOptions = (config: ConfigService) => ({
   httpOnly: true,
   secure: config.get('NODE_ENV') === 'production',
   sameSite: 'lax' as const,
-  path: 'auth/refresh',
+  path: '/api/auth/refresh',
   maxAge: msFromJwtExpires(config.get('JWT_REFRESH_EXPIRES_IN') || '7d'),
 });
 

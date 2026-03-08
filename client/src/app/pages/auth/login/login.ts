@@ -3,6 +3,7 @@ import { SharedModule } from '../../../shared/shared-module';
 import { email, form, FormField, required } from '@angular/forms/signals';
 import { AuthService } from '../../../core/auth';
 import { LoginRequest } from '../../../core/auth/interfaces';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ import { LoginRequest } from '../../../core/auth/interfaces';
 })
 export class Login {
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   // Validation
   loginModel = signal<LoginRequest>({
@@ -37,7 +39,7 @@ export class Login {
       next: (response) => {
         this.isLoading.set(false);
         if (response.success === 1) {
-          window.location.href = '/dashboard';
+          this.router.navigate(['/dashboard']);
         } else {
           this.errorMessage.set(response.message || 'Login sırasında bir hata oluştu');
         }

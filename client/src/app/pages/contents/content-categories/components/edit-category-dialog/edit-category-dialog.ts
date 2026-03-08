@@ -14,8 +14,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ContentCategoriesService } from '../../../../../core/services/contents';
-import { ContentParametersService } from '../../../../../core/services/contents/content-parameters.service';
+import {
+  ContentCategoriesService,
+  ContentParametersService,
+} from '../../../../../core/services/contents';
 import {
   CategoryDetailsDialog,
   CreateParametersDefinitionDto,
