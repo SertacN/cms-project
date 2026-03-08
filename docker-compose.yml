@@ -3,10 +3,12 @@ services:
         image: postgres:16
         container_name: cms_project_db
         restart: always
+        env_file:
+            - ./api/.env
         environment:
-            POSTGRES_USER: sertacn
-            POSTGRES_PASSWORD: e3g6y11zb3
-            POSTGRES_DB: cms_project_db
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
         volumes:
             - postgres_data:/var/lib/postgresql/data
         networks:
