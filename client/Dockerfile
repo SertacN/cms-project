@@ -1,5 +1,5 @@
 # Build angular app using the production config
-FROM node:latest AS build
+FROM node:24-alpine AS build
 # Set the working directory
 WORKDIR /app
 # Copy the package.json and package-lock.json files
@@ -13,7 +13,7 @@ COPY . .
 # Build the application
 RUN npm run build --configuration=production
 # Nginx image to serve the application
-FROM nginx:latest
+FROM nginx:alpine
 # Copy the build output to replace the default nginx contents
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 # Copy the build output to replace the default nginx contents

@@ -1,0 +1,16 @@
+FROM node:24-alpine
+WORKDIR /app
+
+COPY package*.json ./
+COPY tsconfig*.json ./
+COPY nest-cli.json ./
+COPY prisma ./prisma
+COPY prisma.config.ts ./
+RUN npm ci
+
+ENV DATABASE_URL=postgresql://dummy:dummy@localhost:5432/dummy
+RUN npx prisma generate
+ENV DATABASE_URL=
+
+EXPOSE 3000
+CMD ["npm", "run", "start:dev"]

@@ -40,6 +40,7 @@ api/.env.*.local
 *.sublime-workspace
 .DS_Store
 REVIEW.md
+CLAUDE.md
 # Test Raporları
 /coverage
 
@@ -57,6 +58,11 @@ REVIEW.md
 
 # Diğer Angular/Webpack dosyaları
 .sass-cache/
+
+# Angular environment dosyaları (gizli bilgiler içerir, VPS'de elle oluşturulur)
+# Referans: client/src/environments/environment.ts.example
+client/src/environments/environment.ts
+client/src/environments/environment.development.ts
 
 # Cypress (varsa)
 /cypress/videos
