@@ -42,7 +42,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Logout (revoke refresh token)' })
   @ApiResponse({ status: 204, description: 'Successfully logged out' })
   @Post('logout')
-  async logout(@GetUser('id') userId: number, @Res({ passthrough: true }) res: Response) {
+  async logout(@GetUser('id') userId: string, @Res({ passthrough: true }) res: Response) {
     await this.authService.logout(userId);
 
     // Clear both cookies

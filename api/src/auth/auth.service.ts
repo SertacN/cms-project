@@ -36,7 +36,7 @@ export class AuthService {
       throw error;
     }
   }
-  async logout(userId: number) {
+  async logout(userId: string) {
     await this.prisma.user.update({
       where: { id: userId },
       data: {
@@ -64,7 +64,7 @@ export class AuthService {
     await this.updateRefreshToken(user.id, tokens.refresh_token, user.updatedAt);
     return tokens;
   }
-  private async getTokens(userId: number, email: string): Promise<{ access_token: string; refresh_token: string }> {
+  private async getTokens(userId: string, email: string): Promise<{ access_token: string; refresh_token: string }> {
     const payload = { sub: userId, email };
 
     const [accessToken, refreshToken] = await Promise.all([
@@ -83,7 +83,7 @@ export class AuthService {
       refresh_token: refreshToken,
     };
   }
-  private async updateRefreshToken(userId: number, refreshToken: string, currentUpdatedAt: Date) {
+  private async updateRefreshToken(userId: string, refreshToken: string, currentUpdatedAt: Date) {
     // Hash refresh token before storing
     const hash = await bcrypt.hash(refreshToken, 10);
     await this.prisma.user.update({
@@ -98,7 +98,7 @@ export class AuthService {
     try {
       // Verify refresh token
       const payload = await this.jwt.verifyAsync<{
-        sub: number;
+        sub: string;
         email: string;
       }>(refreshToken, {
         secret: this.config.get('JWT_REFRESH_SECRET'),
