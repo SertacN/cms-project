@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 240px;
   height: 100vh;
+  height: 100dvh; /* Safari URL bar'ı hesaba katar — eski Safari için 100vh fallback üstte */
   background: var(--color-sidebar-bg);
   color: #fff;
   position: sticky;
