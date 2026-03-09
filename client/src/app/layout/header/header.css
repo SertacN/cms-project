@@ -110,6 +110,27 @@
   transform: translateY(-1px);
 }
 
+/* Mobile hamburger */
+.hamburger-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-surface-variant);
+  color: var(--color-on-surface);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: flex;
+  }
+}
+
 /* mat-menu icon alignment */
 [mat-menu-item] lucide-icon {
   margin-right: 0.5rem;

@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../../../core/services/toast';
 
 @Component({
   selector: 'app-content-categories',
@@ -26,7 +26,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ContentCategories {
   private readonly contentCategoriesService = inject(ContentCategoriesService);
   private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly toast = inject(ToastService);
 
   readonly categories = this.contentCategoriesService.categories;
   readonly isLoading = this.contentCategoriesService.isLoading;
@@ -75,11 +75,7 @@ export class ContentCategories {
     this.contentCategoriesService.editCategory(id, { isActive }).subscribe({
       next: () => {
         this.contentCategoriesService.loadCategories();
-        this.snackBar.open(
-          isActive ? 'Kategori aktif edildi' : 'Kategori pasif edildi',
-          'Tamam',
-          { duration: 2500 },
-        );
+        this.toast.success(isActive ? 'Kategori aktif edildi' : 'Kategori pasif edildi');
       },
     });
   }

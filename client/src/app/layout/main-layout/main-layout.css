@@ -18,3 +18,43 @@
   overflow-y: auto;
   padding: 1.5rem 2rem;
 }
+
+.global-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  height: 3px !important;
+}
+
+/* Mobile sidebar backdrop */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 199;
+  backdrop-filter: blur(2px);
+}
+
+@media (max-width: 768px) {
+  .sidebar-backdrop {
+    display: block;
+  }
+
+  /* Sidebar position:fixed olduğu için flex'ten çıkar, main-content tam genişlik kaplar */
+  .main-layout {
+    display: block;
+  }
+
+  .main-content {
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .page-content {
+    padding: 1rem;
+  }
+}
+

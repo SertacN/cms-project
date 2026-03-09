@@ -1,4 +1,8 @@
-<aside class="sidebar" [class.collapsed]="layoutService.sidebarCollapsed()">
+<aside
+  class="sidebar"
+  [class.collapsed]="layoutService.sidebarCollapsed()"
+  [class.mobile-open]="layoutService.mobileOpen()"
+>
 
   <!-- Header -->
   <div class="sidebar-header">

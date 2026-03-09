@@ -2,9 +2,17 @@
   <app-sidebar />
 
   <div class="main-content">
+    @if (loadingBar.visible()) {
+      <mat-progress-bar mode="indeterminate" class="global-progress-bar" />
+    }
     <app-header />
     <main class="page-content">
       <router-outlet />
     </main>
   </div>
 </div>
+
+<!-- Mobile sidebar backdrop -->
+@if (layoutService.mobileOpen()) {
+  <div class="sidebar-backdrop" (click)="layoutService.closeMobile()"></div>
+}

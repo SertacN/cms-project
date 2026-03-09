@@ -12,8 +12,10 @@ import {
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ToastService } from '../../../../../core/services/toast';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { LucideAngularModule } from 'lucide-angular';
 import {
   ContentCategoriesService,
   ContentParametersService,
@@ -41,8 +43,9 @@ import { EditParameterDialog } from '../edit-parameter-dialog/edit-parameter-dia
     FormsModule,
     ReactiveFormsModule,
     MatDividerModule,
-    MatTabsModule,
     MatSnackBarModule,
+    MatTooltipModule,
+    LucideAngularModule,
   ],
   templateUrl: './edit-category-dialog.html',
   styleUrl: './edit-category-dialog.css',
@@ -51,7 +54,7 @@ import { EditParameterDialog } from '../edit-parameter-dialog/edit-parameter-dia
 export class EditCategoryDialog {
   private dialogRef = inject(MatDialogRef<EditCategoryDialog>);
   private fb = inject(FormBuilder);
-  private snackBar = inject(MatSnackBar);
+  private toast = inject(ToastService);
   private contentCategoriesService = inject(ContentCategoriesService);
   private contentParametersService = inject(ContentParametersService);
   private dialog = inject(MatDialog);
@@ -75,9 +78,7 @@ export class EditCategoryDialog {
   private loadCategoryEffect = effect(() => {
     const id = this.editingId();
     if (!id) {
-      this.snackBar.open(`${this.editingId()} ID Bulunamadı`, 'Tamam', {
-        duration: 5000,
-      });
+      this.toast.error(`${this.editingId()} ID Bulunamadı`);
       this.dialogRef.close(false);
       return;
     }
@@ -111,9 +112,7 @@ export class EditCategoryDialog {
       next: () => {
         this.isLoading.set(false);
         this.dialogRef.close(true);
-        this.snackBar.open('Kategori Düzenlendi', 'Tamam', {
-          duration: 5000,
-        });
+        this.toast.success('Kategori güncellendi');
       },
       error: () => {
         this.isLoading.set(false);
@@ -141,7 +140,7 @@ export class EditCategoryDialog {
         next: () => {
           this.isLoading.set(false);
           this.dialogRef.close(true);
-          this.snackBar.open('Kategori silindi', 'Tamam', { duration: 3000 });
+          this.toast.success('Kategori silindi');
         },
         error: () => {
           this.isLoading.set(false);
@@ -196,17 +195,13 @@ export class EditCategoryDialog {
           next: (res) => {
             this.isLoading.set(false);
             if (res.success) {
-              this.snackBar.open('Parametre başarıyla güncellendi', 'Tamam', {
-                duration: 3000,
-              });
+              this.toast.success('Parametre güncellendi');
               this.getContentParametersDefinition();
             }
           },
           error: (err) => {
             this.isLoading.set(false);
-            this.snackBar.open(err.message || 'Parametre düzenlenirken bir hata oluştu', 'Tamam', {
-              duration: 5000,
-            });
+            this.toast.error(err.message || 'Parametre düzenlenirken bir hata oluştu');
           },
         });
       }
@@ -232,17 +227,13 @@ export class EditCategoryDialog {
           next: (res) => {
             this.isLoading.set(false);
             if (res.success) {
-              this.snackBar.open('Parametre başarıyla eklendi', 'Tamam', {
-                duration: 3000,
-              });
+              this.toast.success('Parametre eklendi');
               this.getContentParametersDefinition();
             }
           },
           error: (err) => {
             this.isLoading.set(false);
-            this.snackBar.open(err.message || 'Parametre eklenirken bir hata oluştu', 'Tamam', {
-              duration: 5000,
-            });
+            this.toast.error(err.message || 'Parametre eklenirken bir hata oluştu');
           },
         });
       }

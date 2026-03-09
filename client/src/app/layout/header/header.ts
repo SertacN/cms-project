@@ -6,6 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { filter, map } from 'rxjs';
 import { AuthService } from '../../core/auth';
+import { LayoutService } from '../../core/services/layout';
 import { ThemeService } from '../../core/services/theme';
 
 interface Breadcrumb {
@@ -30,6 +31,7 @@ export class Header {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
   readonly themeService = inject(ThemeService);
+  readonly layoutService = inject(LayoutService);
 
   readonly pageTitle = toSignal(
     this.router.events.pipe(
@@ -37,7 +39,7 @@ export class Header {
       map(() => {
         let route = this.activatedRoute;
         while (route.firstChild) route = route.firstChild;
-        return route.snapshot.title || 'Dashboard';
+        return route.snapshot?.title || 'Dashboard';
       }),
     ),
     { initialValue: this.getTitle() },
@@ -58,7 +60,7 @@ export class Header {
   private getTitle(): string {
     let route = this.activatedRoute;
     while (route.firstChild) route = route.firstChild;
-    return route.snapshot.title || 'Dashboard';
+    return route.snapshot?.title || 'Dashboard';
   }
 
   private buildBreadcrumbs(): Breadcrumb[] {

@@ -1,38 +1,88 @@
-.form-container {
+.param-dialog-header {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding-top: 10px;
-  min-width: 400px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--color-border);
 }
 
-.full-width {
-  width: 100%;
+.param-dialog-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  margin: 0;
 }
 
-.options-container {
-  margin-top: 16px;
-  border: 1px solid #e0e0e0;
-  padding: 12px;
-  border-radius: 4px;
+.dialog-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--color-on-surface-muted);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.dialog-close-btn:hover {
+  background: var(--color-surface-variant);
+}
+
+.param-dialog-body {
+  padding: 1.25rem 1.5rem !important;
+  max-height: 70vh;
+}
+
+.full-width { width: 100%; }
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1rem;
+}
+
+.options-section {
+  margin-top: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
 }
 
 .options-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
-.options-header h3 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 500;
+.options-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-on-surface-muted);
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .option-row {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   align-items: flex-start;
-  margin-bottom: 8px;
+}
+
+.remove-option-btn {
+  color: var(--color-error) !important;
+  margin-top: 8px;
+}
+
+.param-dialog-actions {
+  padding: 0.75rem 1.5rem !important;
+  border-top: 1px solid var(--color-border);
+  gap: 0.5rem;
 }

@@ -1,5 +1,10 @@
 <header class="header">
 
+  <!-- Mobile hamburger -->
+  <button class="hamburger-btn" (click)="layoutService.openMobile()">
+    <lucide-icon name="menu" [size]="22" />
+  </button>
+
   <!-- Left: title + breadcrumb -->
   <div class="header-left">
     <div class="title-group">
