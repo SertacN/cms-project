@@ -1,56 +1,67 @@
-<aside class="sidebar">
+<aside class="sidebar" [class.collapsed]="layoutService.sidebarCollapsed()">
+
+  <!-- Header -->
   <div class="sidebar-header">
     <div class="logo">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-      </svg>
+      <lucide-icon name="layout-dashboard" [size]="20" />
     </div>
-    <span class="logo-text">Dashboard</span>
+    <span class="sidebar-text logo-text">CMS Panel</span>
+    <button
+      class="collapse-btn"
+      (click)="layoutService.toggleSidebar()"
+      [matTooltip]="layoutService.sidebarCollapsed() ? 'Genişlet' : 'Daralt'"
+      matTooltipPosition="right"
+    >
+      <lucide-icon
+        [name]="layoutService.sidebarCollapsed() ? 'chevron-right' : 'chevron-left'"
+        [size]="18"
+      />
+    </button>
   </div>
 
+  <!-- Nav -->
   <nav class="sidebar-nav">
     <ul class="nav-list">
-      <li class="nav-item">
-        <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-          </svg>
-          <span>Anasayfa</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a routerLink="/contents" routerLinkActive="active" class="nav-link">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
-            />
-          </svg>
-          <span>İçerikler</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a routerLink="/settings" routerLinkActive="active" class="nav-link">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"
-            />
-          </svg>
-          <span>Ayarlar</span>
-        </a>
-      </li>
+      @for (item of navItems; track item.path) {
+        <li class="nav-item">
+          <a
+            [routerLink]="item.path"
+            routerLinkActive="active"
+            class="nav-link"
+            [matTooltip]="layoutService.sidebarCollapsed() ? item.label : ''"
+            matTooltipPosition="right"
+          >
+            <lucide-icon [name]="item.icon" [size]="20" />
+            <span class="sidebar-text">{{ item.label }}</span>
+          </a>
+        </li>
+      }
     </ul>
   </nav>
 
+  <!-- Footer -->
   <div class="sidebar-footer">
-    <button class="logout-button" (click)="onLogout()">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"
-        />
-      </svg>
-      <span>Çıkış Yap</span>
+    <button
+      class="footer-btn theme-btn"
+      (click)="themeService.toggleTheme()"
+      [matTooltip]="layoutService.sidebarCollapsed() ? (themeService.theme() === 'light' ? 'Dark Mode' : 'Light Mode') : ''"
+      matTooltipPosition="right"
+    >
+      <lucide-icon [name]="themeService.theme() === 'light' ? 'moon' : 'sun'" [size]="20" />
+      <span class="sidebar-text">
+        {{ themeService.theme() === 'light' ? 'Dark Mode' : 'Light Mode' }}
+      </span>
+    </button>
+
+    <button
+      class="footer-btn logout-btn"
+      (click)="onLogout()"
+      [matTooltip]="layoutService.sidebarCollapsed() ? 'Çıkış Yap' : ''"
+      matTooltipPosition="right"
+    >
+      <lucide-icon name="log-out" [size]="20" />
+      <span class="sidebar-text">Çıkış Yap</span>
     </button>
   </div>
+
 </aside>
