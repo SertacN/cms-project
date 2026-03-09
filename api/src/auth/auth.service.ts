@@ -1,6 +1,7 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { AuthDto } from './dto';
+import { AuthDto, UserResponseDto } from './dto';
 import * as bcrypt from 'bcrypt';
+import { plainToInstance } from 'class-transformer';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/wasm-compiler-edge';
 import { JwtService } from '@nestjs/jwt';
@@ -22,10 +23,9 @@ export class AuthService {
           password: hashedPassword,
         },
       });
-      const { password, ...result } = user;
       return {
         message: 'User created successfully',
-        data: result,
+        data: plainToInstance(UserResponseDto, user),
       };
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {

@@ -102,6 +102,15 @@ export class CategoriesService {
         id: categoryId,
       },
       data: dto,
+      select: {
+        id: true,
+        title: true,
+        sefUrl: true,
+        orderBy: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
     return {
       message: 'Category updated successfully',
