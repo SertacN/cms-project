@@ -6,7 +6,7 @@ import { parseIdentifier } from '../../../shared/utils';
 import {
   CategoriesResponse,
   Category,
-  CategoryDetailsResponse,
+  CategoryDetailsDialog,
   CreateCategoryDto,
   EditCategoryDto,
 } from './interfaces/categories';
@@ -51,12 +51,10 @@ export class ContentCategoriesService {
     });
   }
   // Handle by ID or SEF Url
-  getCategoryDetails(identifier: string): Observable<ApiResponse<CategoryDetailsResponse>> {
+  getCategoryDetails(identifier: string): Observable<ApiResponse<CategoryDetailsDialog>> {
     const parsedIdentifier = parseIdentifier(identifier);
     return this.http
-      .get<
-        ApiResponse<CategoryDetailsResponse>
-      >(`${this.apiUrl}/${parsedIdentifier}`, { headers: this.headers })
+      .get<ApiResponse<CategoryDetailsDialog>>(`${this.apiUrl}/${parsedIdentifier}`, { headers: this.headers })
       .pipe(
         catchError((err: HttpErrorResponse) => {
           return throwError(() => new Error(`Veri yüklenemedi! (Hata Kodu: ${err.status})`));
@@ -70,9 +68,9 @@ export class ContentCategoriesService {
       }),
     );
   }
-  editCategory(id: number, dto: EditCategoryDto): Observable<ApiResponse<EditCategoryDto>> {
+  editCategory(id: number, dto: EditCategoryDto): Observable<ApiResponse<Category>> {
     return this.http
-      .patch<ApiResponse<EditCategoryDto>>(`${this.apiUrl}/${id}`, dto, { headers: this.headers })
+      .patch<ApiResponse<Category>>(`${this.apiUrl}/${id}`, dto, { headers: this.headers })
       .pipe(
         catchError((err: HttpErrorResponse) => {
           return throwError(() => new Error(`Veri yüklenemedi! (Hata Kodu: ${err.status})`));

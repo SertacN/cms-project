@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { ContentCategoriesService } from '../../../core/services/contents';
-import { SharedModule } from '../../../shared/shared-module';
+import { LucideAngularModule } from 'lucide-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    SharedModule,
+    LucideAngularModule,
     MatButtonModule,
     MatIconModule,
   ],

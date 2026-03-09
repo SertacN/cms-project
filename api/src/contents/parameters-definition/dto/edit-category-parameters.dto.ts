@@ -41,6 +41,10 @@ export class EditParameterItemDto {
   @IsArray({ message: 'Options must be an array.' })
   declare options?: string[];
 
+  @ApiPropertyOptional()
+  @IsOptional()
+  declare isRequired?: boolean;
+
   @ApiPropertyOptional({example: 5})
   @IsOptional()
   @IsInt()

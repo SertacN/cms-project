@@ -44,6 +44,8 @@
   border-radius: 12px;
   font-size: 11px;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
 }
 
 .badge.danger {

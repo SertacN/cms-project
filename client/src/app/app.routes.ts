@@ -4,7 +4,7 @@ import { authGuard } from './core/auth/guards';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./pages/auth/login/login').then((m) => m.Login),
+    loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
   },
   {
     path: '',
@@ -19,13 +19,13 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         title: 'Dashboard',
-        loadComponent: () => import('./pages/dashboard/dashboard').then((m) => m.Dashboard),
+        loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
       },
       {
         path: 'contents',
         title: 'Contents',
         loadComponent: () =>
-          import('./pages/contents/content-categories/content-categories').then(
+          import('./features/contents/content-categories/content-categories').then(
             (m) => m.ContentCategories,
           ),
         children: [
@@ -33,7 +33,7 @@ export const routes: Routes = [
             path: ':categoryId',
             title: 'Contents',
             loadComponent: () =>
-              import('./pages/contents/contents/contents').then((m) => m.Contents),
+              import('./features/contents/contents/contents').then((m) => m.Contents),
           },
         ],
       },

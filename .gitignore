@@ -41,6 +41,7 @@ api/.env.*.local
 .DS_Store
 REVIEW.md
 CLAUDE.md
+revize.md
 # Test Raporları
 /coverage
 

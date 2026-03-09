@@ -5,6 +5,7 @@ COPY package*.json ./
 COPY tsconfig*.json ./
 COPY angular.json ./
 COPY proxy.conf.json ./
+COPY public ./public
 RUN npm ci
 
 EXPOSE 4200

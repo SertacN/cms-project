@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { SharedModule } from '../../../shared/shared-module';
+import { LucideAngularModule } from 'lucide-angular';
 import { email, form, FormField, required } from '@angular/forms/signals';
 import { AuthService } from '../../../core/auth';
 import { LoginRequest } from '../../../core/auth/interfaces';
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [SharedModule, FormField],
+  imports: [LucideAngularModule, FormField],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

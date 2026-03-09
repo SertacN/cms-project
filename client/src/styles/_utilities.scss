@@ -1,0 +1,20 @@
+// Flexbox utilities
+.d-flex { display: flex; }
+.d-space-between { justify-content: space-between; }
+.d-centered { align-items: center; justify-content: center; }
+.d-direction-row { flex-direction: row !important; }
+.d-direction-column { flex-direction: column; gap: var(--sc-first-gap); }
+
+// Spacing utilities
+.mb-2 { margin-bottom: var(--space-2); }
+.mt-2 { margin-top: var(--space-2); }
+.gap-2 { gap: var(--space-2); }
+.gap-4 { gap: var(--space-4); }
+
+// Misc
+.c-pointer { cursor: pointer; }
+.full-width { width: 100%; }
+
+// Color helpers
+.check { color: var(--color-success); }
+.times { color: var(--color-error); }

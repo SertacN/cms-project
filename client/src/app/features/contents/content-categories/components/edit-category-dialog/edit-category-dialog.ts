@@ -22,9 +22,12 @@ import {
   CategoryDetailsDialog,
   CreateParametersDefinitionDto,
   EditCategoryDto,
+  EditParameterDefinitonDto,
 } from '../../../../../core/services/contents/interfaces/categories';
+import { ConfirmDialog } from '../../../../../shared/components';
 import { EditCategoryDialogInterface } from '../../interfaces';
 import { CreateParameterDialog } from '../create-parameter-dialog/create-parameter-dialog';
+import { EditParameterDialog } from '../edit-parameter-dialog/edit-parameter-dialog';
 
 @Component({
   selector: 'app-edit-category-dialog',
@@ -56,14 +59,14 @@ export class EditCategoryDialog {
   // Signals
   isLoading = signal<boolean>(false);
   editingId = signal<number | null>(null);
-  categoryDetailsData = signal<any>(null);
+  categoryDetailsData = signal<CategoryDetailsDialog | null>(null);
   // Init
   ngOnInit() {
     this.editingId.set(this.data.categoryId);
   }
   // Models
   editCategoryModel = this.fb.nonNullable.group({
-    title: ['', [Validators.minLength(3)]],
+    title: ['', [Validators.minLength(3), Validators.maxLength(50)]],
     sefUrl: [''],
     isActive: [true],
     orderBy: [0],
@@ -85,12 +88,11 @@ export class EditCategoryDialog {
         this.isLoading.set(false);
         if (res.success && res.data) {
           this.categoryDetailsData.set(res.data);
-          const categoryData: CategoryDetailsDialog = res.data as CategoryDetailsDialog;
           this.editCategoryModel.patchValue({
-            title: categoryData.title,
-            sefUrl: categoryData.sefUrl,
-            isActive: categoryData.isActive,
-            orderBy: categoryData.orderBy,
+            title: res.data.title,
+            sefUrl: res.data.sefUrl,
+            isActive: res.data.isActive,
+            orderBy: res.data.orderBy,
           });
         }
       },
@@ -120,21 +122,26 @@ export class EditCategoryDialog {
     });
   }
   deleteCategory() {
-    const snackBarRef = this.snackBar.open('Silmek istiyor musunuz?', 'Evet', {
-      duration: 5000,
-      horizontalPosition: 'center',
+    const confirmRef = this.dialog.open(ConfirmDialog, {
+      width: '400px',
+      data: {
+        title: 'Kategoriyi Sil',
+        message: `"${this.categoryDetailsData()?.title ?? ''}" kategorisini silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`,
+        confirmText: 'Evet, Sil',
+        cancelText: 'İptal',
+        danger: true,
+      },
     });
 
-    snackBarRef.onAction().subscribe(() => {
-      this.isLoading.set(true);
+    confirmRef.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) return;
       if (this.editingId() === null) return console.error(`${this.editingId()} id'si null olamaz!`);
+      this.isLoading.set(true);
       this.contentCategoriesService.deleteCategory(this.editingId()!).subscribe({
         next: () => {
           this.isLoading.set(false);
           this.dialogRef.close(true);
-          this.snackBar.open('Kategori silindi', 'Tamam', {
-            duration: 5000,
-          });
+          this.snackBar.open('Kategori silindi', 'Tamam', { duration: 3000 });
         },
         error: () => {
           this.isLoading.set(false);
@@ -155,6 +162,54 @@ export class EditCategoryDialog {
       error: () => {
         this.isLoading.set(false);
       },
+    });
+  }
+
+  openEditParameterDialog(param: any) {
+    const categoryId = this.editingId();
+    const dialogRef = this.dialog.open(EditParameterDialog, {
+      width: '500px',
+      data: {
+        parameterId: param.id,
+        name: param.name,
+        label: param.label,
+        type: param.type,
+        options: param.options ?? [],
+        isRequired: param.isRequired ?? false,
+        orderBy: param.orderBy ?? 0,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const payload: EditParameterDefinitonDto = {
+          parameters: [
+            {
+              id: param.id,
+              ...result,
+              categoryId: categoryId!,
+            },
+          ],
+        };
+        this.isLoading.set(true);
+        this.contentParametersService.editContentsParameterDefinition(categoryId!, payload).subscribe({
+          next: (res) => {
+            this.isLoading.set(false);
+            if (res.success) {
+              this.snackBar.open('Parametre başarıyla güncellendi', 'Tamam', {
+                duration: 3000,
+              });
+              this.getContentParametersDefinition();
+            }
+          },
+          error: (err) => {
+            this.isLoading.set(false);
+            this.snackBar.open(err.message || 'Parametre düzenlenirken bir hata oluştu', 'Tamam', {
+              duration: 5000,
+            });
+          },
+        });
+      }
     });
   }
 

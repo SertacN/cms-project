@@ -23,6 +23,7 @@
   "private": true,
   "packageManager": "npm@11.8.0",
   "dependencies": {
+    "@angular/animations": "21.1.2",
     "@angular/cdk": "~21.1.4",
     "@angular/common": "^21.1.2",
     "@angular/compiler": "^21.1.2",
@@ -39,8 +40,6 @@
     "@angular/build": "^21.1.2",
     "@angular/cli": "^21.1.2",
     "@angular/compiler-cli": "^21.1.2",
-    "@angular/material": "^21.1.4",
-    "baseline-browser-mapping": "^2.9.19",
     "jsdom": "^27.4.0",
     "prettier": "^3.8.1",
     "prettier-plugin-organize-imports": "^4.3.0",

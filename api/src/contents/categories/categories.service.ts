@@ -21,13 +21,11 @@ export class CategoriesService {
       select: {
         id: true,
         title: true,
-        content: true,
         sefUrl: true,
         isActive: true,
         orderBy: true,
         createdAt: true,
         updatedAt: true,
-        parameterDefinitions: true,
       },
     });
     return {

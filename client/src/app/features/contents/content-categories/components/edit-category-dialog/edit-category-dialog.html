@@ -7,19 +7,22 @@
           <div class="form-group">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Başlık</mat-label>
-              <input type="text" matInput formControlName="title"/>
+              <input type="text" matInput formControlName="title" />
               @if (title.touched && title.hasError('minlength')) {
                 <mat-error>En az 3 karakter olmalı</mat-error>
+              }
+              @if (title.touched && title.hasError('maxlength')) {
+                <mat-error>En fazla 50 karakter olmalı</mat-error>
               }
             </mat-form-field>
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>URL Adresi (CEO)</mat-label>
-              <input type="text" matInput formControlName="sefUrl"/>
+              <input type="text" matInput formControlName="sefUrl" />
               <mat-hint>Boş bırakılırsa otomatik oluşur</mat-hint>
             </mat-form-field>
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Sıra</mat-label>
-              <input type="number" matInput formControlName="orderBy"/>
+              <input type="number" matInput formControlName="orderBy" />
             </mat-form-field>
             <mat-checkbox labelPosition="before" formControlName="isActive"> Aktif</mat-checkbox>
           </div>
@@ -27,7 +30,11 @@
         <mat-dialog-actions align="end">
           <button type="button" mat-raised-button (click)="close()">İptal</button>
           <button type="button" mat-raised-button (click)="deleteCategory()">Sil</button>
-          <button type="submit" mat-flat-button [disabled]="editCategoryModel.invalid || isLoading()">
+          <button
+            type="submit"
+            mat-flat-button
+            [disabled]="editCategoryModel.invalid || isLoading()"
+          >
             Düzenle
           </button>
         </mat-dialog-actions>
@@ -35,13 +42,18 @@
     </mat-tab>
     <mat-tab label="Parametreler">
       <div class="tab-content-wrapper">
-        <button mat-stroked-button color="primary" class="mb-2" (click)="openCreateParameterDialog()">
+        <button
+          mat-stroked-button
+          color="primary"
+          class="mb-2"
+          (click)="openCreateParameterDialog()"
+        >
           Parametre Ekle
         </button>
 
-        @if (categoryDetailsData()?.parameterDefinitions?.length > 0) {
+        @if (categoryDetailsData()?.parameterDefinitions?.length) {
           <div class="parameter-list">
-            @for (param of categoryDetailsData().parameterDefinitions; track param.id) {
+            @for (param of categoryDetailsData()!.parameterDefinitions; track param.id) {
               <div class="parameter-item">
                 <div class="parameter-info">
                   <span class="parameter-label">{{ param.label }}</span>
@@ -52,6 +64,9 @@
                   @if (param.isRequired) {
                     <span class="badge danger">Zorunlu</span>
                   }
+                  <button type="button" mat-raised-button (click)="openEditParameterDialog(param)">
+                    Düzenle
+                  </button>
                 </div>
               </div>
             }
@@ -61,8 +76,10 @@
             <p>Bu kategoriye ait parametre tanımı bulunmamaktadır.</p>
           </div>
         }
+        <mat-dialog-actions align="end">
+          <button type="button" mat-raised-button (click)="close()">İptal</button>
+        </mat-dialog-actions>
       </div>
     </mat-tab>
   </mat-tab-group>
-
 </div>

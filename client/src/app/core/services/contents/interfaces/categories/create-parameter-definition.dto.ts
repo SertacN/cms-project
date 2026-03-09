@@ -1,11 +1,5 @@
-export interface ParameterType {
-  TEXT: 'TEXT';
-  NUMBER: 'NUMBER';
-  SELECT: 'SELECT';
-  CHECKBOX: 'CHECKBOX';
-  DATE: 'DATE';
-  TEXTAREA: 'TEXTAREA';
-}
+export type ParameterType = 'TEXT' | 'NUMBER' | 'SELECT' | 'CHECKBOX' | 'DATE' | 'TEXTAREA';
+
 export interface CreateParametersDefinitionDto {
   name: string;
 

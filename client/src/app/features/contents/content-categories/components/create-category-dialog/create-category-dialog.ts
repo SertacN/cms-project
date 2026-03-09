@@ -39,7 +39,7 @@ export class CreateCategoryDialog {
   isLoading = signal(false);
   // Models
   createCategoryModel = this.fb.nonNullable.group({
-    title: ['', [Validators.minLength(3), Validators.required]],
+    title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     orderBy: [0, [Validators.min(0)]],
     isActive: [true],
   });

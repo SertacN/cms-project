@@ -1,0 +1,106 @@
+:root {
+  // Brand colors
+  --color-primary: #7c3aed;
+  --color-primary-light: #a855f7;
+  --color-primary-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+  --color-primary-shadow-hover: 0 4px 12px rgba(124, 58, 237, 0.4);
+
+  // Surface colors (light theme)
+  --color-surface: #ffffff;
+  --color-surface-variant: #f8fafc;
+  --color-surface-2: #f1f5f9;
+  --color-on-surface: #1f2937;
+  --color-on-surface-muted: #6b7280;
+  --color-border: rgba(0, 0, 0, 0.08);
+
+  // Sidebar (stays dark in both themes)
+  --color-sidebar-bg: #1f2937;
+  --color-sidebar-bg-hover: rgba(255, 255, 255, 0.08);
+
+  // Semantic
+  --color-error: #ef4444;
+  --color-error-rgb: 239, 68, 68;
+  --color-success: #10b981;
+  --color-white: #ffffff;
+  --color-white-rgb: 255, 255, 255;
+  --color-black: #000000;
+  --color-black-rgb: 0, 0, 0;
+
+  // Legacy aliases (backward compat — kaldırılacak)
+  --sc-first-color-light: var(--color-primary-light);
+  --sc-first-color-medium: var(--color-primary);
+  --sc-first-button-shadow: var(--color-primary-shadow);
+  --sc-first-button-shadow-hover: var(--color-primary-shadow-hover);
+  --sc-second-color-light: #2a3749;
+  --sc-second-color-medium: #1f2937;
+  --sc-second-button-shadow: 0 2px 8px rgba(31, 41, 55, 0.4);
+  --sc-second-button-shadow-hover: 0 4px 12px rgba(31, 41, 55, 0.5);
+  --sc-third-color-light: #eaedf2;
+  --sc-third-color-medium: #e5e7eb;
+  --sc-white: #ffffff;
+  --sc-white-rgb: 255, 255, 255;
+  --sc-black: #000000;
+  --sc-black-rgb: 0, 0, 0;
+  --sc-error-color: #ef4444;
+  --sc-alert-error-rgb: 239, 68, 68;
+  --sc-border-color: rgba(var(--sc-black-rgb), 0.1);
+
+  // Spacing
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  // Legacy spacing
+  --sc-first-gap: 8px;
+  --sc-second-gap: 16px;
+  --sc-first-padding: 8px;
+  --sc-second-padding: 16px;
+  --sc-third-padding: 24px;
+  --sc-first-padding-set: 8px 16px;
+  --sc-second-padding-set: 16px 24px;
+
+  // Radius
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --sc-first-radius: 12px;
+  --sc-input-radius: 12px;
+
+  // Typography
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --sc-default-font-size: 12px;
+  --sc-label-font-size: 0.875rem;
+
+  // Input
+  --sc-input-height: 30px;
+  --sc-input-padding-set: 0.8rem 1rem 0.8rem 3rem;
+  --sc-input-focus-bg-color: rgba(124, 58, 237, 0.1);
+  --sc-input-box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+  --sc-small-width: 18px;
+  --sc-small-height: 18px;
+  --sc-normal-width: 20px;
+  --sc-normal-height: 20px;
+  --sc-input-normal-width: 20px;
+  --sc-input-normal-height: 20px;
+
+  // Transition
+  --transition: all 0.2s ease;
+  --sc-transition: all 0.2s ease;
+}
+
+[data-theme='dark'] {
+  --color-surface: #1e1e2e;
+  --color-surface-variant: #2a2a3e;
+  --color-surface-2: #313147;
+  --color-on-surface: #e2e8f0;
+  --color-on-surface-muted: #94a3b8;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --sc-border-color: rgba(255, 255, 255, 0.08);
+}

@@ -12,6 +12,9 @@
           @if (title.hasError('minlength') && title.touched) {
             <mat-error>En az 3 karakter olmalı</mat-error>
           }
+          @if (title.hasError('maxlength') && title.touched) {
+            <mat-error>En fazla 50 karakter olmalı</mat-error>
+          }
         </mat-form-field>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Sıralama</mat-label>

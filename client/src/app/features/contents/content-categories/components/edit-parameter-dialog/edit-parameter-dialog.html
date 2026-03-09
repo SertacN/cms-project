@@ -1,15 +1,23 @@
-<h2 mat-dialog-title>Yeni Parametre Ekle</h2>
-<form [formGroup]="parameterForm" (ngSubmit)="submit()">
+<h2 mat-dialog-title>Parametre Düzenle</h2>
+<form [formGroup]="editParameterForm" (ngSubmit)="submit()">
   <mat-dialog-content>
     <div class="form-container">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Parametre Adı (Teknik)</mat-label>
-        <input matInput formControlName="name" placeholder="örneğin: passenger_count"/>
+        <input matInput formControlName="name" placeholder="örneğin: passenger_count" />
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Görünen Etiket</mat-label>
-        <input matInput formControlName="label" placeholder="örneğin: Yolcu Sayısı"/>
+        <input matInput formControlName="label" placeholder="örneğin: Yolcu Sayısı" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Sıra</mat-label>
+        <input matInput formControlName="orderBy" type="number" min="0" />
+        @if (orderBy.hasError('min') && orderBy.touched) {
+          <mat-error>Eksi Değer girilemez</mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
@@ -23,7 +31,7 @@
 
       <mat-checkbox formControlName="isRequired">Zorunlu Alan</mat-checkbox>
 
-      @if (parameterForm.get('type')?.value === 'SELECT') {
+      @if (editParameterForm.get('type')?.value === 'SELECT') {
         <div class="options-container">
           <div class="options-header">
             <h3>Seçenekler</h3>
@@ -37,10 +45,15 @@
               <div class="option-row">
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Seçenek {{ $index + 1 }}</mat-label>
-                  <input matInput [formControlName]="$index"/>
+                  <input matInput [formControlName]="$index" />
                 </mat-form-field>
-                <button type="button" mat-icon-button color="warn" (click)="removeOption($index)"
-                        [disabled]="options.length === 1">
+                <button
+                  type="button"
+                  mat-icon-button
+                  color="warn"
+                  (click)="removeOption($index)"
+                  [disabled]="options.length === 1"
+                >
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
@@ -53,6 +66,8 @@
 
   <mat-dialog-actions align="end">
     <button type="button" mat-button (click)="close()">İptal</button>
-    <button type="submit" mat-flat-button color="primary" [disabled]="parameterForm.invalid">Ekle</button>
+    <button type="submit" mat-flat-button color="primary" [disabled]="editParameterForm.invalid">
+      Düzenle
+    </button>
   </mat-dialog-actions>
 </form>

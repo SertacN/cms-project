@@ -1,0 +1,27 @@
+// Native dialog (login formu vs. — Material dialog değil)
+dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  padding: var(--sc-third-padding);
+  border: none;
+  border-radius: var(--sc-first-radius);
+  width: 500px;
+  max-width: calc(100vw - 32px);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+
+  &::backdrop { backdrop-filter: blur(1px); }
+  &[open] { animation: scaleIn 0.5s ease-out; }
+}
+
+.dialog-close-button { cursor: pointer; }
+.dialog-title { margin-bottom: var(--sc-second-gap); }
+
+// Dashboard container
+.dashboard-container {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}

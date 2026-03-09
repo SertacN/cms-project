@@ -1,20 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
-  FormControl,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-parameter-dialog',
@@ -45,6 +44,7 @@ export class CreateParameterDialog {
     type: ['TEXT', [Validators.required]],
     isRequired: [false],
     options: this.fb.array([]),
+    orderBy: [0, [Validators.min(0)]],
   });
 
   parameterTypes = [
@@ -59,6 +59,9 @@ export class CreateParameterDialog {
     return this.parameterForm.get('options') as FormArray;
   }
 
+  get orderBy() {
+    return this.parameterForm.controls.orderBy;
+  }
   addOption() {
     this.options.push(this.fb.control('', Validators.required));
   }

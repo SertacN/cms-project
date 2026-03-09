@@ -71,22 +71,27 @@ export class ParametersDefinitionService {
       // 2. Transaction başlat (Ya hepsi güncellenir ya hiçbiri)
       const results = await this.prisma.$transaction(
         dto.parameters.map((param) => {
-          return this.prisma.contentParameterDefinition.upsert({
-            where: {
-              // Bileşik unique anahtarımız: categoryId ve name
-              categoryId_name: {
-                categoryId: categoryId,
+          if (param.id) {
+            return this.prisma.contentParameterDefinition.update({
+              where: { id: param.id },
+              data: {
                 name: param.name,
+                label: param.label,
+                type: param.type,
+                options: param.options,
+                isRequired: param.isRequired,
+                orderBy: param.orderBy ?? 0,
               },
-            },
-            update: {
+            });
+          }
+          return this.prisma.contentParameterDefinition.create({
+            data: {
+              name: param.name,
               label: param.label,
               type: param.type,
               options: param.options,
+              isRequired: param.isRequired,
               orderBy: param.orderBy ?? 0,
-            },
-            create: {
-              ...param,
               categoryId: categoryId,
             },
           });
