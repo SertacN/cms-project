@@ -1,13 +1,16 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import {
+  Activity,
   ArrowRight,
+  TrendingUp,
   Check,
   ChevronLeft,
   ChevronRight,
   CircleAlert,
+  ClipboardList,
   Eye,
   EyeOff,
   FileText,
@@ -20,9 +23,13 @@ import {
   Mail,
   Moon,
   Pencil,
+  Plus,
+  Search,
   Settings,
+  Sparkles,
   Sun,
   User,
+  Users,
   X,
 } from 'lucide-angular';
 import { authInterceptor } from './core/auth/interceptors';
@@ -32,7 +39,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideAnimations(),
+    provideAnimationsAsync(),
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     {
@@ -42,6 +49,7 @@ export const appConfig: ApplicationConfig = {
         Mail, Lock, Eye, EyeOff, ArrowRight, CircleAlert,
         Check, X, Pencil, ChevronRight, ChevronLeft,
         Sun, Moon, LogOut, LayoutDashboard, FileText, Settings, Globe, User,
+        Users, TrendingUp, ClipboardList, Activity, Sparkles, Search, Plus,
       }),
     },
   ],

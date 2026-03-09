@@ -1,71 +1,57 @@
 <div class="dashboard-container">
+
+  <!-- Welcome banner -->
   <div class="welcome-card">
     <div class="welcome-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-        />
-      </svg>
+      <lucide-icon name="sparkles" [size]="28" />
     </div>
-    <h2>Hoş Geldiniz!</h2>
-    <p>Dashboard'a başarıyla giriş yaptınız.</p>
+    <div class="welcome-body">
+      <h2>Hoş Geldiniz!</h2>
+      <p>Dashboard'a başarıyla giriş yaptınız.</p>
+    </div>
   </div>
 
+  <!-- Stats -->
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-icon blue">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
-          />
-        </svg>
+        <lucide-icon name="users" [size]="22" />
       </div>
       <div class="stat-content">
-        <h3>Kullanıcılar</h3>
+        <p class="stat-label">Kullanıcılar</p>
         <p class="stat-value">--</p>
       </div>
     </div>
 
     <div class="stat-card">
       <div class="stat-icon purple">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"
-          />
-        </svg>
+        <lucide-icon name="trending-up" [size]="22" />
       </div>
       <div class="stat-content">
-        <h3>İstatistikler</h3>
+        <p class="stat-label">İstatistikler</p>
         <p class="stat-value">--</p>
       </div>
     </div>
 
     <div class="stat-card">
       <div class="stat-icon green">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
-          />
-        </svg>
+        <lucide-icon name="clipboard-list" [size]="22" />
       </div>
       <div class="stat-content">
-        <h3>Görevler</h3>
+        <p class="stat-label">Görevler</p>
         <p class="stat-value">--</p>
       </div>
     </div>
 
     <div class="stat-card">
       <div class="stat-icon orange">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"
-          />
-        </svg>
+        <lucide-icon name="activity" [size]="22" />
       </div>
       <div class="stat-content">
-        <h3>Aktivite</h3>
+        <p class="stat-label">Aktivite</p>
         <p class="stat-value">--</p>
       </div>
     </div>
   </div>
+
 </div>
