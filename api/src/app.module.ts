@@ -31,6 +31,9 @@ import { HealthController } from './health/health.controller';
       serveRoot: '/uploads',
       serveStaticOptions: {
         index: false,
+        setHeaders: (res) => {
+          res.setHeader('X-Content-Type-Options', 'nosniff');
+        },
       },
     }),
     ThrottlerModule.forRoot({

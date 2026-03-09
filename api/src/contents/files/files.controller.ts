@@ -34,7 +34,7 @@ export class FilesController {
   @UseInterceptors(
     FileInterceptor('file', {
       limits: {
-        fileSize: 9 * 1024 * 1024, // 9MB
+        fileSize: 50 * 1024 * 1024, // 50MB hard cap — actual limit enforced in service via FILE_MAX_SIZE_MB env
       },
       fileFilter: (req, file, callback) => {
         const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'video/mp4', 'application/pdf'];

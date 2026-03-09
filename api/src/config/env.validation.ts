@@ -23,4 +23,6 @@ export const envValidationSchema = Joi.object({
 
   FRONTEND_URL: Joi.string().uri().required(),
   CORS_ORIGIN: Joi.string().required(),
+
+  FILE_MAX_SIZE_MB: Joi.number().min(1).max(100).default(9),
 });
