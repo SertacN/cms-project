@@ -39,7 +39,7 @@
     "class-validator": "^0.15.1",
     "cookie-parser": "^1.4.7",
     "express-session": "^1.19.0",
-    "file-type": "^16.5.4",
+    "file-type": "^21.3.1",
     "joi": "^18.0.2",
     "nest-winston": "^1.10.2",
     "passport": "^0.7.0",

@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ContentFile } from '@prisma/client';
-import { fromBuffer } from 'file-type';
 import { randomUUID } from 'crypto';
 import path from 'path';
 import { ServiceResponse } from 'src/common/types';
@@ -27,7 +26,8 @@ export class FilesService {
     }
 
     // 2. Magic bytes doğrulaması — gerçek MIME type kontrolü (spoofing önleme)
-    const detectedType = await fromBuffer(file.buffer);
+    const { fileTypeFromBuffer } = await import('file-type');
+    const detectedType = await fileTypeFromBuffer(file.buffer);
     if (!detectedType || !ALLOWED_MIME_TYPES.includes(detectedType.mime as (typeof ALLOWED_MIME_TYPES)[number])) {
       throw new BadRequestException('Dosya içeriği desteklenmiyor veya zararlı olabilir');
     }
