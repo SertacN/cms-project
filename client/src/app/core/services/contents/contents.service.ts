@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ApiResponse } from '../../interfaces';
-import { Content, ContentStatus, ContentsResponse } from './interfaces/content.interface';
+import { Content, ContentDetail, ContentStatus, ContentsResponse } from './interfaces/content.interface';
 
 export interface GetContentsParams {
   categoryId?: number;
@@ -12,10 +12,30 @@ export interface GetContentsParams {
   limit?: number;
 }
 
+export interface CreatePostPayload {
+  title: string;
+  categoryId: number;
+  summary?: string;
+  content?: string;
+}
+
+export interface UpdatePostPayload {
+  title?: string;
+  categoryId?: number;
+  summary?: string;
+  content?: string;
+}
+
+export interface ParameterValuePayload {
+  contentId: number;
+  values: { definitionId: number; value: string }[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class ContentsService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/contents/posts/admin`;
+  private readonly paramsValueUrl = `${environment.apiUrl}/contents/parameters-value`;
   private readonly headers = new HttpHeaders({ 'x-api-key': `${environment.apiKey}` });
 
   getContents(params: GetContentsParams): Observable<ContentsResponse> {
@@ -26,6 +46,22 @@ export class ContentsService {
     if (params.limit) httpParams = httpParams.set('limit', params.limit);
 
     return this.http.get<ContentsResponse>(this.apiUrl, { headers: this.headers, params: httpParams });
+  }
+
+  getPostById(id: number): Observable<ApiResponse<ContentDetail>> {
+    return this.http.get<ApiResponse<ContentDetail>>(`${this.apiUrl}/${id}`, { headers: this.headers });
+  }
+
+  createPost(payload: CreatePostPayload): Observable<ApiResponse<Content>> {
+    return this.http.post<ApiResponse<Content>>(this.apiUrl, payload, { headers: this.headers });
+  }
+
+  updatePost(id: number, payload: UpdatePostPayload): Observable<ApiResponse<Content>> {
+    return this.http.patch<ApiResponse<Content>>(`${this.apiUrl}/${id}`, payload, { headers: this.headers });
+  }
+
+  saveParameterValues(payload: ParameterValuePayload): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(this.paramsValueUrl, payload, { headers: this.headers });
   }
 
   updateStatus(id: number, status: ContentStatus): Observable<ApiResponse<Content>> {

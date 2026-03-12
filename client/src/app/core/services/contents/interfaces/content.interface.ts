@@ -32,3 +32,15 @@ export interface ContentsResponse {
   data: Content[];
   meta: ContentMeta;
 }
+
+export interface ContentParameterValue {
+  id: number;
+  value: string;
+  definitionId: number;
+}
+
+export interface ContentDetail extends Content {
+  summary: string | null;
+  content: string | null;
+  parameters: ContentParameterValue[];
+}

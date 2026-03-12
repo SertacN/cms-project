@@ -19,7 +19,9 @@ export interface CategoryDetailsDialog {
   sefUrl: string;
   orderBy: number;
   isActive: boolean;
+  parentId: number | null;
   parameterDefinitions: ParameterDefinition[];
+  resolvedParameters: ParameterDefinition[];
   createdAt: string;
   updatedAt: string;
 }

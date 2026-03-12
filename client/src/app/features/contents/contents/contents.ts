@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import { DatePipe, LowerCasePipe } from '@angular/common';
-import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -33,7 +32,6 @@ export class Contents {
   private readonly contentsService = inject(ContentsService);
   private readonly toast = inject(ToastService);
   private readonly dialog = inject(MatDialog);
-  private readonly router = inject(Router);
 
   // Route'dan gelen kategori ID'si
   readonly categoryId = input<string>();
@@ -126,14 +124,28 @@ export class Contents {
     });
   }
 
-  navigateToCreate(): void {
-    this.router.navigate(['/contents/new'], {
-      queryParams: { categoryId: this.categoryId() },
+  async openCreateDialog(): Promise<void> {
+    const { CreateContentDialog } = await import('./components/create-content-dialog/create-content-dialog');
+    const dialogRef = this.dialog.open(CreateContentDialog, {
+      width: '640px',
+      disableClose: true,
+      data: { categoryId: Number(this.categoryId()) },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) this.fetchContents();
     });
   }
 
-  navigateToEdit(id: number): void {
-    this.router.navigate(['/contents', id, 'edit']);
+  async openEditDialog(contentId: number): Promise<void> {
+    const { EditContentDialog } = await import('./components/edit-content-dialog/edit-content-dialog');
+    const dialogRef = this.dialog.open(EditContentDialog, {
+      width: '640px',
+      disableClose: true,
+      data: { contentId },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) this.fetchContents();
+    });
   }
 
   getAvailableStatuses(current: ContentStatus): { value: ContentStatus; label: string }[] {

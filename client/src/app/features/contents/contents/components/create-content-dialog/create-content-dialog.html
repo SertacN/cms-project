@@ -1,0 +1,108 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <h2 mat-dialog-title>Yeni İçerik</h2>
+
+  <mat-dialog-content>
+
+    <!-- Başlık -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Başlık</mat-label>
+      <input matInput formControlName="title" placeholder="İçerik başlığını girin" maxlength="200" />
+      @if (form.controls.title.hasError('required') && form.controls.title.touched) {
+        <mat-error>Başlık zorunludur</mat-error>
+      }
+      @if (form.controls.title.hasError('minlength') && form.controls.title.touched) {
+        <mat-error>En az 3 karakter olmalıdır</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- İçerik -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>İçerik</mat-label>
+      <textarea matInput formControlName="content" rows="8" placeholder="İçeriği buraya yazın..."></textarea>
+    </mat-form-field>
+
+    <!-- Özet -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Özet</mat-label>
+      <textarea matInput formControlName="summary" rows="2" placeholder="Kısa açıklama (isteğe bağlı)"></textarea>
+    </mat-form-field>
+
+    <!-- Dinamik Parametreler -->
+    @if (parameters().length > 0) {
+      <div class="params-section">
+        <p class="params-title">
+          <lucide-icon name="clipboard-list" [size]="14" />
+          Parametreler
+        </p>
+        @for (param of parameters(); track param.id) {
+          <div class="param-item">
+            <label class="param-label">
+              {{ param.label }}
+              @if (param.isRequired) { <span class="required-mark">*</span> }
+            </label>
+
+            @switch (param.type) {
+              @case ('TEXT') {
+                <mat-form-field appearance="outline" class="full-width">
+                  <input matInput [value]="getParamValue(param.id)"
+                         (input)="setParamValue(param.id, $any($event.target).value)" />
+                </mat-form-field>
+              }
+              @case ('NUMBER') {
+                <mat-form-field appearance="outline" class="full-width">
+                  <input matInput type="number" [value]="getParamValue(param.id)"
+                         (input)="setParamValue(param.id, $any($event.target).value)" />
+                </mat-form-field>
+              }
+              @case ('TEXTAREA') {
+                <mat-form-field appearance="outline" class="full-width">
+                  <textarea matInput rows="3" [value]="getParamValue(param.id)"
+                            (input)="setParamValue(param.id, $any($event.target).value)"></textarea>
+                </mat-form-field>
+              }
+              @case ('SELECT') {
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-select [value]="getParamValue(param.id)"
+                              (selectionChange)="setParamValue(param.id, $event.value)">
+                    @for (opt of param.options; track opt) {
+                      <mat-option [value]="opt">{{ opt }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              }
+              @case ('CHECKBOX') {
+                <mat-checkbox [checked]="getParamValue(param.id) === 'true'"
+                              (change)="setParamValue(param.id, $event.checked ? 'true' : 'false')">
+                  {{ param.label }}
+                </mat-checkbox>
+              }
+              @case ('DATE') {
+                <mat-form-field appearance="outline" class="full-width">
+                  <input matInput [matDatepicker]="picker"
+                         [value]="getParamValue(param.id)"
+                         (dateChange)="setParamValue(param.id, $event.value?.toISOString() ?? '')" />
+                  <mat-datepicker-toggle matIconSuffix [for]="picker" />
+                  <mat-datepicker #picker />
+                </mat-form-field>
+              }
+            }
+          </div>
+        }
+      </div>
+    }
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-button (click)="close()" [disabled]="isLoading()">İptal</button>
+    <button type="submit" mat-flat-button color="primary" [disabled]="isLoading()">
+      @if (isLoading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        Oluştur
+      }
+    </button>
+  </mat-dialog-actions>
+
+</form>

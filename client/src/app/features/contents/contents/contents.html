@@ -16,7 +16,7 @@
       </mat-select>
     </div>
 
-    <button mat-flat-button color="primary" class="new-btn" (click)="navigateToCreate()">
+    <button mat-flat-button color="primary" class="new-btn" (click)="openCreateDialog()">
       <lucide-icon name="plus" [size]="16" />
       Yeni İçerik
     </button>
@@ -38,7 +38,7 @@
         <lucide-icon name="file-text" [size]="40" />
         <p class="empty-title">Henüz içerik yok</p>
         <p class="empty-sub">Bu kategoriye ilk içeriği ekleyin</p>
-        <button mat-stroked-button (click)="navigateToCreate()">
+        <button mat-stroked-button (click)="openCreateDialog()">
           <lucide-icon name="plus" [size]="16" />
           Yeni İçerik
         </button>
@@ -93,7 +93,7 @@
                     mat-icon-button
                     matTooltip="Düzenle"
                     class="action-btn"
-                    (click)="navigateToEdit(item.id)"
+                    (click)="openEditDialog(item.id)"
                   >
                     <lucide-icon name="pencil" [size]="16" />
                   </button>

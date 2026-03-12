@@ -1,0 +1,58 @@
+.full-width {
+  width: 100%;
+}
+
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 560px;
+  max-height: 70vh;
+}
+
+/* Parametreler */
+.params-section {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.params-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-on-surface-muted);
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.param-item {
+  margin-bottom: 0.25rem;
+}
+
+.param-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-on-surface-muted);
+  margin-bottom: 0.25rem;
+}
+
+.required-mark {
+  color: var(--color-error, #ef4444);
+  margin-left: 2px;
+}
+
+mat-dialog-actions {
+  padding: 0.75rem 1.5rem 1rem;
+  gap: 0.5rem;
+}
+
+mat-dialog-actions button {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
