@@ -1,5 +1,5 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { AuthDto, UserResponseDto } from './dto';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { AuthDto, UpdateMeDto, UpdatePasswordDto, UserResponseDto } from './dto';
 import * as bcrypt from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -94,6 +94,49 @@ export class AuthService {
       },
     });
   }
+  async getMe(userId: string): Promise<{ message: string; data: UserResponseDto }> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId, isDeleted: false },
+    });
+    if (!user) throw new NotFoundException('Kullanıcı bulunamadı');
+    return {
+      message: 'Kullanıcı bilgileri getirildi',
+      data: plainToInstance(UserResponseDto, user),
+    };
+  }
+
+  async updateMe(userId: string, dto: UpdateMeDto): Promise<{ message: string; data: UserResponseDto }> {
+    if (dto.email) {
+      const existing = await this.prisma.user.findUnique({ where: { email: dto.email } });
+      if (existing && existing.id !== userId) {
+        throw new ConflictException('Bu e-posta adresi zaten kullanımda');
+      }
+    }
+    const user = await this.prisma.user.update({
+      where: { id: userId },
+      data: dto,
+    });
+    return {
+      message: 'Bilgileriniz güncellendi',
+      data: plainToInstance(UserResponseDto, user),
+    };
+  }
+
+  async updatePassword(userId: string, dto: UpdatePasswordDto): Promise<{ message: string }> {
+    const user = await this.prisma.user.findUnique({ where: { id: userId, isDeleted: false } });
+    if (!user) throw new NotFoundException('Kullanıcı bulunamadı');
+
+    const passwordMatches = await bcrypt.compare(dto.currentPassword, user.password);
+    if (!passwordMatches) throw new BadRequestException('Mevcut şifre hatalı');
+
+    const hashed = await bcrypt.hash(dto.newPassword, 10);
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { password: hashed, refreshToken: null }, // tüm oturumları sonlandır
+    });
+    return { message: 'Şifre başarıyla güncellendi' };
+  }
+
   async refreshTokens(refreshToken: string) {
     try {
       // Verify refresh token

@@ -28,7 +28,7 @@ export class PaginationInterceptor implements NestInterceptor {
             ...response.meta,
             page,
             limit,
-            lastPage: Math.ceil(response.meta.total / limit),
+            totalPages: Math.ceil(response.meta.total / limit),
           },
         };
       }),

@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCategoryDto, EditCategoryDto } from './dto';
 import { generateUniqueUrl, getByIdentifier } from 'src/common/utils';
-import { ServiceResponse, Public } from 'src/common/types';
+import { ServiceResponse, Public, Pagination } from 'src/common/types';
 import { ContentCategory, ContentParameterDefinition } from '@prisma/client';
 
 // Parametre çözümleme: parent.parameters + child.parameters birleştirilir
@@ -59,28 +59,36 @@ export class CategoriesService {
     };
   }
 
-  // Hiyerarşik liste: üst kategoriler altında children dizisiyle döner
-  async getAllCategory(): Promise<ServiceResponse<any[]>> {
-    const allCategories = await this.prisma.contentCategory.findMany({
-      where: { isDeleted: false },
-      select: {
-        ...CATEGORY_PUBLIC_SELECT,
-        children: {
-          where: { isDeleted: false },
-          select: CATEGORY_PUBLIC_SELECT,
-          orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
-        },
-        _count: { select: { content: true } },
-      },
-      orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
-    });
+  // Hiyerarşik liste: sadece üst kategoriler döner, her biri children[] ile birlikte
+  async getAllCategory(pagination: Pagination): Promise<ServiceResponse<any[]>> {
+    const where = { isDeleted: false, parentId: null };
 
-    // Sadece üst kategorileri döndür (parentId null olanlar) — children içinde alt kategoriler var
-    const topLevel = allCategories.filter((c) => c.parentId === null);
+    const [categories, total] = await Promise.all([
+      this.prisma.contentCategory.findMany({
+        where,
+        skip: pagination.skip,
+        take: pagination.take,
+        select: {
+          ...CATEGORY_PUBLIC_SELECT,
+          children: {
+            where: { isDeleted: false },
+            select: {
+              ...CATEGORY_PUBLIC_SELECT,
+              _count: { select: { content: true } },
+            },
+            orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
+          },
+          _count: { select: { content: true, children: true } },
+        },
+        orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
+      }),
+      this.prisma.contentCategory.count({ where }),
+    ]);
 
     return {
       message: 'Categories fetched successfully',
-      data: topLevel,
+      data: categories,
+      meta: { total },
     };
   }
 
