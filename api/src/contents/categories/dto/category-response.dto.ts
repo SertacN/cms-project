@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 
 export class CategoryResponseDto {
@@ -16,6 +16,9 @@ export class CategoryResponseDto {
 
   @ApiProperty({ example: true })
   isActive: boolean;
+
+  @ApiPropertyOptional({ example: 1, nullable: true })
+  parentId: number | null;
 
   @ApiProperty()
   createdAt: Date;

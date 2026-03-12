@@ -1,32 +1,57 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCategoryDto, EditCategoryDto } from './dto';
 import { generateUniqueUrl, getByIdentifier } from 'src/common/utils';
 import { ServiceResponse, Public } from 'src/common/types';
-import { ContentCategory } from '@prisma/client';
+import { ContentCategory, ContentParameterDefinition } from '@prisma/client';
+
+// Parametre çözümleme: parent.parameters + child.parameters birleştirilir
+function resolveParameters(
+  ownParams: ContentParameterDefinition[],
+  parentParams?: ContentParameterDefinition[],
+): ContentParameterDefinition[] {
+  if (!parentParams?.length) return ownParams;
+  return [...parentParams, ...ownParams];
+}
+
+const CATEGORY_PUBLIC_SELECT = {
+  id: true,
+  title: true,
+  sefUrl: true,
+  orderBy: true,
+  isActive: true,
+  parentId: true,
+  createdAt: true,
+  updatedAt: true,
+} as const;
 
 @Injectable()
 export class CategoriesService {
   constructor(private readonly prisma: PrismaService) {}
 
   // All error using Global Exception Filter with Winston
-  // TODO: Kategorinin alt kategorisi oluşturma denensin
   async createCategory(dto: CreateCategoryDto): Promise<ServiceResponse<Public<ContentCategory>>> {
+    // Parent kontrolü: maksimum 2 seviye
+    if (dto.parentId) {
+      const parent = await this.prisma.contentCategory.findUnique({
+        where: { id: dto.parentId, isDeleted: false },
+        select: { id: true, parentId: true },
+      });
+      if (!parent) {
+        throw new NotFoundException(`${dto.parentId} ID'li üst kategori bulunamadı`);
+      }
+      if (parent.parentId !== null) {
+        throw new BadRequestException('Maksimum 2 seviyeli hiyerarşi desteklenmektedir. Seçilen kategori zaten bir alt kategoridir.');
+      }
+    }
+
     const finalUrl = await generateUniqueUrl(dto.title, this.prisma.contentCategory);
     const category = await this.prisma.contentCategory.create({
       data: {
         ...dto,
         sefUrl: finalUrl,
       },
-      select: {
-        id: true,
-        title: true,
-        sefUrl: true,
-        isActive: true,
-        orderBy: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      select: CATEGORY_PUBLIC_SELECT,
     });
     return {
       message: 'Category created successfully',
@@ -34,61 +59,83 @@ export class CategoriesService {
     };
   }
 
-  async getAllCategory(): Promise<ServiceResponse<Public<ContentCategory>[]>> {
-    const categories = await this.prisma.contentCategory.findMany({
-      where: {
-        isDeleted: false,
-      },
+  // Hiyerarşik liste: üst kategoriler altında children dizisiyle döner
+  async getAllCategory(): Promise<ServiceResponse<any[]>> {
+    const allCategories = await this.prisma.contentCategory.findMany({
+      where: { isDeleted: false },
       select: {
-        id: true,
-        title: true,
-        sefUrl: true,
-        orderBy: true,
-        isActive: true,
-        content: false,
-        parameterDefinitions: false,
-        createdAt: true,
-        updatedAt: true,
+        ...CATEGORY_PUBLIC_SELECT,
+        children: {
+          where: { isDeleted: false },
+          select: CATEGORY_PUBLIC_SELECT,
+          orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
+        },
+        _count: { select: { content: true } },
       },
       orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
     });
+
+    // Sadece üst kategorileri döndür (parentId null olanlar) — children içinde alt kategoriler var
+    const topLevel = allCategories.filter((c) => c.parentId === null);
+
     return {
       message: 'Categories fetched successfully',
-      data: categories,
+      data: topLevel,
     };
   }
-  // ID ve SefUrl ile birlikte çalışır(hangisi gönderilirse)
-  async getCategoryDetails(identifier: number | string): Promise<ServiceResponse<Public<ContentCategory>>> {
+
+  // ID ve SefUrl ile birlikte çalışır — parameterler parent'tan miras alınır
+  async getCategoryDetails(identifier: number | string): Promise<ServiceResponse<any>> {
     const category = await this.prisma.contentCategory.findFirst({
       where: getByIdentifier(identifier, { isDeleted: false }),
       select: {
-        id: true,
-        title: true,
-        sefUrl: true,
-        orderBy: true,
-        isActive: true,
-        content: true,
-        parameterDefinitions: true,
-        createdAt: true,
-        updatedAt: true,
+        ...CATEGORY_PUBLIC_SELECT,
+        parameterDefinitions: {
+          orderBy: { orderBy: 'asc' },
+        },
+        parent: {
+          select: {
+            id: true,
+            title: true,
+            sefUrl: true,
+            parameterDefinitions: {
+              orderBy: { orderBy: 'asc' },
+            },
+          },
+        },
+        children: {
+          where: { isDeleted: false },
+          select: {
+            ...CATEGORY_PUBLIC_SELECT,
+            _count: { select: { content: true } },
+          },
+          orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
+        },
+        _count: { select: { content: true, children: true } },
       },
     });
 
     if (!category) {
       throw new NotFoundException(`Category ${identifier} not found`);
     }
+
+    const resolvedParameters = resolveParameters(
+      category.parameterDefinitions,
+      category.parent?.parameterDefinitions,
+    );
+
     return {
       message: 'Category fetched successfully',
-      data: category,
+      data: {
+        ...category,
+        resolvedParameters,
+      },
     };
   }
-  // Tekil tablo işlemi. Transaction kullanılmadı.
+
   async editCategoryById(categoryId: number, dto: EditCategoryDto): Promise<ServiceResponse<Public<ContentCategory>>> {
     const category = await this.prisma.contentCategory.findUnique({
-      where: {
-        id: categoryId,
-        isDeleted: false,
-      },
+      where: { id: categoryId, isDeleted: false },
     });
     if (!category) {
       throw new NotFoundException(`Category ID ${categoryId} not found`);
@@ -98,41 +145,34 @@ export class CategoriesService {
       dto.sefUrl = finalUrl;
     }
     const updatedCategory = await this.prisma.contentCategory.update({
-      where: {
-        id: categoryId,
-      },
+      where: { id: categoryId },
       data: dto,
-      select: {
-        id: true,
-        title: true,
-        sefUrl: true,
-        orderBy: true,
-        isActive: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      select: CATEGORY_PUBLIC_SELECT,
     });
     return {
       message: 'Category updated successfully',
       data: updatedCategory,
     };
   }
-  // Data geri döndürülmediği için UpdateMany ile Soft Delete
+
+  // Alt kategorileri olan bir üst kategori silinemez
   async deleteCategoryById(categoryId: number): Promise<ServiceResponse<Public<ContentCategory>>> {
-    const result = await this.prisma.contentCategory.updateMany({
-      where: {
-        id: categoryId,
-        isDeleted: false,
-      },
-      data: {
-        isDeleted: true,
-        isActive: false,
-        deletedAt: new Date(),
-      },
+    const category = await this.prisma.contentCategory.findUnique({
+      where: { id: categoryId, isDeleted: false },
+      select: { id: true, _count: { select: { children: { where: { isDeleted: false } } } } },
     });
-    if (result.count === 0) {
+    if (!category) {
       throw new NotFoundException(`${categoryId} ID'li Kategori Bulunamadı`);
     }
+    if (category._count.children > 0) {
+      throw new BadRequestException('Alt kategorileri olan bir kategori silinemez. Önce alt kategorileri silin.');
+    }
+
+    await this.prisma.contentCategory.updateMany({
+      where: { id: categoryId, isDeleted: false },
+      data: { isDeleted: true, isActive: false, deletedAt: new Date() },
+    });
+
     return {
       message: `${categoryId} ID'li Kategori Başarıyla Silindi`,
     };

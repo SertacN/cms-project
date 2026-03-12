@@ -5,6 +5,11 @@ model ContentCategory{
     orderBy Int @default(0)
     isActive Boolean @default(true)
 
+    // Parent-Child hiyerarşisi — maksimum 2 seviye (backend'de validate edilir)
+    parentId Int?
+    parent   ContentCategory?  @relation("CategoryParent", fields: [parentId], references: [id])
+    children ContentCategory[] @relation("CategoryParent")
+
     content Content[]
     parameterDefinitions ContentParameterDefinition[]
 
@@ -14,4 +19,5 @@ model ContentCategory{
     isDeleted Boolean @default(false)
 
     @@index([isDeleted])
+    @@index([parentId])
 }
