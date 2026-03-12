@@ -36,8 +36,15 @@ import {
   Users,
   X,
 } from 'lucide-angular';
-import { authInterceptor } from './core/auth/interceptors';
+import { authInterceptor, httpErrorInterceptor } from './core/auth/interceptors';
 import { routes } from './app.routes';
+import { environment } from '../environments/environment';
+
+if (environment.production) {
+  console.log = () => {};
+  console.debug = () => {};
+  console.info = () => {};
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -45,7 +52,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideAnimationsAsync(),
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor, httpErrorInterceptor])),
     {
       provide: LUCIDE_ICONS,
       multi: true,
