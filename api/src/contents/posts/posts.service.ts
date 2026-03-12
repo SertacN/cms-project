@@ -1,10 +1,10 @@
-import { ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CategoriesService } from '../categories/categories.service';
-import { CreatePostDto, EditPostDto, GetAllPostDto } from './dto';
+import { CreatePostDto, EditPostDto, GetAllPostDto, UpdateStatusDto } from './dto';
 import { generateUniqueUrl, getByIdentifier } from 'src/common/utils';
 import { ServiceResponse, Pagination, Public } from 'src/common/types';
-import { Content, Prisma } from '@prisma/client';
+import { Content, ContentStatus, Prisma } from '@prisma/client';
 
 @Injectable()
 export class PostsService {
@@ -22,7 +22,8 @@ export class PostsService {
     const result = await this.prisma.content.create({
       data: {
         ...dto,
-        sefUrl: sefUrl,
+        sefUrl,
+        status: ContentStatus.DRAFT,
       },
       select: {
         id: true,
@@ -31,6 +32,7 @@ export class PostsService {
         content: true,
         sefUrl: true,
         orderBy: true,
+        status: true,
         isActive: true,
         createdAt: true,
         updatedAt: true,
@@ -38,61 +40,57 @@ export class PostsService {
       },
     });
     return {
-      message: 'İçerik Başarıyla Oluşturuldu',
+      message: 'İçerik başarıyla oluşturuldu (Taslak)',
       data: result,
     };
   }
 
-  async getAllPostsAdmin(pagination: Pagination, postDto: GetAllPostDto) {
+  async getAllPostsAdmin(pagination: Pagination, query: GetAllPostDto): Promise<ServiceResponse<any[]>> {
+    const where: Prisma.ContentWhereInput = {
+      isDeleted: false,
+      ...(query.categoryId && { categoryId: query.categoryId }),
+      ...(query.status && { status: query.status }),
+    };
+
     const [contents, total] = await Promise.all([
       this.prisma.content.findMany({
         skip: pagination.skip,
         take: pagination.take,
-        where: { isDeleted: false, categoryId: postDto.categoryId },
+        where,
         orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
         select: {
           id: true,
           title: true,
           sefUrl: true,
+          status: true,
           isActive: true,
           orderBy: true,
           categoryId: true,
+          category: { select: { id: true, title: true, sefUrl: true } },
+          createdAt: true,
+          updatedAt: true,
         },
       }),
-      this.prisma.content.count({
-        where: { isDeleted: false, categoryId: postDto.categoryId }, // Filter count
-      }),
+      this.prisma.content.count({ where }),
     ]);
+
     return {
-      message: 'Content Fetched successfully',
+      message: 'İçerikler başarıyla getirildi',
       data: contents,
-      meta: {
-        total,
-      },
+      meta: { total },
     };
   }
 
   async getPostById(postId: number): Promise<ServiceResponse<Content>> {
     const content = await this.prisma.content.findFirst({
-      where: {
-        id: postId,
-        isDeleted: false,
-      },
+      where: { id: postId, isDeleted: false },
       include: {
         category: false,
         files: { where: { deletedAt: null } },
-        parameters: {
-          include: {
-            definition: true,
-          },
-        },
+        parameters: { include: { definition: true } },
       },
     });
-
-    if (!content) {
-      throw new NotFoundException('Content not found');
-    }
-
+    if (!content) throw new NotFoundException('Content not found');
     return {
       message: `${postId} ID'li içerik bilgileri başarıyla çekildi`,
       data: content,
@@ -102,31 +100,19 @@ export class PostsService {
   async editPostById(postId: number, dto: EditPostDto): Promise<ServiceResponse<Content>> {
     try {
       return await this.prisma.$transaction(async (tx) => {
-        const content = await tx.content.findUnique({
-          where: {
-            id: postId,
-          },
-        });
-        if (!content) throw new NotFoundException('Geçersiz categoryId gönderdiniz. Content Bulunamadı.');
+        const content = await tx.content.findUnique({ where: { id: postId } });
+        if (!content) throw new NotFoundException('Content Bulunamadı.');
+
         const categoryChanged = dto.categoryId && dto.categoryId !== content.categoryId;
         if (dto.title) {
           const finalUrl = await generateUniqueUrl(dto.title, tx.content);
           dto.sefUrl = finalUrl;
         }
-        const updated = await tx.content.update({
-          where: {
-            id: postId,
-          },
-          data: dto,
-        });
+        const updated = await tx.content.update({ where: { id: postId }, data: dto });
 
         // Kategori değiştiyse parametreleri sil
         if (categoryChanged) {
-          await tx.contentParameterValue.deleteMany({
-            where: {
-              contentId: postId,
-            },
-          });
+          await tx.contentParameterValue.deleteMany({ where: { contentId: postId } });
         }
 
         return {
@@ -136,55 +122,63 @@ export class PostsService {
       });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        // Prisma foreign key veya unique hatalar
-        if (error.code === 'P2002') {
-          throw new ConflictException('SefUrl zaten mevcut. Lütfen farklı bir sefUrl girin.');
-        }
-        if (error.code === 'P2003') {
-          throw new NotFoundException('Geçersiz categoryId gönderdiniz.');
-        }
+        if (error.code === 'P2002') throw new ConflictException('SefUrl zaten mevcut.');
+        if (error.code === 'P2003') throw new NotFoundException('Geçersiz categoryId gönderdiniz.');
       }
-      // Global Filter
       throw error;
     }
   }
 
-  async deletePostById(postId: number): Promise<ServiceResponse<Content>> {
-    const result = await this.prisma.content.updateMany({
-      where: {
-        id: postId,
-        isDeleted: false,
-      },
-      data: {
-        isDeleted: true,
-        isActive: false,
-        deletedAt: new Date(),
+  async updatePostStatus(postId: number, dto: UpdateStatusDto): Promise<ServiceResponse<any>> {
+    const content = await this.prisma.content.findFirst({
+      where: { id: postId, isDeleted: false },
+    });
+    if (!content) throw new NotFoundException(`${postId} ID'li içerik bulunamadı`);
+
+    const updated = await this.prisma.content.update({
+      where: { id: postId },
+      data: { status: dto.status },
+      select: {
+        id: true, title: true, sefUrl: true, status: true,
+        isActive: true, categoryId: true, updatedAt: true,
       },
     });
 
-    if (result.count === 0) {
-      throw new NotFoundException(`${postId}' ID'li kayıt bulunamadı`);
-    }
-
     return {
-      message: `${postId}' ID'li kayıt başarıyla silindi.`,
+      message: `İçerik durumu ${dto.status} olarak güncellendi`,
+      data: updated,
     };
   }
 
-  // Public
-  async getAllPosts(pagination: Pagination, postDto: GetAllPostDto): Promise<ServiceResponse<Public<Content>[]>> {
+  async deletePostById(postId: number): Promise<ServiceResponse<Public<Content>>> {
+    const result = await this.prisma.content.updateMany({
+      where: { id: postId, isDeleted: false },
+      data: { isDeleted: true, isActive: false, deletedAt: new Date() },
+    });
+    if (result.count === 0) throw new NotFoundException(`${postId} ID'li kayıt bulunamadı`);
+    return { message: `${postId} ID'li kayıt başarıyla silindi.` };
+  }
+
+  // Public — sadece PUBLISHED içerikler
+  async getAllPosts(pagination: Pagination, query: GetAllPostDto): Promise<ServiceResponse<any[]>> {
+    const where: Prisma.ContentWhereInput = {
+      isDeleted: false,
+      status: ContentStatus.PUBLISHED,
+      ...(query.categoryId && { categoryId: query.categoryId }),
+    };
+
     const [contents, total] = await Promise.all([
       this.prisma.content.findMany({
         skip: pagination.skip,
         take: pagination.take,
-        where: { isDeleted: false, categoryId: postDto.categoryId, isActive: true },
+        where,
         orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
         select: {
           id: true,
           title: true,
           summary: true,
-          content: true,
           sefUrl: true,
+          status: true,
           isActive: true,
           orderBy: true,
           createdAt: true,
@@ -193,16 +187,13 @@ export class PostsService {
           files: { where: { isActive: true, deletedAt: null, isThumbnail: true } },
         },
       }),
-      this.prisma.content.count({
-        where: { isDeleted: false, categoryId: postDto.categoryId, isActive: true }, // Filter count
-      }),
+      this.prisma.content.count({ where }),
     ]);
+
     return {
-      message: 'Content Fetched successfully',
+      message: 'İçerikler başarıyla getirildi',
       data: contents,
-      meta: {
-        total,
-      },
+      meta: { total },
     };
   }
 
@@ -215,6 +206,7 @@ export class PostsService {
         content: true,
         summary: true,
         sefUrl: true,
+        status: true,
         orderBy: true,
         isActive: true,
         categoryId: true,
@@ -225,10 +217,7 @@ export class PostsService {
         updatedAt: true,
       },
     });
-    if (!post) {
-      throw new NotFoundException(`${identifier} İçeriği bulunamadı`);
-    }
-
+    if (!post) throw new NotFoundException(`${identifier} İçeriği bulunamadı`);
     return {
       message: `${identifier} İçerik Bilgileri Başarıyla Çekildi`,
       data: post,

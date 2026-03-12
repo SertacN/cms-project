@@ -1,3 +1,9 @@
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
 model Content{
     id Int @default(autoincrement()) @id
     title String @unique
@@ -5,6 +11,7 @@ model Content{
     content String?
     sefUrl String @unique
     orderBy Int @default(0)
+    status ContentStatus @default(DRAFT)
 
     categoryId Int
     category ContentCategory @relation(fields: [categoryId], references: [id])
@@ -18,4 +25,5 @@ model Content{
     deletedAt DateTime?
     isDeleted Boolean @default(false)
     @@index([isDeleted, isActive])
+    @@index([status])
 }

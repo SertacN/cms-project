@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiKeyGuard } from 'src/common/guards';
 import { PostsService } from '../posts.service';
 import { GetAllPostDto } from '../dto';
@@ -18,20 +18,20 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 export class PublicPostController {
   constructor(private readonly postService: PostsService) {}
 
-  @ApiOperation({summary: 'Get all posts'})
+  @ApiOperation({ summary: 'Get all published posts — filter: categoryId' })
   @UseInterceptors(PaginationInterceptor)
   @Get()
   async getAllPosts(
     @PaginationParam() pagination: Pagination,
-    @Body() postDto: GetAllPostDto,
+    @Query() query: GetAllPostDto,
   ): Promise<ServiceResponse<Public<Content>[]>> {
-    return this.postService.getAllPosts(pagination, postDto);
+    return this.postService.getAllPosts(pagination, query);
   }
 
-  @ApiOperation({summary: 'Get post By ID or URL'})
+  @ApiOperation({ summary: 'Get post details by ID or URL' })
   @Get(':identifier')
   @CacheTTL(900000)
-  async getPostDetils(@Param('identifier') identifier: string) {
+  async getPostDetails(@Param('identifier') identifier: string) {
     const parsedIdentifier = parseIdentifier(identifier);
     return this.postService.getPostDetails(parsedIdentifier);
   }

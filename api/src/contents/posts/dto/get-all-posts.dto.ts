@@ -1,9 +1,18 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ContentStatus } from '@prisma/client';
+import { Type } from 'class-transformer';
+import { IsEnum, IsInt, IsOptional, Min } from 'class-validator';
 
 export class GetAllPostDto {
-  @ApiProperty({example: 1})
+  @ApiPropertyOptional({ example: 1, description: 'Kategoriye göre filtrele' })
+  @IsOptional()
+  @Type(() => Number)
   @IsInt()
-  @IsNotEmpty()
-  categoryId: number;
+  @Min(1)
+  categoryId?: number;
+
+  @ApiPropertyOptional({ enum: ContentStatus, description: 'Duruma göre filtrele' })
+  @IsOptional()
+  @IsEnum(ContentStatus)
+  status?: ContentStatus;
 }
