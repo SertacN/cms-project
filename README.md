@@ -1,8 +1,34 @@
 # CMS Project
 
 > 🚧 **In Progress** — Aktif geliştirme aşamasında.
+## Kalan
+- Media (İçeriklere dosya yükleme ve listeleme)
+- Settings
+- User Details
+- Dashboard Canlı Veri
 
 NestJS + Angular 21 tabanlı içerik yönetim sistemi.
+Kendi portfolyo sitemin içerik yönetimini yapmak için oluşturduğum bir cms yazılımı.
+
+## Devam Eden Süreçte Hedef (Aklıma Yeni Özellikler Geldikçe Buraya Eklenecek)
+CMS tamamlandıktan sonra ERP Modülleri, CRM Modülleri gibi özellikler.
+Not: Bu repo sadece CMS kodlarını barındıracak. Diğer modüller canlı demo site gösterilecek.
+Geliştirme süreçleri not olarak bu reponun README.md sine eklenecek.
+
+### Mimari Değişiklik
+Farklı Modüller eklenmeden önce proje mimarisi Modular Monolith yapısın geçirilecek.
+Örnek:
+```
+src/auth/                  →  src/identity/auth/
+src/contents/              →  src/cms/
+src/common/guards/         →  src/_kernel/guards/
+src/prisma/                →  src/_infra/prisma/
+
+```
+### Event Bus Altyapısı (BullMQ)
+- Redis mevcut olduğu için MQ servisi olarak BullMQ entegre edilecek(Nestjs ile tam uyumlu)
+
+---
 
 **Canlı:** [cms-project.sertaccan.com](https://cms-project.sertaccan.com)
 
@@ -56,6 +82,7 @@ NestJS + Angular 21 tabanlı içerik yönetim sistemi.
 - Angular Material + CDK
 - Signal tabanlı state management (servisler)
 - Lazy loading ile route bazlı code splitting
+- Angular CLI(ng) ile dosya oluşturma işlemleri
 
 ### State Management — Signal vs Observable
 
@@ -80,6 +107,31 @@ Angular build-time environment kullanıyor (`environments/` klasörü). `.env` d
 - `environment.ts` → production config, git'te yok
 - `environment.development.ts` → dev config, git'te yok
 - Referans: `environment.ts.example`
+
+### Form
+- Karmaşık olmayan, ekstra validation gerektirmeyen işlemler için -> FormField signal modeli (Login sayfası)
+- Diğer form işlemleri için FormsModule.(Dialog componentlar)
+- Neden: İki farklı form module kullanılmasının nedeni, Dialog, İnput gibi alanlar için kullandığım Material kütüphanesi
+nedeniyle, yeni olan FormField ile uyumsuz olmasından. Validation işlemleri için ekstra method yazmak yerine,
+sade form işlemleri için FormField Signal base, diğer form işlemleri için FormsModule kullanıldı.
+
+---
+
+## AI Tercihi (Claude Code)
+### Kullanım alanları
+- i18n Dil dönüşümleri(çeviriler)
+- Uygun Commit mesajları oluşturma
+- Test işlemleri
+- Refactoring işlemleri (kodun dış davranışını değiştirmeden iç yapısını iyileştirme süreci)
+
+---
+
+### API End Point Kontrolleri
+- Insomnia
+
+### DB Bağlantı İşlemleri
+- DBeaver
+- Nadiren Prisma Studio(Proje başında çoğunlukla Prisma Studio)
 
 ---
 

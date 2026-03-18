@@ -11,12 +11,20 @@ dialog {
   background: var(--color-surface);
   color: var(--color-on-surface);
 
-  &::backdrop { backdrop-filter: blur(1px); }
-  &[open] { animation: scaleIn 0.5s ease-out; }
+  &::backdrop {
+    backdrop-filter: blur(1px);
+  }
+  &[open] {
+    animation: scaleIn 0.5s ease-out;
+  }
 }
 
-.dialog-close-button { cursor: pointer; }
-.dialog-title { margin-bottom: var(--sc-second-gap); }
+.dialog-close-button {
+  cursor: pointer;
+}
+.dialog-title {
+  margin-bottom: var(--sc-second-gap);
+}
 
 // ── Toast (MatSnackBar panel classes) ─────────────────
 .mdc-snackbar__surface {
@@ -56,8 +64,8 @@ dialog {
   }
 }
 
-// Dashboard container
-.dashboard-container {
+// General container
+.general-container {
   padding: 2rem;
   display: flex;
   flex-direction: column;
