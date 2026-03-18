@@ -13,7 +13,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ToastService } from '../../../../../core/services/toast';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LucideAngularModule } from 'lucide-angular';
 import {
@@ -26,6 +25,7 @@ import {
   EditCategoryDto,
   EditParameterDefinitonDto,
 } from '../../../../../core/services/contents/interfaces/categories';
+import { ToastService } from '../../../../../core/services/toast';
 import { ConfirmDialog } from '../../../../../shared/components';
 import { EditCategoryDialogInterface } from '../../interfaces';
 import { CreateParameterDialog } from '../create-parameter-dialog/create-parameter-dialog';
@@ -191,23 +191,51 @@ export class EditCategoryDialog {
           ],
         };
         this.isLoading.set(true);
-        this.contentParametersService.editContentsParameterDefinition(categoryId!, payload).subscribe({
-          next: (res) => {
-            this.isLoading.set(false);
-            if (res.success) {
-              this.toast.success('Parametre güncellendi');
-              this.getContentParametersDefinition();
-            }
-          },
-          error: (err) => {
-            this.isLoading.set(false);
-            this.toast.error(err.message || 'Parametre düzenlenirken bir hata oluştu');
-          },
-        });
+        this.contentParametersService
+          .editContentsParameterDefinition(categoryId!, payload)
+          .subscribe({
+            next: (res) => {
+              this.isLoading.set(false);
+              if (res.success) {
+                this.toast.success('Parametre güncellendi');
+                this.getContentParametersDefinition();
+              }
+            },
+            error: (err) => {
+              this.isLoading.set(false);
+              this.toast.error(err.message || 'Parametre düzenlenirken bir hata oluştu');
+            },
+          });
       }
     });
   }
-
+  deleteParameterDefinition(parameterId: number, parameterLabel: string) {
+    const confirmRef = this.dialog.open(ConfirmDialog, {
+      width: '400px',
+      data: {
+        title: 'Parametreyi Sil',
+        message: `"${parameterLabel}" parametresini silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`,
+        confirmText: 'Evet, Sil',
+        cancelText: 'İptal',
+        danger: true,
+      },
+    });
+    confirmRef.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) return;
+      if (parameterId === null) return console.error(`${parameterLabel} id'si null olamaz!`);
+      this.isLoading.set(true);
+      this.contentParametersService.deleteContentsParameterDefiniton(parameterId).subscribe({
+        next: () => {
+          this.isLoading.set(false);
+          this.toast.success('Parametre silindi');
+          this.getContentParametersDefinition();
+        },
+        error: () => {
+          this.isLoading.set(false);
+        },
+      });
+    });
+  }
   openCreateParameterDialog() {
     const dialogRef = this.dialog.open(CreateParameterDialog, {
       width: '500px',

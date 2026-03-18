@@ -45,4 +45,14 @@ export class ContentParametersService {
         }),
       );
   }
+
+  deleteContentsParameterDefiniton(parameterId: number): Observable<ApiResponse> {
+    return this.http
+      .delete<ApiResponse>(`${this.apiUrl}/${parameterId}`, { headers: this.headers })
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          return throwError(() => new Error(`İşlem başarısız! (Hata Kodu: ${err.status})`));
+        }),
+      );
+  }
 }

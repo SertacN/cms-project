@@ -12,7 +12,6 @@
 </div>
 
 <mat-dialog-content class="dialog-body">
-
   <!-- Section: Genel Bilgiler -->
   <section class="dialog-section">
     <h3 class="section-title">Genel Bilgiler</h3>
@@ -74,6 +73,13 @@
               @if (param.isRequired) {
                 <span class="required-badge">Zorunlu</span>
               }
+              <button
+                mat-icon-button
+                (click)="deleteParameterDefinition(param.id, param.label)"
+                matTooltip="Sil"
+              >
+                <lucide-icon name="trash-2"></lucide-icon>
+              </button>
               <button mat-icon-button (click)="openEditParameterDialog(param)" matTooltip="Düzenle">
                 <lucide-icon name="pencil" [size]="15" />
               </button>
@@ -88,12 +94,17 @@
       </div>
     }
   </section>
-
 </mat-dialog-content>
 
 <!-- Dialog actions -->
 <mat-dialog-actions class="dialog-actions">
-  <button mat-flat-button color="warn" class="delete-btn" (click)="deleteCategory()" [disabled]="isLoading()">
+  <button
+    mat-flat-button
+    color="warn"
+    class="delete-btn"
+    (click)="deleteCategory()"
+    [disabled]="isLoading()"
+  >
     <lucide-icon name="trash-2" [size]="15" />
     Sil
   </button>
@@ -105,7 +116,9 @@
       mat-flat-button
       [disabled]="editCategoryModel.invalid || isLoading()"
     >
-      @if (isLoading()) { <span class="spinner small"></span> }
+      @if (isLoading()) {
+        <span class="spinner small"></span>
+      }
       Kaydet
     </button>
   </div>
