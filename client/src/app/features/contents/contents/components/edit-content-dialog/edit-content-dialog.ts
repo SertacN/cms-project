@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -16,8 +16,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { LucideAngularModule } from 'lucide-angular';
-import { ContentsService } from '../../../../../core/services/contents/contents.service';
 import { ContentCategoriesService } from '../../../../../core/services/contents/contents-categories.service';
+import { ContentsService } from '../../../../../core/services/contents/contents.service';
 import { ParameterDefinition } from '../../../../../core/services/contents/interfaces/categories/category-details.dto';
 import { ToastService } from '../../../../../core/services/toast';
 
@@ -54,14 +54,13 @@ export class EditContentDialog {
   readonly isSaving = signal(false);
   readonly parameters = signal<ParameterDefinition[]>([]);
   readonly paramValues = signal<Record<number, string>>({});
+  readonly categoryId = signal<number | null>(null);
 
   readonly form = this.fb.nonNullable.group({
     title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(200)]],
     content: [''],
     summary: [''],
   });
-
-  private categoryId = 0;
 
   constructor() {
     this.loadPost();
@@ -73,7 +72,7 @@ export class EditContentDialog {
         this.isLoading.set(false);
         if (!res.data) return;
         const p = res.data;
-        this.categoryId = p.categoryId;
+        this.categoryId.set(p.categoryId);
         this.form.patchValue({
           title: p.title,
           content: p.content ?? '',
@@ -81,7 +80,9 @@ export class EditContentDialog {
         });
         // Parametre değerlerini yükle
         const vals: Record<number, string> = {};
-        p.parameters?.forEach((pv) => { vals[pv.definitionId] = pv.value; });
+        p.parameters?.forEach((pv) => {
+          vals[pv.definitionId] = pv.value;
+        });
         this.paramValues.set(vals);
         // Parametre tanımlarını yükle
         this.loadParameters(p.categoryId);
@@ -109,19 +110,25 @@ export class EditContentDialog {
   }
 
   submit(): void {
-    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     const { title, content, summary } = this.form.getRawValue();
+    const categoryId = this.categoryId();
+    if (categoryId === null) return;
     this.isSaving.set(true);
-
-    this.contentsService.updatePost(this.data.contentId, { title, content, summary }).subscribe({
-      next: () => {
-        this.saveParams(this.data.contentId);
-        this.toast.success('İçerik kaydedildi');
-        this.isSaving.set(false);
-        this.dialogRef.close(true);
-      },
-      error: () => this.isSaving.set(false),
-    });
+    this.contentsService
+      .updatePost(this.data.contentId, { categoryId, title, content, summary })
+      .subscribe({
+        next: () => {
+          this.saveParams(this.data.contentId);
+          this.toast.success('İçerik kaydedildi');
+          this.isSaving.set(false);
+          this.dialogRef.close(true);
+        },
+        error: () => this.isSaving.set(false),
+      });
   }
 
   private saveParams(contentId: number): void {
