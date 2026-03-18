@@ -1,4 +1,5 @@
 # CMS Project
+**Canlı:** [cms-project.sertaccan.com](https://cms-project.sertaccan.com)
 
 > 🚧 **In Progress** — Aktif geliştirme aşamasında.
 ## Kalan
@@ -30,7 +31,6 @@ src/prisma/                →  src/_infra/prisma/
 
 ---
 
-**Canlı:** [cms-project.sertaccan.com](https://cms-project.sertaccan.com)
 
 ---
 
