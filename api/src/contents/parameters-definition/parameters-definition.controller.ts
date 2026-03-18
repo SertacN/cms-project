@@ -12,19 +12,21 @@ import {
 } from '@nestjs/common';
 import { ParametersDefinitionService } from './parameters-definition.service';
 import { JwtGuard } from 'src/auth/guard';
-import { ApiKeyGuard } from 'src/common/guards';
+import { ApiKeyGuard, RolesGuard } from 'src/common/guards';
 import { CreateParametersDefinitionDto, EditCategoryParametersDto } from './dto';
-import { ContentParameterDefinition } from '@prisma/client';
+import { ContentParameterDefinition, Role } from '@prisma/client';
 import { ServiceResponse } from 'src/common/types';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/common/decorators';
 
 @ApiTags('Content Parameter Definition')
-@UseGuards(JwtGuard, ApiKeyGuard)
+@UseGuards(JwtGuard, ApiKeyGuard, RolesGuard)
 @Controller('contents/parameters-definition')
 export class ParametersDefinitionController {
   constructor(private readonly parametersService: ParametersDefinitionService) {}
 
   @ApiOperation({summary: 'Create parameter definitions, update if ID exists in body'})
+  @Roles(Role.ADMIN)
   @Post()
   async createCategoryParameters(
     @Body(
@@ -39,6 +41,7 @@ export class ParametersDefinitionController {
   }
 
   @ApiOperation({summary: 'Get parameter definitions by category ID'})
+  @Roles(Role.ADMIN, Role.USER)
   @Get(':id')
   async getCategoryParametersById(
     @Param('id', ParseIntPipe) categoryId: number,
@@ -47,6 +50,7 @@ export class ParametersDefinitionController {
   }
 
   @ApiOperation({summary: 'Edit parameter definitions by category ID'})
+  @Roles(Role.ADMIN)
   @Patch(':id')
   async editCategoryParametersById(
     @Param('id', ParseIntPipe) categoryId: number,
@@ -56,6 +60,7 @@ export class ParametersDefinitionController {
   }
 
   @ApiOperation({summary: 'Delete parameter definition by parameter ID'})
+  @Roles(Role.ADMIN)
   @Delete(':id')
   async deleteCategoryParametersById(
     @Param('id', ParseIntPipe) parameterId: number,

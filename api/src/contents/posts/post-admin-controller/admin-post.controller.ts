@@ -23,13 +23,13 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Post API for Admins')
 @UseGuards(JwtGuard, ApiKeyGuard, RolesGuard)
-@Roles(Role.ADMIN)
 @Controller('contents/posts/admin')
 export class AdminPostController {
   constructor(private postService: PostsService) {}
 
   @ApiOperation({ summary: 'Create post (starts as DRAFT)' })
   @Post()
+  @Roles(Role.ADMIN)
   async createPost(@Body() dto: CreatePostDto): Promise<ServiceResponse<Public<Content>>> {
     return this.postService.createPost(dto);
   }
@@ -37,6 +37,7 @@ export class AdminPostController {
   @ApiOperation({ summary: 'Get all posts — filter: categoryId, status' })
   @UseInterceptors(PaginationInterceptor)
   @Get()
+  @Roles(Role.ADMIN, Role.USER)
   async getAllPostsAdmin(
     @PaginationParam() pagination: Pagination,
     @Query() query: GetAllPostDto,
@@ -45,12 +46,14 @@ export class AdminPostController {
   }
 
   @ApiOperation({ summary: 'Get post by ID' })
+  @Roles(Role.ADMIN, Role.USER)
   @Get(':id')
   async getPostById(@Param('id', ParseIntPipe) postId: number): Promise<ServiceResponse<Content>> {
     return this.postService.getPostById(postId);
   }
 
   @ApiOperation({ summary: 'Edit post by ID' })
+  @Roles(Role.ADMIN)
   @Patch(':id')
   async editPostById(
     @Param('id', ParseIntPipe) postId: number,
@@ -60,6 +63,7 @@ export class AdminPostController {
   }
 
   @ApiOperation({ summary: 'Update post status (DRAFT | PUBLISHED | ARCHIVED)' })
+  @Roles(Role.ADMIN)
   @Patch(':id/status')
   async updatePostStatus(
     @Param('id', ParseIntPipe) postId: number,
@@ -69,6 +73,7 @@ export class AdminPostController {
   }
 
   @ApiOperation({ summary: 'Delete post by ID (soft delete)' })
+  @Roles(Role.ADMIN)
   @Delete(':id')
   async deletePostById(@Param('id', ParseIntPipe) postId: number) {
     return this.postService.deletePostById(postId);
