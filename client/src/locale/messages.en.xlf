@@ -28,5 +28,59 @@
         <target> Demo account has &apos;USER&apos; role. Cannot perform Create, Delete, Update operations </target>
       </segment>
     </unit>
+    <unit id="emailPlaceholder">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.html:67,68</note>
+      </notes>
+      <segment>
+        <source>ornek@email.com</source>
+        <target>example@email.com</target>
+      </segment>
+    </unit>
+    <unit id="signInProcess">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.html:98,100</note>
+      </notes>
+      <segment>
+        <source>Giriş yapılıyor...</source>
+        <target>Logging in...</target>
+      </segment>
+    </unit>
+    <unit id="signIn">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.html:100,101</note>
+      </notes>
+      <segment>
+        <source>Giriş Yap</source>
+        <target>Login</target>
+      </segment>
+    </unit>
+    <unit id="footerSign">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.html:107,110</note>
+      </notes>
+      <segment>
+        <source>© 2026 Dashboard. Tüm hakları saklıdır.</source>
+        <target>© 2026 Dashboard. All rights reserved.</target>
+      </segment>
+    </unit>
+    <unit id="loginError">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.ts:55</note>
+      </notes>
+      <segment>
+        <source>Login sırasında bir hata oluştu</source>
+        <target>An error occurred during login</target>
+      </segment>
+    </unit>
+    <unit id="unexpectedError">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.ts:62</note>
+      </notes>
+      <segment>
+        <source>Beklenmeyen bir hata oluştu</source>
+        <target>An unexpected error occurred</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

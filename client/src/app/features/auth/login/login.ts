@@ -1,9 +1,9 @@
 import { Component, inject, LOCALE_ID, signal } from '@angular/core';
-import { LucideAngularModule } from 'lucide-angular';
 import { email, form, FormField, required } from '@angular/forms/signals';
+import { Router } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
 import { AuthService } from '../../../core/auth';
 import { LoginRequest } from '../../../core/auth/interfaces';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -51,12 +51,16 @@ export class Login {
         if (response.success === 1) {
           this.router.navigate(['/dashboard']);
         } else {
-          this.errorMessage.set(response.message || 'Login sırasında bir hata oluştu');
+          this.errorMessage.set(
+            response.message || $localize`:@@loginError:Login sırasında bir hata oluştu`,
+          );
         }
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.errorMessage.set(err?.error?.message.message || 'Beklenmeyen bir hata oluştu');
+        this.errorMessage.set(
+          err?.error?.message.message || $localize`:@@unexpectedError:Beklenmeyen bir hata oluştu`,
+        );
       },
     });
   }

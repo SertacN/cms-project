@@ -3,7 +3,7 @@
   <file id="ngi18n" original="ng.template">
     <unit id="loginWelcomeTitle">
       <notes>
-        <note category="location">src/app/features/auth/login/login.html:9,10</note>
+        <note category="location">src/app/features/auth/login/login.html:13,14</note>
       </notes>
       <segment>
         <source>Hoş Geldiniz</source>
@@ -11,7 +11,7 @@
     </unit>
     <unit id="loginWelcomeSubtitle">
       <notes>
-        <note category="location">src/app/features/auth/login/login.html:10,11</note>
+        <note category="location">src/app/features/auth/login/login.html:14,15</note>
       </notes>
       <segment>
         <source>Devam etmek için giriş yapın</source>
@@ -19,10 +19,58 @@
     </unit>
     <unit id="loginDemoHint">
       <notes>
-        <note category="location">src/app/features/auth/login/login.html:16,18</note>
+        <note category="location">src/app/features/auth/login/login.html:20,22</note>
       </notes>
       <segment>
         <source> Demo üyeliği &apos;USER&apos; rolündedir. Create, Delete, Update işemleri yapamaz </source>
+      </segment>
+    </unit>
+    <unit id="emailPlaceholder">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.html:67,68</note>
+      </notes>
+      <segment>
+        <source>ornek@email.com</source>
+      </segment>
+    </unit>
+    <unit id="signInProcess">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.html:98,100</note>
+      </notes>
+      <segment>
+        <source>Giriş yapılıyor...</source>
+      </segment>
+    </unit>
+    <unit id="signIn">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.html:100,101</note>
+      </notes>
+      <segment>
+        <source>Giriş Yap</source>
+      </segment>
+    </unit>
+    <unit id="footerSign">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.html:107,110</note>
+      </notes>
+      <segment>
+        <source>© 2026 Dashboard. Tüm hakları saklıdır.</source>
+      </segment>
+    </unit>
+    <unit id="loginError">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.ts:55</note>
+      </notes>
+      <segment>
+        <source>Login sırasında bir hata oluştu</source>
+      </segment>
+    </unit>
+    <unit id="unexpectedError">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.ts:62</note>
+      </notes>
+      <segment>
+        <source>Beklenmeyen bir hata oluştu</source>
       </segment>
     </unit>
   </file>

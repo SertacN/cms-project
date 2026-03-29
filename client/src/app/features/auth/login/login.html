@@ -63,6 +63,7 @@
             type="email"
             id="email"
             [formField]="loginForm.email"
+            i18n-placeholder="@@emailPlaceholder"
             placeholder="ornek@email.com"
             autocomplete="email"
             (input)="clearServerErrorMessage()"
@@ -94,16 +95,16 @@
       <button type="submit" class="button first-button" [disabled]="isLoading()">
         @if (isLoading()) {
           <span class="spinner"></span>
-          <span>Giriş yapılıyor...</span>
+          <span i18n="@@signInProcess">Giriş yapılıyor...</span>
         } @else {
-          <span>Giriş Yap</span>
+          <span i18n="@@signIn">Giriş Yap</span>
           <lucide-angular name="arrow-right" color="currentColor" class="d-flex"></lucide-angular>
         }
       </button>
     </form>
 
     <div class="login-footer">
-      <p>© 2026 Dashboard. Tüm hakları saklıdır.</p>
+      <p i18n="@@footerSign">© 2026 Dashboard. Tüm hakları saklıdır.</p>
     </div>
   </div>
 </div>
