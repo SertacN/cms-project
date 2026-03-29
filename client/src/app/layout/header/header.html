@@ -28,6 +28,14 @@
   <div class="header-right">
     <button
       class="icon-btn"
+      (click)="switchLanguage()"
+      [matTooltip]="currentLang === 'tr' ? 'English' : 'Türkçe'"
+    >
+      <lucide-icon name="languages" [size]="20" />
+    </button>
+
+    <button
+      class="icon-btn"
       (click)="themeService.toggleTheme()"
       [matTooltip]="themeService.theme() === 'light' ? 'Dark Mode' : 'Light Mode'"
     >

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, LOCALE_ID } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
@@ -30,8 +30,18 @@ export class Header {
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
+  private readonly localeId = inject(LOCALE_ID);
   readonly themeService = inject(ThemeService);
   readonly layoutService = inject(LayoutService);
+
+  readonly currentLang = this.localeId === 'en' ? 'en' : 'tr';
+  readonly targetLang = this.currentLang === 'tr' ? 'en' : 'tr';
+  readonly targetLangLabel = this.currentLang === 'tr' ? 'EN' : 'TR';
+
+  switchLanguage() {
+    const pathWithoutLang = window.location.pathname.replace(/^\/(tr|en)/, '');
+    window.location.href = `/${this.targetLang}${pathWithoutLang}`;
+  }
 
   readonly pageTitle = toSignal(
     this.router.events.pipe(

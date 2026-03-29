@@ -12,6 +12,15 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "tr",
+        "locales": {
+          "en": {
+            "translation": "src/locale/messages.en.xlf",
+            "subPath": "en"
+          }
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular/build:application",
@@ -24,13 +33,12 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/material-theme.scss",
-              "src/styles/styles.scss"
-            ]
+            "styles": ["src/material-theme.scss", "src/styles/styles.scss"],
+            "polyfills": ["@angular/localize/init"]
           },
           "configurations": {
             "production": {
+              "localize": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -46,6 +54,7 @@
               "outputHashing": "all"
             },
             "development": {
+              "localize": false,
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
@@ -55,6 +64,12 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "en": {
+              "localize": ["en"]
+            },
+            "tr": {
+              "localize": ["tr"]
             }
           },
           "defaultConfiguration": "production"
@@ -70,6 +85,12 @@
             },
             "development": {
               "buildTarget": "client:build:development"
+            },
+            "en": {
+              "buildTarget": "client:build:development,en"
+            },
+            "tr": {
+              "buildTarget": "client:build:development,tr"
             }
           },
           "defaultConfiguration": "development"

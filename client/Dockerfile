@@ -11,7 +11,8 @@ RUN npm install -g @angular/cli
 # Copy all files
 COPY . .
 # Build the application
-RUN npm run build --configuration=production
+# Build all locales (tr + en) — angular.json production config has "localize": true
+RUN ng build --configuration=production
 # Nginx image to serve the application
 FROM nginx:alpine
 # Copy the build output to replace the default nginx contents

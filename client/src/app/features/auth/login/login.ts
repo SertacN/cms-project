@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, LOCALE_ID, signal } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 import { email, form, FormField, required } from '@angular/forms/signals';
 import { AuthService } from '../../../core/auth';
@@ -14,6 +14,16 @@ import { Router } from '@angular/router';
 export class Login {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly localeId = inject(LOCALE_ID);
+
+  readonly currentLang = this.localeId === 'en' ? 'en' : 'tr';
+  readonly targetLang = this.currentLang === 'tr' ? 'en' : 'tr';
+  readonly targetLangLabel = this.currentLang === 'tr' ? 'EN' : 'TR';
+
+  switchLanguage() {
+    const pathWithoutLang = window.location.pathname.replace(/^\/(tr|en)/, '');
+    window.location.href = `/${this.targetLang}${pathWithoutLang}`;
+  }
 
   // Validation
   loginModel = signal<LoginRequest>({

@@ -1,4 +1,8 @@
 <div class="login-container">
+  <button class="lang-switch-btn" (click)="switchLanguage()">
+    <lucide-icon name="languages" [size]="16" />
+    <span>{{ targetLangLabel }}</span>
+  </button>
   <div class="login-card">
     <div class="login-header">
       <div class="logo">
@@ -6,13 +10,13 @@
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
         </svg>
       </div>
-      <h1>Hoş Geldiniz</h1>
-      <p>Devam etmek için giriş yapın</p>
+      <h1 i18n="@@loginWelcomeTitle">Hoş Geldiniz</h1>
+      <p i18n="@@loginWelcomeSubtitle">Devam etmek için giriş yapın</p>
       <ul class="hint-wrapper">
         <li>Email: demo@sertaccan.com</li>
         <li>Password: Demo1234</li>
       </ul>
-      <p class="hint-desc">
+      <p class="hint-desc" i18n="@@loginDemoHint">
         Demo üyeliği 'USER' rolündedir. Create, Delete, Update işemleri yapamaz
       </p>
     </div>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="tr">
+  <file id="ngi18n" original="ng.template">
+    <unit id="loginWelcomeTitle">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.html:9,10</note>
+      </notes>
+      <segment>
+        <source>Hoş Geldiniz</source>
+      </segment>
+    </unit>
+    <unit id="loginWelcomeSubtitle">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.html:10,11</note>
+      </notes>
+      <segment>
+        <source>Devam etmek için giriş yapın</source>
+      </segment>
+    </unit>
+    <unit id="loginDemoHint">
+      <notes>
+        <note category="location">src/app/features/auth/login/login.html:16,18</note>
+      </notes>
+      <segment>
+        <source> Demo üyeliği &apos;USER&apos; rolündedir. Create, Delete, Update işemleri yapamaz </source>
+      </segment>
+    </unit>
+  </file>
+</xliff>

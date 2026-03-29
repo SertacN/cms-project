@@ -19,6 +19,7 @@ import {
   EyeOff,
   FileText,
   Globe,
+  Languages,
   LayoutDashboard,
   LogOut,
   LUCIDE_ICONS,
@@ -59,7 +60,7 @@ export const appConfig: ApplicationConfig = {
       useValue: new LucideIconProvider({
         Mail, Lock, Eye, EyeOff, ArrowRight, CircleAlert,
         Check, X, Pencil, ChevronRight, ChevronLeft,
-        Sun, Moon, LogOut, LayoutDashboard, FileText, Settings, Globe, User,
+        Sun, Moon, LogOut, LayoutDashboard, FileText, Settings, Globe, Languages, User,
         Users, TrendingUp, ClipboardList, Activity, Sparkles, Search, Plus, Trash2,
         Info, TriangleAlert, Menu,
       }),
