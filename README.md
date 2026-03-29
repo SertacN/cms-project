@@ -1,47 +1,48 @@
 # CMS Project
-**Canlı:** [cms-project.sertaccan.com](https://cms-project.sertaccan.com)
 
-> 🚧 **In Progress** — Aktif geliştirme aşamasında.
-## Kalan
-- Media (İçeriklere dosya yükleme ve listeleme)
+[Turkce](docs/README.tr.md)
+
+**Live:** [cms-project.sertaccan.com](https://cms-project.sertaccan.com)
+
+> 🚧 **In Progress** — Under active development.
+
+## Remaining
+- Media (file upload and listing for content)
 - Settings
 - User Details
-- Dashboard Canlı Veri
-- i18n Entegrasyonu
+- Dashboard Live Data
+- i18n Integration
 
-NestJS + Angular 21 tabanlı içerik yönetim sistemi.
-Kendi portfolyo sitemin içerik yönetimini yapmak için oluşturduğum bir cms yazılımı.
+A content management system built with NestJS + Angular 21.
+Originally created to manage content for my portfolio site.
 
-## Devam Eden Süreçte Hedef (Aklıma Yeni Özellikler Geldikçe Buraya Eklenecek)
-CMS tamamlandıktan sonra ERP Modülleri, CRM Modülleri gibi özellikler.
-Not: Bu repo sadece CMS kodlarını barındıracak. Diğer modüller canlı demo site gösterilecek.
-Geliştirme süreçleri not olarak bu reponun README.md sine eklenecek.
+## Future Goals
+After the CMS is complete, additional modules such as ERP and CRM will be added.
+Note: This repo will only contain the CMS codebase. Other modules will be showcased via a live demo site.
+Development progress will be documented in this README.
 
-### Mimari Değişiklik
-Farklı Modüller eklenmeden önce proje mimarisi Modular Monolith yapısın geçirilecek.
-Örnek:
+### Architectural Migration
+Before adding new modules, the project architecture will be migrated to a Modular Monolith structure.
+Example:
 ```
 src/auth/                  →  src/identity/auth/
 src/contents/              →  src/cms/
 src/common/guards/         →  src/_kernel/guards/
 src/prisma/                →  src/_infra/prisma/
-
 ```
-### Event Bus Altyapısı (BullMQ)
-- Redis mevcut olduğu için MQ servisi olarak BullMQ entegre edilecek(Nestjs ile tam uyumlu)
 
----
-
+### Event Bus (BullMQ)
+- BullMQ will be integrated as the message queue service since Redis is already in place (fully compatible with NestJS)
 
 ---
 
 ## Stack
 
-| Katman | Teknoloji |
-|--------|-----------|
+| Layer | Technology |
+|-------|-----------|
 | Backend | NestJS 11, TypeScript |
 | Frontend | Angular 21, Angular Material |
-| Veritabanı | PostgreSQL 16 (Prisma ORM) |
+| Database | PostgreSQL 16 (Prisma ORM) |
 | Cache | Redis 7 (cache-manager + @keyv/redis) |
 | Auth | Express-session + JWT (access + refresh token) |
 | Deploy | Docker, Traefik v3, GitHub Actions |
@@ -50,103 +51,101 @@ src/prisma/                →  src/_infra/prisma/
 
 ## Backend (NestJS)
 
-### Mimari
-- Global prefix: `/api` — tüm endpoint'ler `/api/...` ile başlar
-- Prisma multi-file schema: `api/prisma/schema/` dizini, `prisma.config.ts` ile yapılandırılmış
+### Architecture
+- Global prefix: `/api` — all endpoints start with `/api/...`
+- Prisma multi-file schema: `api/prisma/schema/` directory, configured via `prisma.config.ts`
 - Winston logger + daily rotate file
-- Swagger UI: `/api/docs` (sadece non-production)
+- Swagger UI: `/api/docs` (non-production only)
 
 ### Auth
-- Session tabanlı (`express-session`), cookie `httpOnly: true`
-- JWT access token (15dk) + refresh token (7 gün) çifti
-- Refresh token veritabanında hashed olarak saklanır
-- `JwtGuard` ile korunan endpoint'ler
+- Session-based (`express-session`), cookie `httpOnly: true`
+- JWT access token (15min) + refresh token (7 days) pair
+- Refresh token stored hashed in the database
+- Endpoints protected with `JwtGuard`
 
 ### Cache (Redis)
-- `@nestjs/cache-manager` + `@keyv/redis` adaptörü
-- TTL: `CACHE_TTL` env variable (default 30dk)
-- `DELETE /api/settings/cache/clear` ile manuel temizleme
+- `@nestjs/cache-manager` + `@keyv/redis` adapter
+- TTL: `CACHE_TTL` env variable (default 30min)
+- Manual clear: `DELETE /api/settings/cache/clear`
 
 ### Rate Limiting
-- `@nestjs/throttler` ile global rate limiting
-- Brute-force saldırılarına karşı auth endpoint'lerini korur
+- Global rate limiting via `@nestjs/throttler`
+- Protects auth endpoints against brute-force attacks
 
-### Dosya Yükleme
-- Multer ile dosya upload
-- `uploads/` named volume — container yeniden başlatılsa bile kalıcı
+### File Upload
+- File upload via Multer
+- `uploads/` named volume — persistent across container restarts
 
 ---
 
 ## Frontend (Angular 21)
 
-### Mimari
+### Architecture
 - Angular Material + CDK
-- Signal tabanlı state management (servisler)
-- Lazy loading ile route bazlı code splitting
-- Angular CLI(ng) ile dosya oluşturma işlemleri
+- Signal-based state management (services)
+- Lazy loading with route-based code splitting
+- File generation via Angular CLI (`ng`)
 
 ### State Management — Signal vs Observable
 
-Servislerde hangi durumda `signal`, hangi durumda `Observable` kullanıldığını açıklayan kural:
+Rules for when to use `signal` vs `Observable` in services:
 
-| Metod | Türü | Yaklaşım |
-|-------|------|----------|
-| `loadCategories()` | Paylaşılan liste state | Signal ✅ |
-| `getCategoryDetails()` | Tek seferlik fetch (dialog açılınca) | Observable ✅ |
+| Method | Type | Approach |
+|--------|------|----------|
+| `loadCategories()` | Shared list state | Signal ✅ |
+| `getCategoryDetails()` | One-time fetch (on dialog open) | Observable ✅ |
 | `createCategory()` | Mutation | Observable ✅ |
 | `editCategory()` | Mutation | Observable ✅ |
 | `deleteCategory()` | Mutation | Observable ✅ |
 
-**Kural:**
-- Birden fazla bileşenin okuyabileceği, zaman içinde değişen, persist olan veri → **Signal**
-- Bir kullanıcı aksiyonuna bağlı, tek seferlik, geçici sonuç → **Observable**
+**Rule:**
+- Data read by multiple components, changing over time, persistent → **Signal**
+- Triggered by a user action, one-time, transient result → **Observable**
 
-Mutation metodları (`create`, `edit`, `delete`) Observable döner. Caller `subscribe({ next, error })` ile sonucu handle eder, ardından `loadCategories()` çağrısı tetiklenerek asıl state güncellenir.
+Mutation methods (`create`, `edit`, `delete`) return Observables. The caller handles the result with `subscribe({ next, error })`, then triggers `loadCategories()` to update the actual state.
 
 ### Environment
-Angular build-time environment kullanıyor (`environments/` klasörü). `.env` desteklenmez (browser runtime).
-- `environment.ts` → production config, git'te yok
-- `environment.development.ts` → dev config, git'te yok
-- Referans: `environment.ts.example`
+Angular uses build-time environments (`environments/` directory). `.env` is not supported (browser runtime).
+- `environment.ts` → production config, not in git
+- `environment.development.ts` → dev config, not in git
+- Reference: `environment.ts.example`
 
-### Form
-- Karmaşık olmayan, ekstra validation gerektirmeyen işlemler için -> FormField signal modeli (Login sayfası)
-- Diğer form işlemleri için FormsModule.(Dialog componentlar)
-- Neden: İki farklı form module kullanılmasının nedeni, Dialog, İnput gibi alanlar için kullandığım Material kütüphanesi
-nedeniyle, yeni olan FormField ile uyumsuz olmasından. Validation işlemleri için ekstra method yazmak yerine,
-sade form işlemleri için FormField Signal base, diğer form işlemleri için FormsModule kullanıldı.
+### Forms
+- Simple forms without complex validation → FormField signal model (Login page)
+- Other form operations → FormsModule (Dialog components)
+- Reason: The Material library used for Dialog, Input, etc. is not yet compatible with the new FormField API. Instead of writing extra validation methods, FormField (signal-based) is used for simple forms and FormsModule for the rest.
 
 ---
 
-## AI Tercihi (Claude Code)
-### Kullanım alanları
-- i18n Dil dönüşümleri(çeviriler)
-- Uygun Commit mesajları oluşturma
-- Test işlemleri
-- Refactoring işlemleri (kodun dış davranışını değiştirmeden iç yapısını iyileştirme süreci)
+## AI Preference (Claude Code)
+### Use Cases
+- i18n translations
+- Generating commit messages
+- Testing
+- Refactoring (improving internal structure without changing external behavior)
 
 ---
 
-### API End Point Kontrolleri
+### API Endpoint Testing
 - Insomnia
 
-### DB Bağlantı İşlemleri
+### Database Management
 - DBeaver
-- Nadiren Prisma Studio(Proje başında çoğunlukla Prisma Studio)
+- Occasionally Prisma Studio (primarily used early in the project)
 
 ---
 
-## Geliştirme Ortamı (Local)
+## Development Environment (Local)
 
-### Gereksinimler
+### Requirements
 - Docker Desktop
 
-### Başlatma
+### Getting Started
 ```bash
 docker compose -f docker-compose.dev.yml up --build
 ```
 
-Servisler:
+Services:
 - `localhost:4200` → Angular (hot-reload)
 - `localhost:3000/api` → NestJS (watch mode)
 - `localhost:5432` → PostgreSQL
@@ -154,18 +153,18 @@ Servisler:
 
 ### Migration Workflow
 ```bash
-# 1. Schema değiştikten sonra diff al
+# 1. Generate diff after schema changes
 docker exec cms_project_api npx prisma migrate diff \
   --from-config-datasource \
   --to-schema prisma/schema \
   --script
 
-# 2. SQL'i api/prisma/migrations/<timestamp>_<isim>/migration.sql dosyasına kaydet
+# 2. Save the SQL to api/prisma/migrations/<timestamp>_<name>/migration.sql
 
-# 3. Uygula
+# 3. Apply
 docker exec cms_project_api npx prisma migrate deploy
 
-# 4. Client'ı yenile (Docker + local)
+# 4. Regenerate client (Docker + local)
 docker exec cms_project_api npx prisma generate
 cd api && npx prisma generate
 ```
@@ -174,28 +173,28 @@ cd api && npx prisma generate
 
 ## Production Deploy
 
-### Altyapı
-- Traefik v3 reverse proxy + Let's Encrypt SSL (otomatik)
-- `traefik-net` external network üzerinden servisler Traefik'e açılır
-- `cms-internal` bridge network ile servisler birbirine izole bağlanır
+### Infrastructure
+- Traefik v3 reverse proxy + Let's Encrypt SSL (automatic)
+- Services exposed to Traefik via `traefik-net` external network
+- Services communicate internally via `cms-internal` bridge network
 
 ### CI/CD (GitHub Actions)
-`main` branch'e push → otomatik deploy:
-1. SSH ile VPS'e bağlanır
+Push to `main` branch → automatic deploy:
+1. SSH into VPS
 2. `git pull origin main`
 3. `docker compose --env-file api/.env up -d --build`
 4. `docker exec cms_project_api npx prisma migrate deploy`
 5. `docker image prune -f`
 
-### Gerekli GitHub Secrets
-| Secret | Açıklama |
-|--------|----------|
-| `VPS_HOST` | VPS IP adresi |
+### Required GitHub Secrets
+| Secret | Description |
+|--------|------------|
+| `VPS_HOST` | VPS IP address |
 | `VPS_SSH_KEY` | Private SSH key |
 
 ---
 
-## Komutlar
+## Commands
 
 ```bash
 # API
@@ -203,7 +202,7 @@ cd api
 npm run start:dev      # watch mode
 npm run build          # production build
 npm run lint           # eslint fix
-npx prisma studio      # DB GUI (DATABASE_URL=localhost gerekir)
+npx prisma studio      # DB GUI (requires DATABASE_URL=localhost)
 
 # Client
 cd client
