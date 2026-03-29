@@ -6,6 +6,7 @@
 - Settings
 - User Details
 - Dashboard Canlı Veri
+- i18n Entegrasyonu
 
 NestJS + Angular 21 tabanlı içerik yönetim sistemi.
 Kendi portfolyo sitemin içerik yönetimini yapmak için oluşturduğum bir cms yazılımı.

@@ -42,6 +42,7 @@ api/.env.*.local
 REVIEW.md
 CLAUDE.md
 revize.md
+i18n.md
 # Test Raporları
 /coverage
 
