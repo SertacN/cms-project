@@ -48,6 +48,39 @@
 
   <mat-divider />
 
+  <!-- Section: Miras Alınan Parametreler (üst kategoriden) -->
+  @if (parentParameters().length) {
+    <section class="dialog-section">
+      <div class="section-title-row">
+        <h3 class="section-title">Üst Kategori Parametreleri</h3>
+        <span class="inherited-hint">
+          <lucide-icon name="link" [size]="13" />
+          Miras alınmış
+        </span>
+      </div>
+      <div class="parameter-list">
+        @for (param of parentParameters(); track param.id) {
+          <div class="parameter-card inherited">
+            <div class="param-left">
+              <span class="type-badge type-{{ param.type.toLowerCase() }}">{{ param.type }}</span>
+              <div class="param-names">
+                <span class="param-label">{{ param.label }}</span>
+                <span class="param-name">{{ param.name }}</span>
+              </div>
+            </div>
+            <div class="param-right">
+              @if (param.isRequired) {
+                <span class="required-badge">Zorunlu</span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <mat-divider />
+  }
+
   <!-- Section: Parametreler -->
   <section class="dialog-section">
     <div class="section-title-row">

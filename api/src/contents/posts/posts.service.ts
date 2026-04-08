@@ -151,11 +151,23 @@ export class PostsService {
   }
 
   async deletePostById(postId: number): Promise<ServiceResponse<Public<Content>>> {
-    const result = await this.prisma.content.updateMany({
+    const post = await this.prisma.content.findUnique({
       where: { id: postId, isDeleted: false },
-      data: { isDeleted: true, isActive: false, deletedAt: new Date() },
+      select: { id: true, title: true, sefUrl: true },
     });
-    if (result.count === 0) throw new NotFoundException(`${postId} ID'li kayıt bulunamadı`);
+    if (!post) throw new NotFoundException(`${postId} ID'li kayıt bulunamadı`);
+
+    const deletedSuffix = `_deleted_${postId}`;
+    await this.prisma.content.update({
+      where: { id: postId },
+      data: {
+        isDeleted: true,
+        isActive: false,
+        deletedAt: new Date(),
+        title: `${post.title}${deletedSuffix}`,
+        sefUrl: `${post.sefUrl}${deletedSuffix}`,
+      },
+    });
     return { message: `${postId} ID'li kayıt başarıyla silindi.` };
   }
 

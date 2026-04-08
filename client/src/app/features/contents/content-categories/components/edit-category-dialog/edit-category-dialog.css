@@ -176,6 +176,20 @@
 .type-date     { background: rgba(236, 72, 153, 0.12); color: #ec4899; }
 .type-textarea { background: rgba(107, 114, 128, 0.12); color: #6b7280; }
 
+/* ── Inherited (miras alınan) parametre ──────────── */
+.parameter-card.inherited {
+  opacity: 0.7;
+  border-style: dashed;
+}
+
+.inherited-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--color-on-surface-muted);
+}
+
 .required-badge {
   font-size: 0.7rem;
   font-weight: 600;

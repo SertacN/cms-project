@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { ContentCategoriesService } from '../../../core/services/contents';
-import { LucideAngularModule } from 'lucide-angular';
-import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
+import { ContentCategoriesService } from '../../../core/services/contents';
 import { ToastService } from '../../../core/services/toast';
 
 @Component({
@@ -45,12 +45,12 @@ export class ContentCategories {
   }
 
   async openCreateCategoryDialog() {
-    const { CreateCategoryDialog } = await import(
-      './components/create-category-dialog/create-category-dialog'
-    );
+    const { CreateCategoryDialog } =
+      await import('./components/create-category-dialog/create-category-dialog');
     const dialogRef = this.dialog.open(CreateCategoryDialog, {
       width: '600px',
       disableClose: true,
+      data: this.categories(),
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) this.contentCategoriesService.loadCategories();
@@ -58,9 +58,8 @@ export class ContentCategories {
   }
 
   async editCategoryDialog(categoryId: number) {
-    const { EditCategoryDialog } = await import(
-      './components/edit-category-dialog/edit-category-dialog'
-    );
+    const { EditCategoryDialog } =
+      await import('./components/edit-category-dialog/edit-category-dialog');
     const dialogRef = this.dialog.open(EditCategoryDialog, {
       width: '1000px',
       disableClose: true,

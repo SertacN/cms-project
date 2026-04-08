@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -63,6 +63,12 @@ export class EditCategoryDialog {
   isLoading = signal<boolean>(false);
   editingId = signal<number | null>(null);
   categoryDetailsData = signal<CategoryDetailsDialog | null>(null);
+  parentParameters = computed(() => {
+    const data = this.categoryDetailsData();
+    if (!data?.parentId || !data.resolvedParameters) return [];
+    const ownIds = new Set(data.parameterDefinitions.map((p) => p.id));
+    return data.resolvedParameters.filter((p) => !ownIds.has(p.id));
+  });
   // Init
   ngOnInit() {
     this.editingId.set(this.data.categoryId);

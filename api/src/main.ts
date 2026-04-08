@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import helmet from 'helmet';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AllExceptionsFilter } from './common/filters';
 import { ResponseTransformInterceptor } from './common/interceptors';
@@ -35,6 +36,8 @@ async function bootstrap() {
       },
     }),
   );
+  const isProduction = configService.get<string>('NODE_ENV') === 'production';
+  app.use(helmet({ contentSecurityPolicy: isProduction ? undefined : false }));
   app.setGlobalPrefix('api');
   app.use(cookieParser());
 

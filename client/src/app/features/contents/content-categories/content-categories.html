@@ -1,8 +1,6 @@
 <div class="categories-layout">
-
   <!-- Left panel -->
   <div class="categories-panel">
-
     <!-- Panel header -->
     <div class="panel-header">
       <h2 class="panel-title">Kategoriler</h2>
@@ -57,11 +55,7 @@
               color="primary"
               matTooltip="Aktif / Pasif"
             />
-            <a
-              [routerLink]="[category.id]"
-              routerLinkActive="active"
-              class="category-link"
-            >
+            <a [routerLink]="[category.id]" routerLinkActive="active" class="category-link">
               <span class="category-name">{{ category.title }}</span>
               <span class="category-badge" [class.active]="category.isActive">
                 {{ category.isActive ? 'Aktif' : 'Pasif' }}
@@ -76,15 +70,41 @@
               <lucide-icon name="pencil" [size]="16" />
             </button>
           </li>
+          @if (category.children?.length) {
+            @for (child of category.children; track child.id) {
+              <li class="category-item child-item">
+                <lucide-icon name="corner-down-right" [size]="14" class="child-icon" />
+                <mat-slide-toggle
+                  [checked]="child.isActive"
+                  [disabled]="isLoading()"
+                  (change)="editCategoryActivated(child.id, $event.checked)"
+                  color="primary"
+                  matTooltip="Aktif / Pasif"
+                />
+                <a [routerLink]="[child.id]" routerLinkActive="active" class="category-link">
+                  <span class="category-name">{{ child.title }}</span>
+                  <span class="category-badge" [class.active]="child.isActive">
+                    {{ child.isActive ? 'Aktif' : 'Pasif' }}
+                  </span>
+                </a>
+                <button
+                  mat-icon-button
+                  class="edit-btn"
+                  (click)="editCategoryDialog(child.id)"
+                  matTooltip="Düzenle"
+                >
+                  <lucide-icon name="pencil" [size]="16" />
+                </button>
+              </li>
+            }
+          }
         }
       </ul>
     }
-
   </div>
 
   <!-- Right panel -->
   <main class="content-detail">
     <router-outlet />
   </main>
-
 </div>

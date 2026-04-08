@@ -4,6 +4,7 @@ export interface CreateCategoryDto {
   title: string;
   orderBy: number;
   isActive: boolean;
+  parentId?: number;
 }
 
 export interface CreateCategoryResponse {

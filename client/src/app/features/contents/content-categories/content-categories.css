@@ -104,6 +104,16 @@
   background: var(--color-surface-variant);
 }
 
+/* ── Child (alt kategori) ────────────────────────── */
+.child-item {
+  padding-left: 1.5rem;
+}
+
+.child-icon {
+  color: var(--color-on-surface-muted);
+  flex-shrink: 0;
+}
+
 .category-link {
   flex: 1;
   display: flex;

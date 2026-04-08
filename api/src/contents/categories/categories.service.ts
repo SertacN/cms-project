@@ -74,11 +74,16 @@ export class CategoriesService {
             where: { isDeleted: false },
             select: {
               ...CATEGORY_PUBLIC_SELECT,
-              _count: { select: { content: true } },
+              _count: { select: { content: { where: { isDeleted: false } } } },
             },
             orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
           },
-          _count: { select: { content: true, children: true } },
+          _count: {
+            select: {
+              content: { where: { isDeleted: false } },
+              children: { where: { isDeleted: false } },
+            },
+          },
         },
         orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
       }),
@@ -115,11 +120,16 @@ export class CategoriesService {
           where: { isDeleted: false },
           select: {
             ...CATEGORY_PUBLIC_SELECT,
-            _count: { select: { content: true } },
+            _count: { select: { content: { where: { isDeleted: false } } } },
           },
           orderBy: [{ orderBy: 'asc' }, { createdAt: 'desc' }],
         },
-        _count: { select: { content: true, children: true } },
+        _count: {
+          select: {
+            content: { where: { isDeleted: false } },
+            children: { where: { isDeleted: false } },
+          },
+        },
       },
     });
 
@@ -148,7 +158,7 @@ export class CategoriesService {
     if (!category) {
       throw new NotFoundException(`Category ID ${categoryId} not found`);
     }
-    if (dto.title) {
+    if (dto.title && dto.title !== category.title) {
       const finalUrl = await generateUniqueUrl(dto.title, this.prisma.contentCategory);
       dto.sefUrl = finalUrl;
     }
@@ -167,7 +177,7 @@ export class CategoriesService {
   async deleteCategoryById(categoryId: number): Promise<ServiceResponse<Public<ContentCategory>>> {
     const category = await this.prisma.contentCategory.findUnique({
       where: { id: categoryId, isDeleted: false },
-      select: { id: true, _count: { select: { children: { where: { isDeleted: false } } } } },
+      select: { id: true, title: true, sefUrl: true, _count: { select: { children: { where: { isDeleted: false } } } } },
     });
     if (!category) {
       throw new NotFoundException(`${categoryId} ID'li Kategori Bulunamadı`);
@@ -176,9 +186,16 @@ export class CategoriesService {
       throw new BadRequestException('Alt kategorileri olan bir kategori silinemez. Önce alt kategorileri silin.');
     }
 
-    await this.prisma.contentCategory.updateMany({
-      where: { id: categoryId, isDeleted: false },
-      data: { isDeleted: true, isActive: false, deletedAt: new Date() },
+    const deletedSuffix = `_deleted_${categoryId}`;
+    await this.prisma.contentCategory.update({
+      where: { id: categoryId },
+      data: {
+        isDeleted: true,
+        isActive: false,
+        deletedAt: new Date(),
+        title: `${category.title}${deletedSuffix}`,
+        sefUrl: `${category.sefUrl}${deletedSuffix}`,
+      },
     });
 
     return {

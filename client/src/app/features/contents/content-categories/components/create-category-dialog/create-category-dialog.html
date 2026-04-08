@@ -5,7 +5,7 @@
       <div class="form-group">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Başlık</mat-label>
-          <input type="text" matInput formControlName="title"/>
+          <input type="text" matInput formControlName="title" />
           @if (title.hasError('required') && title.touched) {
             <mat-error>Başlık zorunludur</mat-error>
           }
@@ -17,8 +17,17 @@
           }
         </mat-form-field>
         <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Üst Kategori</mat-label>
+          <mat-select formControlName="parentId">
+            <mat-option value="">-- Seçiniz --</mat-option>
+            @for (categories of data; track categories.id) {
+              <mat-option [value]="categories.id">{{ categories.title }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Sıralama</mat-label>
-          <input matInput type="number" formControlName="orderBy" min="0"/>
+          <input matInput type="number" formControlName="orderBy" min="0" />
           @if (orderBy.hasError('min') && orderBy.touched) {
             <mat-error>Eksi Değer girilemez</mat-error>
           }
