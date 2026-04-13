@@ -469,5 +469,23 @@
         <target>Collapse</target>
       </segment>
     </unit>
+    <unit id="navDashboard">
+      <segment>
+        <source>Dashboard</source>
+        <target>Dashboard</target>
+      </segment>
+    </unit>
+    <unit id="navContents">
+      <segment>
+        <source>İçerikler</source>
+        <target>Contents</target>
+      </segment>
+    </unit>
+    <unit id="navSettings">
+      <segment>
+        <source>Ayarlar</source>
+        <target>Settings</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

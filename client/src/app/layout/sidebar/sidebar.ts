@@ -24,9 +24,9 @@ export class Sidebar {
   readonly themeService = inject(ThemeService);
 
   readonly navItems: NavItem[] = [
-    { path: '/dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
-    { path: '/contents', label: 'İçerikler', icon: 'file-text' },
-    { path: '/settings', label: 'Ayarlar', icon: 'settings' },
+    { path: '/dashboard', label: $localize`:@@navDashboard:Dashboard`, icon: 'layout-dashboard' },
+    { path: '/contents', label: $localize`:@@navContents:İçerikler`, icon: 'file-text' },
+    { path: '/settings', label: $localize`:@@navSettings:Ayarlar`, icon: 'settings' },
   ];
 
   onLogout(): void {

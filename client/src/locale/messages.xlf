@@ -1,687 +1,806 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="tr">
-  <file id="ngi18n" original="ng.template">
-    <unit id="loginWelcomeTitle">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:13,14</note>
-      </notes>
-      <segment>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="tr" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="loginWelcomeTitle" datatype="html">
         <source>Hoş Geldiniz</source>
-      </segment>
-    </unit>
-    <unit id="loginWelcomeSubtitle">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:14,15</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="loginWelcomeSubtitle" datatype="html">
         <source>Devam etmek için giriş yapın</source>
-      </segment>
-    </unit>
-    <unit id="loginDemoHint">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:20,22</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="loginDemoHint" datatype="html">
         <source> Demo üyeliği &apos;USER&apos; rolündedir. Create, Delete, Update işemleri yapamaz </source>
-      </segment>
-    </unit>
-    <unit id="emailPlaceholder">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:67,68</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.html</context>
+          <context context-type="linenumber">20,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="emailPlaceholder" datatype="html">
         <source>ornek@email.com</source>
-      </segment>
-    </unit>
-    <unit id="signInProcess">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:98,100</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.html</context>
+          <context context-type="linenumber">67,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="signInProcess" datatype="html">
         <source>Giriş yapılıyor...</source>
-      </segment>
-    </unit>
-    <unit id="signIn">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:100,101</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.html</context>
+          <context context-type="linenumber">98,100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="signIn" datatype="html">
         <source>Giriş Yap</source>
-      </segment>
-    </unit>
-    <unit id="footerSign">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:107,110</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.html</context>
+          <context context-type="linenumber">100,101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footerSign" datatype="html">
         <source>© 2026 Dashboard. Tüm hakları saklıdır.</source>
-      </segment>
-    </unit>
-    <unit id="loginError">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.ts:55</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.html</context>
+          <context context-type="linenumber">107,110</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="loginError" datatype="html">
         <source>Login sırasında bir hata oluştu</source>
-      </segment>
-    </unit>
-    <unit id="unexpectedError">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.ts:62</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="unexpectedError" datatype="html">
         <source>Beklenmeyen bir hata oluştu</source>
-      </segment>
-    </unit>
-    <unit id="createCategoryTitle">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:4,5</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login/login.ts</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="createCategoryTitle" datatype="html">
         <source>Yeni Kategori Oluştur</source>
-      </segment>
-    </unit>
-    <unit id="fieldTitle">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:7,8</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:21,22</note>
-        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:9,10</note>
-        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:15,16</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fieldTitle" datatype="html">
         <source>Başlık</source>
-      </segment>
-    </unit>
-    <unit id="errorTitleRequired">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:10,12</note>
-        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:18,20</note>
-        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:24,26</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errorTitleRequired" datatype="html">
         <source>Başlık zorunludur</source>
-      </segment>
-    </unit>
-    <unit id="errorTitleMinlength">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:13,15</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:24,26</note>
-        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:21,23</note>
-        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:27,29</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html</context>
+          <context context-type="linenumber">10,12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html</context>
+          <context context-type="linenumber">18,20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html</context>
+          <context context-type="linenumber">24,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errorTitleMinlength" datatype="html">
         <source>En az 3 karakter olmalıdır</source>
-      </segment>
-    </unit>
-    <unit id="errorTitleMaxlength">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:16,18</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:27,29</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html</context>
+          <context context-type="linenumber">13,15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">24,26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html</context>
+          <context context-type="linenumber">21,23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errorTitleMaxlength" datatype="html">
         <source>En fazla 50 karakter olmalı</source>
-      </segment>
-    </unit>
-    <unit id="fieldParentCategory">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:20,21</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html</context>
+          <context context-type="linenumber">16,18</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fieldParentCategory" datatype="html">
         <source>Üst Kategori</source>
-      </segment>
-    </unit>
-    <unit id="selectPlaceholder">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:22,23</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="selectPlaceholder" datatype="html">
         <source>-- Seçiniz --</source>
-      </segment>
-    </unit>
-    <unit id="fieldOrderBy">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:29,30</note>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:53,54</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:38,39</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:50,51</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html</context>
+          <context context-type="linenumber">22,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fieldOrderBy" datatype="html">
         <source>Sıra</source>
-      </segment>
-    </unit>
-    <unit id="errorOrderByMin">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:32,34</note>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:56,58</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:53,55</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">53,54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">50,51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errorOrderByMin" datatype="html">
         <source>Eksi değer girilemez</source>
-      </segment>
-    </unit>
-    <unit id="statusActive">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:36,37</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:44,45</note>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:71,72</note>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:101,102</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html</context>
+          <context context-type="linenumber">32,34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">56,58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">53,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="statusActive" datatype="html">
         <source>Aktif</source>
-      </segment>
-    </unit>
-    <unit id="cancel">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:41,42</note>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:97,98</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:154,155</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:95,96</note>
-        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:116,117</note>
-        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:123,124</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">71,72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">101,102</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cancel" datatype="html">
         <source>İptal</source>
-      </segment>
-    </unit>
-    <unit id="create">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:48,49</note>
-        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:121,122</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">97,98</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">154,155</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">95,96</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html</context>
+          <context context-type="linenumber">116,117</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html</context>
+          <context context-type="linenumber">123,124</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="create" datatype="html">
         <source>Oluştur</source>
-      </segment>
-    </unit>
-    <unit id="createParameterTitle">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:2,3</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html</context>
+          <context context-type="linenumber">48,49</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html</context>
+          <context context-type="linenumber">121,122</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="createParameterTitle" datatype="html">
         <source>Yeni Parametre Ekle</source>
-      </segment>
-    </unit>
-    <unit id="fieldLabel">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:12,13</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:13,14</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">2,3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fieldLabel" datatype="html">
         <source>Görünen Etiket</source>
-      </segment>
-    </unit>
-    <unit id="placeholderLabel">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:16,17</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:17,18</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="placeholderLabel" datatype="html">
         <source>örn: Yolcu Sayısı</source>
-      </segment>
-    </unit>
-    <unit id="errorRequired">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:22,24</note>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:37,39</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:21,23</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:34,36</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errorRequired" datatype="html">
         <source>Zorunlu alan</source>
-      </segment>
-    </unit>
-    <unit id="fieldTechnicalName">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:27,29</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:26,28</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">22,24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">37,39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">21,23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">34,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fieldTechnicalName" datatype="html">
         <source>Teknik Ad</source>
-      </segment>
-    </unit>
-    <unit id="placeholderTechnicalName">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:31,32</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:30,31</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">26,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="placeholderTechnicalName" datatype="html">
         <source>örn: passenger_count</source>
-      </segment>
-    </unit>
-    <unit id="fieldType">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:44,45</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:41,42</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">31,32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fieldType" datatype="html">
         <source>Tip</source>
-      </segment>
-    </unit>
-    <unit id="fieldRequired">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:62,64</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:59,61</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fieldRequired" datatype="html">
         <source>Zorunlu Alan</source>
-      </segment>
-    </unit>
-    <unit id="fieldOptions">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:68,69</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:65,66</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">62,64</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">59,61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fieldOptions" datatype="html">
         <source>Seçenekler</source>
-      </segment>
-    </unit>
-    <unit id="fieldOptionN">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:77,78</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:74,75</note>
-      </notes>
-      <segment>
-        <source>Seçenek <ph id="0" equiv="INTERPOLATION" disp="{{ $index + 1 }}"/></source>
-      </segment>
-    </unit>
-    <unit id="add">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:99,100</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:92,93</note>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:9,10</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">68,69</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">65,66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fieldOptionN" datatype="html">
+        <source>Seçenek <x id="INTERPOLATION" equiv-text="{{ $index + 1 }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">77,78</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">74,75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="add" datatype="html">
         <source>Ekle</source>
-      </segment>
-    </unit>
-    <unit id="editCategoryTitle">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:7,9</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html</context>
+          <context context-type="linenumber">99,100</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">92,93</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="editCategoryTitle" datatype="html">
         <source>Kategoriyi Düzenle</source>
-      </segment>
-    </unit>
-    <unit id="sectionGeneralInfo">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:17,18</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">7,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="sectionGeneralInfo" datatype="html">
         <source>Genel Bilgiler</source>
-      </segment>
-    </unit>
-    <unit id="fieldSefUrl">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:32,33</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fieldSefUrl" datatype="html">
         <source>URL (SEO)</source>
-      </segment>
-    </unit>
-    <unit id="hintSefUrl">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:34,35</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">32,33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hintSefUrl" datatype="html">
         <source>Boş bırakılırsa otomatik oluşur</source>
-      </segment>
-    </unit>
-    <unit id="sectionParentParameters">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:57,58</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">34,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="sectionParentParameters" datatype="html">
         <source>Üst Kategori Parametreleri</source>
-      </segment>
-    </unit>
-    <unit id="inheritedHint">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:60,62</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">57,58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="inheritedHint" datatype="html">
         <source>Miras alınmış</source>
-      </segment>
-    </unit>
-    <unit id="badgeRequired">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:75,77</note>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:109,111</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">60,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="badgeRequired" datatype="html">
         <source>Zorunlu</source>
-      </segment>
-    </unit>
-    <unit id="sectionParameters">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:89,90</note>
-        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:54,56</note>
-        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:60,62</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">75,77</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">109,111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="sectionParameters" datatype="html">
         <source>Parametreler</source>
-      </segment>
-    </unit>
-    <unit id="tooltipDelete">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:115</note>
-        <note category="location">src/app/features/contents/contents/contents.html:108</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">89,90</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html</context>
+          <context context-type="linenumber">54,56</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html</context>
+          <context context-type="linenumber">60,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tooltipDelete" datatype="html">
         <source>Sil</source>
-      </segment>
-    </unit>
-    <unit id="tooltipEdit">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:123</note>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:81</note>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:111</note>
-        <note category="location">src/app/features/contents/contents/contents.html:97</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">115</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/contents.html</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tooltipEdit" datatype="html">
         <source>Düzenle</source>
-      </segment>
-    </unit>
-    <unit id="noParameterYet">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:134,137</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">123</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/contents.html</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="noParameterYet" datatype="html">
         <source>Henüz parametre tanımı yok</source>
-      </segment>
-    </unit>
-    <unit id="delete">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:150,153</note>
-      </notes>
-      <segment>
-        <source><pc id="0" equivStart="START_TAG_LUCIDE_ICON" equivEnd="CLOSE_TAG_LUCIDE_ICON" type="other" dispStart="&lt;lucide-icon name=&quot;trash-2&quot; [size]=&quot;15&quot; /&gt;" dispEnd="&lt;lucide-icon name=&quot;trash-2&quot; [size]=&quot;15&quot; /&gt;"></pc> Sil </source>
-      </segment>
-    </unit>
-    <unit id="save">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:164,165</note>
-        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:128,129</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">134,137</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="delete" datatype="html">
+        <source><x id="START_TAG_LUCIDE_ICON" ctype="x-lucide_icon" equiv-text="&lt;lucide-icon name=&quot;trash-2&quot; [size]=&quot;15&quot; /&gt;"/><x id="CLOSE_TAG_LUCIDE_ICON" ctype="x-lucide_icon" equiv-text="&lt;lucide-icon name=&quot;trash-2&quot; [size]=&quot;15&quot; /&gt;"/> Sil </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">150,153</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="save" datatype="html">
         <source>Kaydet</source>
-      </segment>
-    </unit>
-    <unit id="editParameterTitle">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:2,3</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html</context>
+          <context context-type="linenumber">164,165</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html</context>
+          <context context-type="linenumber">128,129</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="editParameterTitle" datatype="html">
         <source>Parametre Düzenle</source>
-      </segment>
-    </unit>
-    <unit id="edit">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:96,97</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">2,3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="edit" datatype="html">
         <source>Düzenle</source>
-      </segment>
-    </unit>
-    <unit id="categories">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:6,7</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html</context>
+          <context context-type="linenumber">96,97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="categories" datatype="html">
         <source>Kategoriler</source>
-      </segment>
-    </unit>
-    <unit id="searchCategoryPlaceholder">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:20,22</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="searchCategoryPlaceholder" datatype="html">
         <source>Kategori ara...</source>
-      </segment>
-    </unit>
-    <unit id="noSearchResults">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:42,44</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">20,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="noSearchResults" datatype="html">
         <source>Sonuç bulunamadı</source>
-      </segment>
-    </unit>
-    <unit id="noCategoryYet">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:44,46</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">42,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="noCategoryYet" datatype="html">
         <source>Henüz kategori yok</source>
-      </segment>
-    </unit>
-    <unit id="createFirstCategory">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:52,54</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">44,46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="createFirstCategory" datatype="html">
         <source> İlk kategoriyi oluştur </source>
-      </segment>
-    </unit>
-    <unit id="tooltipActivePassive">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:65,66</note>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:95,96</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">52,54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tooltipActivePassive" datatype="html">
         <source>Aktif / Pasif</source>
-      </segment>
-    </unit>
-    <unit id="statusPassive">
-      <notes>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:73,75</note>
-        <note category="location">src/app/features/contents/content-categories/content-categories.html:103,105</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">65,66</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">95,96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="statusPassive" datatype="html">
         <source>Pasif</source>
-      </segment>
-    </unit>
-    <unit id="createContentTitle">
-      <notes>
-        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:3,7</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">73,75</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/content-categories/content-categories.html</context>
+          <context context-type="linenumber">103,105</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="createContentTitle" datatype="html">
         <source>Yeni İçerik</source>
-      </segment>
-    </unit>
-    <unit id="placeholderContentTitle">
-      <notes>
-        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:13,14</note>
-        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:19,20</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html</context>
+          <context context-type="linenumber">3,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="placeholderContentTitle" datatype="html">
         <source>İçerik başlığını girin</source>
-      </segment>
-    </unit>
-    <unit id="fieldContent">
-      <notes>
-        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:27,28</note>
-        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:33,34</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fieldContent" datatype="html">
         <source>İçerik</source>
-      </segment>
-    </unit>
-    <unit id="placeholderContent">
-      <notes>
-        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:32,33</note>
-        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:38,39</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html</context>
+          <context context-type="linenumber">27,28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html</context>
+          <context context-type="linenumber">33,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="placeholderContent" datatype="html">
         <source>İçeriği buraya yazın...</source>
-      </segment>
-    </unit>
-    <unit id="fieldSummary">
-      <notes>
-        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:39,40</note>
-        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:45,46</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html</context>
+          <context context-type="linenumber">32,33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fieldSummary" datatype="html">
         <source>Özet</source>
-      </segment>
-    </unit>
-    <unit id="placeholderSummary">
-      <notes>
-        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:44,45</note>
-        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:50,51</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html</context>
+          <context context-type="linenumber">39,40</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html</context>
+          <context context-type="linenumber">45,46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="placeholderSummary" datatype="html">
         <source>Kısa açıklama (isteğe bağlı)</source>
-      </segment>
-    </unit>
-    <unit id="editContentTitle">
-      <notes>
-        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:3,7</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html</context>
+          <context context-type="linenumber">50,51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="editContentTitle" datatype="html">
         <source>İçeriği Düzenle</source>
-      </segment>
-    </unit>
-    <unit id="placeholderAllStatuses">
-      <notes>
-        <note category="location">src/app/features/contents/contents/contents.html:11,12</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html</context>
+          <context context-type="linenumber">3,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="placeholderAllStatuses" datatype="html">
         <source>Tüm Durumlar</source>
-      </segment>
-    </unit>
-    <unit id="newContent">
-      <notes>
-        <note category="location">src/app/features/contents/contents/contents.html:22,24</note>
-        <note category="location">src/app/features/contents/contents/contents.html:44,45</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/contents.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="newContent" datatype="html">
         <source>Yeni İçerik</source>
-      </segment>
-    </unit>
-    <unit id="noContentYet">
-      <notes>
-        <note category="location">src/app/features/contents/contents/contents.html:40,41</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/contents.html</context>
+          <context context-type="linenumber">22,24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/contents.html</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="noContentYet" datatype="html">
         <source>Henüz içerik yok</source>
-      </segment>
-    </unit>
-    <unit id="noContentSub">
-      <notes>
-        <note category="location">src/app/features/contents/contents/contents.html:41,42</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/contents.html</context>
+          <context context-type="linenumber">40,41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="noContentSub" datatype="html">
         <source>Bu kategoriye ilk içeriği ekleyin</source>
-      </segment>
-    </unit>
-    <unit id="colTitle">
-      <notes>
-        <note category="location">src/app/features/contents/contents/contents.html:51,52</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/contents.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="colTitle" datatype="html">
         <source>Başlık</source>
-      </segment>
-    </unit>
-    <unit id="colStatus">
-      <notes>
-        <note category="location">src/app/features/contents/contents/contents.html:52,53</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/contents.html</context>
+          <context context-type="linenumber">51,52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="colStatus" datatype="html">
         <source>Durum</source>
-      </segment>
-    </unit>
-    <unit id="colUpdated">
-      <notes>
-        <note category="location">src/app/features/contents/contents/contents.html:53,54</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/contents.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="colUpdated" datatype="html">
         <source>Güncellendi</source>
-      </segment>
-    </unit>
-    <unit id="tooltipChangeStatus">
-      <notes>
-        <note category="location">src/app/features/contents/contents/contents.html:78,79</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/contents.html</context>
+          <context context-type="linenumber">53,54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tooltipChangeStatus" datatype="html">
         <source>Durum değiştir</source>
-      </segment>
-    </unit>
-    <unit id="ariaLabelBreadcrumb">
-      <notes>
-        <note category="location">src/app/layout/header/header.html:13</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/contents/contents/contents.html</context>
+          <context context-type="linenumber">78,79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ariaLabelBreadcrumb" datatype="html">
         <source>Breadcrumb</source>
-      </segment>
-    </unit>
-    <unit id="tooltipSwitchToEnglish">
-      <notes>
-        <note category="location">src/app/layout/header/header.html:34</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tooltipSwitchToEnglish" datatype="html">
         <source>English</source>
-      </segment>
-    </unit>
-    <unit id="tooltipSwitchToTurkish">
-      <notes>
-        <note category="location">src/app/layout/header/header.html:43</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tooltipSwitchToTurkish" datatype="html">
         <source>Türkçe</source>
-      </segment>
-    </unit>
-    <unit id="tooltipDarkMode">
-      <notes>
-        <note category="location">src/app/layout/header/header.html:53,54</note>
-        <note category="location">src/app/layout/sidebar/sidebar.html:63,64</note>
-        <note category="location">src/app/layout/sidebar/sidebar.html:69,71</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tooltipDarkMode" datatype="html">
         <source>Dark Mode</source>
-      </segment>
-    </unit>
-    <unit id="tooltipLightMode">
-      <notes>
-        <note category="location">src/app/layout/header/header.html:62,63</note>
-        <note category="location">src/app/layout/sidebar/sidebar.html:75,76</note>
-        <note category="location">src/app/layout/sidebar/sidebar.html:81,85</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">53,54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/sidebar/sidebar.html</context>
+          <context context-type="linenumber">63,64</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/sidebar/sidebar.html</context>
+          <context context-type="linenumber">69,71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tooltipLightMode" datatype="html">
         <source>Light Mode</source>
-      </segment>
-    </unit>
-    <unit id="menuProfile">
-      <notes>
-        <note category="location">src/app/layout/header/header.html:78,80</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/sidebar/sidebar.html</context>
+          <context context-type="linenumber">75,76</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/sidebar/sidebar.html</context>
+          <context context-type="linenumber">81,85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="menuProfile" datatype="html">
         <source>Profil</source>
-      </segment>
-    </unit>
-    <unit id="menuLogout">
-      <notes>
-        <note category="location">src/app/layout/header/header.html:82,84</note>
-        <note category="location">src/app/layout/sidebar/sidebar.html:88,89</note>
-        <note category="location">src/app/layout/sidebar/sidebar.html:94,96</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">78,80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="menuLogout" datatype="html">
         <source>Çıkış Yap</source>
-      </segment>
-    </unit>
-    <unit id="tooltipExpand">
-      <notes>
-        <note category="location">src/app/layout/sidebar/sidebar.html:17,18</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.html</context>
+          <context context-type="linenumber">82,84</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/sidebar/sidebar.html</context>
+          <context context-type="linenumber">88,89</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/sidebar/sidebar.html</context>
+          <context context-type="linenumber">94,96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tooltipExpand" datatype="html">
         <source>Genişlet</source>
-      </segment>
-    </unit>
-    <unit id="tooltipCollapse">
-      <notes>
-        <note category="location">src/app/layout/sidebar/sidebar.html:28</note>
-      </notes>
-      <segment>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/sidebar/sidebar.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tooltipCollapse" datatype="html">
         <source>Daralt</source>
-      </segment>
-    </unit>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/sidebar/sidebar.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="navDashboard" datatype="html">
+        <source>Dashboard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/sidebar/sidebar.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="navContents" datatype="html">
+        <source>İçerikler</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/sidebar/sidebar.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="navSettings" datatype="html">
+        <source>Ayarlar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/sidebar/sidebar.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+    </body>
   </file>
 </xliff>
