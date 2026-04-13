@@ -10,7 +10,7 @@
     <div class="title-group">
       <h1 class="page-title">{{ pageTitle() }}</h1>
       @if (breadcrumbs().length > 0) {
-        <nav class="breadcrumb" aria-label="Breadcrumb">
+        <nav class="breadcrumb" aria-label="Breadcrumb" i18n-aria-label="@@ariaLabelBreadcrumb">
           @for (crumb of breadcrumbs(); track crumb.path; let last = $last) {
             @if (!last) {
               <a [routerLink]="crumb.path" class="crumb-link">{{ crumb.label }}</a>
@@ -26,21 +26,45 @@
 
   <!-- Right: theme toggle + user menu -->
   <div class="header-right">
-    <button
-      class="icon-btn"
-      (click)="switchLanguage()"
-      [matTooltip]="currentLang === 'tr' ? 'English' : 'Türkçe'"
-    >
-      <lucide-icon name="languages" [size]="20" />
-    </button>
+    @if (currentLang === 'tr') {
+      <button
+        class="icon-btn"
+        (click)="switchLanguage()"
+        matTooltip="English"
+        i18n-matTooltip="@@tooltipSwitchToEnglish"
+      >
+        <lucide-icon name="languages" [size]="20" />
+      </button>
+    } @else {
+      <button
+        class="icon-btn"
+        (click)="switchLanguage()"
+        matTooltip="Türkçe"
+        i18n-matTooltip="@@tooltipSwitchToTurkish"
+      >
+        <lucide-icon name="languages" [size]="20" />
+      </button>
+    }
 
-    <button
-      class="icon-btn"
-      (click)="themeService.toggleTheme()"
-      [matTooltip]="themeService.theme() === 'light' ? 'Dark Mode' : 'Light Mode'"
-    >
-      <lucide-icon [name]="themeService.theme() === 'light' ? 'moon' : 'sun'" [size]="20" />
-    </button>
+    @if (themeService.theme() === 'light') {
+      <button
+        class="icon-btn"
+        (click)="themeService.toggleTheme()"
+        matTooltip="Dark Mode"
+        i18n-matTooltip="@@tooltipDarkMode"
+      >
+        <lucide-icon name="moon" [size]="20" />
+      </button>
+    } @else {
+      <button
+        class="icon-btn"
+        (click)="themeService.toggleTheme()"
+        matTooltip="Light Mode"
+        i18n-matTooltip="@@tooltipLightMode"
+      >
+        <lucide-icon name="sun" [size]="20" />
+      </button>
+    }
 
     <button class="user-btn" [matMenuTriggerFor]="userMenu">
       <div class="user-avatar">
@@ -51,11 +75,11 @@
     <mat-menu #userMenu="matMenu" xPosition="before">
       <a mat-menu-item routerLink="/settings/profile">
         <lucide-icon name="user" [size]="16" />
-        <span>Profil</span>
+        <span i18n="@@menuProfile">Profil</span>
       </a>
       <button mat-menu-item (click)="onLogout()">
         <lucide-icon name="log-out" [size]="16" />
-        <span>Çıkış Yap</span>
+        <span i18n="@@menuLogout">Çıkış Yap</span>
       </button>
     </mat-menu>
   </div>

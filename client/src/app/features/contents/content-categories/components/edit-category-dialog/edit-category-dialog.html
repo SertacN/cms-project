@@ -4,7 +4,7 @@
     <div class="dialog-icon">
       <lucide-icon name="pencil" [size]="18" />
     </div>
-    <h2 class="dialog-title">Kategoriyi Düzenle</h2>
+    <h2 class="dialog-title" i18n="@@editCategoryTitle">Kategoriyi Düzenle</h2>
   </div>
   <button class="dialog-close-btn" (click)="close()">
     <lucide-icon name="x" [size]="18" />
@@ -14,33 +14,35 @@
 <mat-dialog-content class="dialog-body">
   <!-- Section: Genel Bilgiler -->
   <section class="dialog-section">
-    <h3 class="section-title">Genel Bilgiler</h3>
+    <h3 class="section-title" i18n="@@sectionGeneralInfo">Genel Bilgiler</h3>
     <form [formGroup]="editCategoryModel" id="edit-category-form" (ngSubmit)="editCategory()">
       <div class="form-grid">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Başlık</mat-label>
+          <mat-label i18n="@@fieldTitle">Başlık</mat-label>
           <input type="text" matInput formControlName="title" />
           @if (title.touched && title.hasError('minlength')) {
-            <mat-error>En az 3 karakter olmalı</mat-error>
+            <mat-error i18n="@@errorTitleMinlength">En az 3 karakter olmalıdır</mat-error>
           }
           @if (title.touched && title.hasError('maxlength')) {
-            <mat-error>En fazla 50 karakter olmalı</mat-error>
+            <mat-error i18n="@@errorTitleMaxlength">En fazla 50 karakter olmalı</mat-error>
           }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>URL (SEO)</mat-label>
+          <mat-label i18n="@@fieldSefUrl">URL (SEO)</mat-label>
           <input type="text" matInput formControlName="sefUrl" />
-          <mat-hint>Boş bırakılırsa otomatik oluşur</mat-hint>
+          <mat-hint i18n="@@hintSefUrl">Boş bırakılırsa otomatik oluşur</mat-hint>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Sıra</mat-label>
+          <mat-label i18n="@@fieldOrderBy">Sıra</mat-label>
           <input type="number" matInput formControlName="orderBy" />
         </mat-form-field>
 
         <div class="checkbox-row">
-          <mat-checkbox formControlName="isActive">Aktif</mat-checkbox>
+          <mat-checkbox formControlName="isActive">
+            <span i18n="@@statusActive">Aktif</span>
+          </mat-checkbox>
         </div>
       </div>
     </form>
@@ -52,10 +54,10 @@
   @if (parentParameters().length) {
     <section class="dialog-section">
       <div class="section-title-row">
-        <h3 class="section-title">Üst Kategori Parametreleri</h3>
+        <h3 class="section-title" i18n="@@sectionParentParameters">Üst Kategori Parametreleri</h3>
         <span class="inherited-hint">
           <lucide-icon name="link" [size]="13" />
-          Miras alınmış
+          <span i18n="@@inheritedHint">Miras alınmış</span>
         </span>
       </div>
       <div class="parameter-list">
@@ -70,7 +72,7 @@
             </div>
             <div class="param-right">
               @if (param.isRequired) {
-                <span class="required-badge">Zorunlu</span>
+                <span class="required-badge" i18n="@@badgeRequired">Zorunlu</span>
               }
             </div>
           </div>
@@ -84,10 +86,10 @@
   <!-- Section: Parametreler -->
   <section class="dialog-section">
     <div class="section-title-row">
-      <h3 class="section-title">Parametreler</h3>
+      <h3 class="section-title" i18n="@@sectionParameters">Parametreler</h3>
       <button mat-stroked-button (click)="openCreateParameterDialog()">
         <lucide-icon name="plus" [size]="14" />
-        Ekle
+        <span i18n="@@add">Ekle</span>
       </button>
     </div>
 
@@ -104,16 +106,22 @@
             </div>
             <div class="param-right">
               @if (param.isRequired) {
-                <span class="required-badge">Zorunlu</span>
+                <span class="required-badge" i18n="@@badgeRequired">Zorunlu</span>
               }
               <button
                 mat-icon-button
                 (click)="deleteParameterDefinition(param.id, param.label)"
                 matTooltip="Sil"
+                i18n-matTooltip="@@tooltipDelete"
               >
                 <lucide-icon name="trash-2"></lucide-icon>
               </button>
-              <button mat-icon-button (click)="openEditParameterDialog(param)" matTooltip="Düzenle">
+              <button
+                mat-icon-button
+                (click)="openEditParameterDialog(param)"
+                matTooltip="Düzenle"
+                i18n-matTooltip="@@tooltipEdit"
+              >
                 <lucide-icon name="pencil" [size]="15" />
               </button>
             </div>
@@ -123,7 +131,7 @@
     } @else {
       <div class="params-empty">
         <lucide-icon name="file-text" [size]="28" />
-        <p>Henüz parametre tanımı yok</p>
+        <p i18n="@@noParameterYet">Henüz parametre tanımı yok</p>
       </div>
     }
   </section>
@@ -137,12 +145,13 @@
     class="delete-btn"
     (click)="deleteCategory()"
     [disabled]="isLoading()"
+    i18n="@@delete"
   >
     <lucide-icon name="trash-2" [size]="15" />
     Sil
   </button>
   <div class="actions-right">
-    <button type="button" mat-button (click)="close()">İptal</button>
+    <button type="button" mat-button (click)="close()" i18n="@@cancel">İptal</button>
     <button
       type="submit"
       form="edit-category-form"
@@ -152,7 +161,7 @@
       @if (isLoading()) {
         <span class="spinner small"></span>
       }
-      Kaydet
+      <ng-container i18n="@@save">Kaydet</ng-container>
     </button>
   </div>
 </mat-dialog-actions>

@@ -10,17 +10,27 @@
       <lucide-icon name="layout-dashboard" [size]="20" />
     </div>
     <span class="sidebar-text logo-text">CMS Panel</span>
-    <button
-      class="collapse-btn"
-      (click)="layoutService.toggleSidebar()"
-      [matTooltip]="layoutService.sidebarCollapsed() ? 'Genişlet' : 'Daralt'"
-      matTooltipPosition="right"
-    >
-      <lucide-icon
-        [name]="layoutService.sidebarCollapsed() ? 'chevron-right' : 'chevron-left'"
-        [size]="18"
-      />
-    </button>
+    @if (layoutService.sidebarCollapsed()) {
+      <button
+        class="collapse-btn"
+        (click)="layoutService.toggleSidebar()"
+        matTooltip="Genişlet"
+        i18n-matTooltip="@@tooltipExpand"
+        matTooltipPosition="right"
+      >
+        <lucide-icon name="chevron-right" [size]="18" />
+      </button>
+    } @else {
+      <button
+        class="collapse-btn"
+        (click)="layoutService.toggleSidebar()"
+        matTooltip="Daralt"
+        i18n-matTooltip="@@tooltipCollapse"
+        matTooltipPosition="right"
+      >
+        <lucide-icon name="chevron-left" [size]="18" />
+      </button>
+    }
   </div>
 
   <!-- Nav -->
@@ -32,7 +42,8 @@
             [routerLink]="item.path"
             routerLinkActive="active"
             class="nav-link"
-            [matTooltip]="layoutService.sidebarCollapsed() ? item.label : ''"
+            [matTooltip]="item.label"
+            [matTooltipDisabled]="!layoutService.sidebarCollapsed()"
             matTooltipPosition="right"
           >
             <lucide-icon [name]="item.icon" [size]="20" />
@@ -45,26 +56,42 @@
 
   <!-- Footer -->
   <div class="sidebar-footer">
-    <button
-      class="footer-btn theme-btn"
-      (click)="themeService.toggleTheme()"
-      [matTooltip]="layoutService.sidebarCollapsed() ? (themeService.theme() === 'light' ? 'Dark Mode' : 'Light Mode') : ''"
-      matTooltipPosition="right"
-    >
-      <lucide-icon [name]="themeService.theme() === 'light' ? 'moon' : 'sun'" [size]="20" />
-      <span class="sidebar-text">
-        {{ themeService.theme() === 'light' ? 'Dark Mode' : 'Light Mode' }}
-      </span>
-    </button>
+    @if (themeService.theme() === 'light') {
+      <button
+        class="footer-btn theme-btn"
+        (click)="themeService.toggleTheme()"
+        matTooltip="Dark Mode"
+        i18n-matTooltip="@@tooltipDarkMode"
+        [matTooltipDisabled]="!layoutService.sidebarCollapsed()"
+        matTooltipPosition="right"
+      >
+        <lucide-icon name="moon" [size]="20" />
+        <span class="sidebar-text" i18n="@@tooltipDarkMode">Dark Mode</span>
+      </button>
+    } @else {
+      <button
+        class="footer-btn theme-btn"
+        (click)="themeService.toggleTheme()"
+        matTooltip="Light Mode"
+        i18n-matTooltip="@@tooltipLightMode"
+        [matTooltipDisabled]="!layoutService.sidebarCollapsed()"
+        matTooltipPosition="right"
+      >
+        <lucide-icon name="sun" [size]="20" />
+        <span class="sidebar-text" i18n="@@tooltipLightMode">Light Mode</span>
+      </button>
+    }
 
     <button
       class="footer-btn logout-btn"
       (click)="onLogout()"
-      [matTooltip]="layoutService.sidebarCollapsed() ? 'Çıkış Yap' : ''"
+      matTooltip="Çıkış Yap"
+      i18n-matTooltip="@@menuLogout"
+      [matTooltipDisabled]="!layoutService.sidebarCollapsed()"
       matTooltipPosition="right"
     >
       <lucide-icon name="log-out" [size]="20" />
-      <span class="sidebar-text">Çıkış Yap</span>
+      <span class="sidebar-text" i18n="@@menuLogout">Çıkış Yap</span>
     </button>
   </div>
 

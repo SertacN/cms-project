@@ -1,5 +1,5 @@
 <div class="param-dialog-header">
-  <h2 class="param-dialog-title">Parametre Düzenle</h2>
+  <h2 class="param-dialog-title" i18n="@@editParameterTitle">Parametre Düzenle</h2>
   <button class="dialog-close-btn" (click)="close()">
     <lucide-icon name="x" [size]="18" />
   </button>
@@ -10,25 +10,35 @@
 
     <div class="field-row">
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Görünen Etiket</mat-label>
-        <input matInput formControlName="label" placeholder="örn: Yolcu Sayısı" />
+        <mat-label i18n="@@fieldLabel">Görünen Etiket</mat-label>
+        <input
+          matInput
+          formControlName="label"
+          placeholder="örn: Yolcu Sayısı"
+          i18n-placeholder="@@placeholderLabel"
+        />
         @if (editParameterForm.controls.label.touched && editParameterForm.controls.label.hasError('required')) {
-          <mat-error>Zorunlu alan</mat-error>
+          <mat-error i18n="@@errorRequired">Zorunlu alan</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Teknik Ad</mat-label>
-        <input matInput formControlName="name" placeholder="örn: passenger_count" />
+        <mat-label i18n="@@fieldTechnicalName">Teknik Ad</mat-label>
+        <input
+          matInput
+          formControlName="name"
+          placeholder="örn: passenger_count"
+          i18n-placeholder="@@placeholderTechnicalName"
+        />
         @if (editParameterForm.controls.name.touched && editParameterForm.controls.name.hasError('required')) {
-          <mat-error>Zorunlu alan</mat-error>
+          <mat-error i18n="@@errorRequired">Zorunlu alan</mat-error>
         }
       </mat-form-field>
     </div>
 
     <div class="field-row">
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Tip</mat-label>
+        <mat-label i18n="@@fieldType">Tip</mat-label>
         <mat-select formControlName="type" (selectionChange)="onTypeChange()">
           @for (type of parameterTypes; track type.value) {
             <mat-option [value]="type.value">{{ type.label }}</mat-option>
@@ -37,20 +47,22 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Sıra</mat-label>
+        <mat-label i18n="@@fieldOrderBy">Sıra</mat-label>
         <input matInput formControlName="orderBy" type="number" min="0" />
         @if (orderBy.hasError('min') && orderBy.touched) {
-          <mat-error>Eksi değer girilemez</mat-error>
+          <mat-error i18n="@@errorOrderByMin">Eksi değer girilemez</mat-error>
         }
       </mat-form-field>
     </div>
 
-    <mat-checkbox formControlName="isRequired">Zorunlu Alan</mat-checkbox>
+    <mat-checkbox formControlName="isRequired">
+      <span i18n="@@fieldRequired">Zorunlu Alan</span>
+    </mat-checkbox>
 
     @if (editParameterForm.get('type')?.value === 'SELECT') {
       <div class="options-section">
         <div class="options-header">
-          <span class="options-label">Seçenekler</span>
+          <span class="options-label" i18n="@@fieldOptions">Seçenekler</span>
           <button type="button" mat-icon-button (click)="addOption()">
             <lucide-icon name="plus" [size]="16" />
           </button>
@@ -59,7 +71,7 @@
           @for (option of options.controls; track $index) {
             <div class="option-row">
               <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Seçenek {{ $index + 1 }}</mat-label>
+                <mat-label i18n="@@fieldOptionN">Seçenek {{ $index + 1 }}</mat-label>
                 <input matInput [formControlName]="$index" />
               </mat-form-field>
               <button
@@ -80,7 +92,7 @@
   </mat-dialog-content>
 
   <mat-dialog-actions align="end" class="param-dialog-actions">
-    <button type="button" mat-button (click)="close()">İptal</button>
-    <button type="submit" mat-flat-button [disabled]="editParameterForm.invalid">Düzenle</button>
+    <button type="button" mat-button (click)="close()" i18n="@@cancel">İptal</button>
+    <button type="submit" mat-flat-button [disabled]="editParameterForm.invalid" i18n="@@edit">Düzenle</button>
   </mat-dialog-actions>
 </form>

@@ -1,31 +1,49 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
 
-  <h2 mat-dialog-title>Yeni İçerik</h2>
+  <h2 mat-dialog-title i18n="@@createContentTitle">Yeni İçerik</h2>
 
   <mat-dialog-content>
 
     <!-- Başlık -->
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Başlık</mat-label>
-      <input matInput formControlName="title" placeholder="İçerik başlığını girin" maxlength="200" />
+      <mat-label i18n="@@fieldTitle">Başlık</mat-label>
+      <input
+        matInput
+        formControlName="title"
+        placeholder="İçerik başlığını girin"
+        i18n-placeholder="@@placeholderContentTitle"
+        maxlength="200"
+      />
       @if (form.controls.title.hasError('required') && form.controls.title.touched) {
-        <mat-error>Başlık zorunludur</mat-error>
+        <mat-error i18n="@@errorTitleRequired">Başlık zorunludur</mat-error>
       }
       @if (form.controls.title.hasError('minlength') && form.controls.title.touched) {
-        <mat-error>En az 3 karakter olmalıdır</mat-error>
+        <mat-error i18n="@@errorTitleMinlength">En az 3 karakter olmalıdır</mat-error>
       }
     </mat-form-field>
 
     <!-- İçerik -->
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>İçerik</mat-label>
-      <textarea matInput formControlName="content" rows="8" placeholder="İçeriği buraya yazın..."></textarea>
+      <mat-label i18n="@@fieldContent">İçerik</mat-label>
+      <textarea
+        matInput
+        formControlName="content"
+        rows="8"
+        placeholder="İçeriği buraya yazın..."
+        i18n-placeholder="@@placeholderContent"
+      ></textarea>
     </mat-form-field>
 
     <!-- Özet -->
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Özet</mat-label>
-      <textarea matInput formControlName="summary" rows="2" placeholder="Kısa açıklama (isteğe bağlı)"></textarea>
+      <mat-label i18n="@@fieldSummary">Özet</mat-label>
+      <textarea
+        matInput
+        formControlName="summary"
+        rows="2"
+        placeholder="Kısa açıklama (isteğe bağlı)"
+        i18n-placeholder="@@placeholderSummary"
+      ></textarea>
     </mat-form-field>
 
     <!-- Dinamik Parametreler -->
@@ -33,7 +51,7 @@
       <div class="params-section">
         <p class="params-title">
           <lucide-icon name="clipboard-list" [size]="14" />
-          Parametreler
+          <span i18n="@@sectionParameters">Parametreler</span>
         </p>
         @for (param of parameters(); track param.id) {
           <div class="param-item">
@@ -95,12 +113,12 @@
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
-    <button type="button" mat-button (click)="close()" [disabled]="isLoading()">İptal</button>
+    <button type="button" mat-button (click)="close()" [disabled]="isLoading()" i18n="@@cancel">İptal</button>
     <button type="submit" mat-flat-button color="primary" [disabled]="isLoading()">
       @if (isLoading()) {
         <mat-spinner diameter="18" />
       } @else {
-        Oluştur
+        <ng-container i18n="@@create">Oluştur</ng-container>
       }
     </button>
   </mat-dialog-actions>

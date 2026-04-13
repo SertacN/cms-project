@@ -73,5 +73,615 @@
         <source>Beklenmeyen bir hata oluştu</source>
       </segment>
     </unit>
+    <unit id="createCategoryTitle">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:4,5</note>
+      </notes>
+      <segment>
+        <source>Yeni Kategori Oluştur</source>
+      </segment>
+    </unit>
+    <unit id="fieldTitle">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:7,8</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:21,22</note>
+        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:9,10</note>
+        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:15,16</note>
+      </notes>
+      <segment>
+        <source>Başlık</source>
+      </segment>
+    </unit>
+    <unit id="errorTitleRequired">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:10,12</note>
+        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:18,20</note>
+        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:24,26</note>
+      </notes>
+      <segment>
+        <source>Başlık zorunludur</source>
+      </segment>
+    </unit>
+    <unit id="errorTitleMinlength">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:13,15</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:24,26</note>
+        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:21,23</note>
+        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:27,29</note>
+      </notes>
+      <segment>
+        <source>En az 3 karakter olmalıdır</source>
+      </segment>
+    </unit>
+    <unit id="errorTitleMaxlength">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:16,18</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:27,29</note>
+      </notes>
+      <segment>
+        <source>En fazla 50 karakter olmalı</source>
+      </segment>
+    </unit>
+    <unit id="fieldParentCategory">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:20,21</note>
+      </notes>
+      <segment>
+        <source>Üst Kategori</source>
+      </segment>
+    </unit>
+    <unit id="selectPlaceholder">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:22,23</note>
+      </notes>
+      <segment>
+        <source>-- Seçiniz --</source>
+      </segment>
+    </unit>
+    <unit id="fieldOrderBy">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:29,30</note>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:53,54</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:38,39</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:50,51</note>
+      </notes>
+      <segment>
+        <source>Sıra</source>
+      </segment>
+    </unit>
+    <unit id="errorOrderByMin">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:32,34</note>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:56,58</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:53,55</note>
+      </notes>
+      <segment>
+        <source>Eksi değer girilemez</source>
+      </segment>
+    </unit>
+    <unit id="statusActive">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:36,37</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:44,45</note>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:71,72</note>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:101,102</note>
+      </notes>
+      <segment>
+        <source>Aktif</source>
+      </segment>
+    </unit>
+    <unit id="cancel">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:41,42</note>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:97,98</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:154,155</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:95,96</note>
+        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:116,117</note>
+        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:123,124</note>
+      </notes>
+      <segment>
+        <source>İptal</source>
+      </segment>
+    </unit>
+    <unit id="create">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-category-dialog/create-category-dialog.html:48,49</note>
+        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:121,122</note>
+      </notes>
+      <segment>
+        <source>Oluştur</source>
+      </segment>
+    </unit>
+    <unit id="createParameterTitle">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:2,3</note>
+      </notes>
+      <segment>
+        <source>Yeni Parametre Ekle</source>
+      </segment>
+    </unit>
+    <unit id="fieldLabel">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:12,13</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:13,14</note>
+      </notes>
+      <segment>
+        <source>Görünen Etiket</source>
+      </segment>
+    </unit>
+    <unit id="placeholderLabel">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:16,17</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:17,18</note>
+      </notes>
+      <segment>
+        <source>örn: Yolcu Sayısı</source>
+      </segment>
+    </unit>
+    <unit id="errorRequired">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:22,24</note>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:37,39</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:21,23</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:34,36</note>
+      </notes>
+      <segment>
+        <source>Zorunlu alan</source>
+      </segment>
+    </unit>
+    <unit id="fieldTechnicalName">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:27,29</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:26,28</note>
+      </notes>
+      <segment>
+        <source>Teknik Ad</source>
+      </segment>
+    </unit>
+    <unit id="placeholderTechnicalName">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:31,32</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:30,31</note>
+      </notes>
+      <segment>
+        <source>örn: passenger_count</source>
+      </segment>
+    </unit>
+    <unit id="fieldType">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:44,45</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:41,42</note>
+      </notes>
+      <segment>
+        <source>Tip</source>
+      </segment>
+    </unit>
+    <unit id="fieldRequired">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:62,64</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:59,61</note>
+      </notes>
+      <segment>
+        <source>Zorunlu Alan</source>
+      </segment>
+    </unit>
+    <unit id="fieldOptions">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:68,69</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:65,66</note>
+      </notes>
+      <segment>
+        <source>Seçenekler</source>
+      </segment>
+    </unit>
+    <unit id="fieldOptionN">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:77,78</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:74,75</note>
+      </notes>
+      <segment>
+        <source>Seçenek <ph id="0" equiv="INTERPOLATION" disp="{{ $index + 1 }}"/></source>
+      </segment>
+    </unit>
+    <unit id="add">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/create-parameter-dialog/create-parameter-dialog.html:99,100</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:92,93</note>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:9,10</note>
+      </notes>
+      <segment>
+        <source>Ekle</source>
+      </segment>
+    </unit>
+    <unit id="editCategoryTitle">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:7,9</note>
+      </notes>
+      <segment>
+        <source>Kategoriyi Düzenle</source>
+      </segment>
+    </unit>
+    <unit id="sectionGeneralInfo">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:17,18</note>
+      </notes>
+      <segment>
+        <source>Genel Bilgiler</source>
+      </segment>
+    </unit>
+    <unit id="fieldSefUrl">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:32,33</note>
+      </notes>
+      <segment>
+        <source>URL (SEO)</source>
+      </segment>
+    </unit>
+    <unit id="hintSefUrl">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:34,35</note>
+      </notes>
+      <segment>
+        <source>Boş bırakılırsa otomatik oluşur</source>
+      </segment>
+    </unit>
+    <unit id="sectionParentParameters">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:57,58</note>
+      </notes>
+      <segment>
+        <source>Üst Kategori Parametreleri</source>
+      </segment>
+    </unit>
+    <unit id="inheritedHint">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:60,62</note>
+      </notes>
+      <segment>
+        <source>Miras alınmış</source>
+      </segment>
+    </unit>
+    <unit id="badgeRequired">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:75,77</note>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:109,111</note>
+      </notes>
+      <segment>
+        <source>Zorunlu</source>
+      </segment>
+    </unit>
+    <unit id="sectionParameters">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:89,90</note>
+        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:54,56</note>
+        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:60,62</note>
+      </notes>
+      <segment>
+        <source>Parametreler</source>
+      </segment>
+    </unit>
+    <unit id="tooltipDelete">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:115</note>
+        <note category="location">src/app/features/contents/contents/contents.html:108</note>
+      </notes>
+      <segment>
+        <source>Sil</source>
+      </segment>
+    </unit>
+    <unit id="tooltipEdit">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:123</note>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:81</note>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:111</note>
+        <note category="location">src/app/features/contents/contents/contents.html:97</note>
+      </notes>
+      <segment>
+        <source>Düzenle</source>
+      </segment>
+    </unit>
+    <unit id="noParameterYet">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:134,137</note>
+      </notes>
+      <segment>
+        <source>Henüz parametre tanımı yok</source>
+      </segment>
+    </unit>
+    <unit id="delete">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:150,153</note>
+      </notes>
+      <segment>
+        <source><pc id="0" equivStart="START_TAG_LUCIDE_ICON" equivEnd="CLOSE_TAG_LUCIDE_ICON" type="other" dispStart="&lt;lucide-icon name=&quot;trash-2&quot; [size]=&quot;15&quot; /&gt;" dispEnd="&lt;lucide-icon name=&quot;trash-2&quot; [size]=&quot;15&quot; /&gt;"></pc> Sil </source>
+      </segment>
+    </unit>
+    <unit id="save">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-category-dialog/edit-category-dialog.html:164,165</note>
+        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:128,129</note>
+      </notes>
+      <segment>
+        <source>Kaydet</source>
+      </segment>
+    </unit>
+    <unit id="editParameterTitle">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:2,3</note>
+      </notes>
+      <segment>
+        <source>Parametre Düzenle</source>
+      </segment>
+    </unit>
+    <unit id="edit">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/components/edit-parameter-dialog/edit-parameter-dialog.html:96,97</note>
+      </notes>
+      <segment>
+        <source>Düzenle</source>
+      </segment>
+    </unit>
+    <unit id="categories">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:6,7</note>
+      </notes>
+      <segment>
+        <source>Kategoriler</source>
+      </segment>
+    </unit>
+    <unit id="searchCategoryPlaceholder">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:20,22</note>
+      </notes>
+      <segment>
+        <source>Kategori ara...</source>
+      </segment>
+    </unit>
+    <unit id="noSearchResults">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:42,44</note>
+      </notes>
+      <segment>
+        <source>Sonuç bulunamadı</source>
+      </segment>
+    </unit>
+    <unit id="noCategoryYet">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:44,46</note>
+      </notes>
+      <segment>
+        <source>Henüz kategori yok</source>
+      </segment>
+    </unit>
+    <unit id="createFirstCategory">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:52,54</note>
+      </notes>
+      <segment>
+        <source> İlk kategoriyi oluştur </source>
+      </segment>
+    </unit>
+    <unit id="tooltipActivePassive">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:65,66</note>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:95,96</note>
+      </notes>
+      <segment>
+        <source>Aktif / Pasif</source>
+      </segment>
+    </unit>
+    <unit id="statusPassive">
+      <notes>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:73,75</note>
+        <note category="location">src/app/features/contents/content-categories/content-categories.html:103,105</note>
+      </notes>
+      <segment>
+        <source>Pasif</source>
+      </segment>
+    </unit>
+    <unit id="createContentTitle">
+      <notes>
+        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:3,7</note>
+      </notes>
+      <segment>
+        <source>Yeni İçerik</source>
+      </segment>
+    </unit>
+    <unit id="placeholderContentTitle">
+      <notes>
+        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:13,14</note>
+        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:19,20</note>
+      </notes>
+      <segment>
+        <source>İçerik başlığını girin</source>
+      </segment>
+    </unit>
+    <unit id="fieldContent">
+      <notes>
+        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:27,28</note>
+        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:33,34</note>
+      </notes>
+      <segment>
+        <source>İçerik</source>
+      </segment>
+    </unit>
+    <unit id="placeholderContent">
+      <notes>
+        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:32,33</note>
+        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:38,39</note>
+      </notes>
+      <segment>
+        <source>İçeriği buraya yazın...</source>
+      </segment>
+    </unit>
+    <unit id="fieldSummary">
+      <notes>
+        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:39,40</note>
+        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:45,46</note>
+      </notes>
+      <segment>
+        <source>Özet</source>
+      </segment>
+    </unit>
+    <unit id="placeholderSummary">
+      <notes>
+        <note category="location">src/app/features/contents/contents/components/create-content-dialog/create-content-dialog.html:44,45</note>
+        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:50,51</note>
+      </notes>
+      <segment>
+        <source>Kısa açıklama (isteğe bağlı)</source>
+      </segment>
+    </unit>
+    <unit id="editContentTitle">
+      <notes>
+        <note category="location">src/app/features/contents/contents/components/edit-content-dialog/edit-content-dialog.html:3,7</note>
+      </notes>
+      <segment>
+        <source>İçeriği Düzenle</source>
+      </segment>
+    </unit>
+    <unit id="placeholderAllStatuses">
+      <notes>
+        <note category="location">src/app/features/contents/contents/contents.html:11,12</note>
+      </notes>
+      <segment>
+        <source>Tüm Durumlar</source>
+      </segment>
+    </unit>
+    <unit id="newContent">
+      <notes>
+        <note category="location">src/app/features/contents/contents/contents.html:22,24</note>
+        <note category="location">src/app/features/contents/contents/contents.html:44,45</note>
+      </notes>
+      <segment>
+        <source>Yeni İçerik</source>
+      </segment>
+    </unit>
+    <unit id="noContentYet">
+      <notes>
+        <note category="location">src/app/features/contents/contents/contents.html:40,41</note>
+      </notes>
+      <segment>
+        <source>Henüz içerik yok</source>
+      </segment>
+    </unit>
+    <unit id="noContentSub">
+      <notes>
+        <note category="location">src/app/features/contents/contents/contents.html:41,42</note>
+      </notes>
+      <segment>
+        <source>Bu kategoriye ilk içeriği ekleyin</source>
+      </segment>
+    </unit>
+    <unit id="colTitle">
+      <notes>
+        <note category="location">src/app/features/contents/contents/contents.html:51,52</note>
+      </notes>
+      <segment>
+        <source>Başlık</source>
+      </segment>
+    </unit>
+    <unit id="colStatus">
+      <notes>
+        <note category="location">src/app/features/contents/contents/contents.html:52,53</note>
+      </notes>
+      <segment>
+        <source>Durum</source>
+      </segment>
+    </unit>
+    <unit id="colUpdated">
+      <notes>
+        <note category="location">src/app/features/contents/contents/contents.html:53,54</note>
+      </notes>
+      <segment>
+        <source>Güncellendi</source>
+      </segment>
+    </unit>
+    <unit id="tooltipChangeStatus">
+      <notes>
+        <note category="location">src/app/features/contents/contents/contents.html:78,79</note>
+      </notes>
+      <segment>
+        <source>Durum değiştir</source>
+      </segment>
+    </unit>
+    <unit id="ariaLabelBreadcrumb">
+      <notes>
+        <note category="location">src/app/layout/header/header.html:13</note>
+      </notes>
+      <segment>
+        <source>Breadcrumb</source>
+      </segment>
+    </unit>
+    <unit id="tooltipSwitchToEnglish">
+      <notes>
+        <note category="location">src/app/layout/header/header.html:34</note>
+      </notes>
+      <segment>
+        <source>English</source>
+      </segment>
+    </unit>
+    <unit id="tooltipSwitchToTurkish">
+      <notes>
+        <note category="location">src/app/layout/header/header.html:43</note>
+      </notes>
+      <segment>
+        <source>Türkçe</source>
+      </segment>
+    </unit>
+    <unit id="tooltipDarkMode">
+      <notes>
+        <note category="location">src/app/layout/header/header.html:53,54</note>
+        <note category="location">src/app/layout/sidebar/sidebar.html:63,64</note>
+        <note category="location">src/app/layout/sidebar/sidebar.html:69,71</note>
+      </notes>
+      <segment>
+        <source>Dark Mode</source>
+      </segment>
+    </unit>
+    <unit id="tooltipLightMode">
+      <notes>
+        <note category="location">src/app/layout/header/header.html:62,63</note>
+        <note category="location">src/app/layout/sidebar/sidebar.html:75,76</note>
+        <note category="location">src/app/layout/sidebar/sidebar.html:81,85</note>
+      </notes>
+      <segment>
+        <source>Light Mode</source>
+      </segment>
+    </unit>
+    <unit id="menuProfile">
+      <notes>
+        <note category="location">src/app/layout/header/header.html:78,80</note>
+      </notes>
+      <segment>
+        <source>Profil</source>
+      </segment>
+    </unit>
+    <unit id="menuLogout">
+      <notes>
+        <note category="location">src/app/layout/header/header.html:82,84</note>
+        <note category="location">src/app/layout/sidebar/sidebar.html:88,89</note>
+        <note category="location">src/app/layout/sidebar/sidebar.html:94,96</note>
+      </notes>
+      <segment>
+        <source>Çıkış Yap</source>
+      </segment>
+    </unit>
+    <unit id="tooltipExpand">
+      <notes>
+        <note category="location">src/app/layout/sidebar/sidebar.html:17,18</note>
+      </notes>
+      <segment>
+        <source>Genişlet</source>
+      </segment>
+    </unit>
+    <unit id="tooltipCollapse">
+      <notes>
+        <note category="location">src/app/layout/sidebar/sidebar.html:28</note>
+      </notes>
+      <segment>
+        <source>Daralt</source>
+      </segment>
+    </unit>
   </file>
 </xliff>

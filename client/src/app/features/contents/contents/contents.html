@@ -9,6 +9,7 @@
         [value]="statusFilter()"
         (selectionChange)="onStatusChange($event.value)"
         placeholder="Tüm Durumlar"
+        i18n-placeholder="@@placeholderAllStatuses"
       >
         @for (opt of statusOptions; track opt.value) {
           <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
@@ -18,7 +19,7 @@
 
     <button mat-flat-button color="primary" class="new-btn" (click)="openCreateDialog()">
       <lucide-icon name="plus" [size]="16" />
-      Yeni İçerik
+      <span i18n="@@newContent">Yeni İçerik</span>
     </button>
   </div>
 
@@ -36,20 +37,20 @@
       <!-- Empty -->
       <div class="empty-state">
         <lucide-icon name="file-text" [size]="40" />
-        <p class="empty-title">Henüz içerik yok</p>
-        <p class="empty-sub">Bu kategoriye ilk içeriği ekleyin</p>
+        <p class="empty-title" i18n="@@noContentYet">Henüz içerik yok</p>
+        <p class="empty-sub" i18n="@@noContentSub">Bu kategoriye ilk içeriği ekleyin</p>
         <button mat-stroked-button (click)="openCreateDialog()">
           <lucide-icon name="plus" [size]="16" />
-          Yeni İçerik
+          <span i18n="@@newContent">Yeni İçerik</span>
         </button>
       </div>
     } @else {
       <table class="content-table">
         <thead>
           <tr>
-            <th class="col-title">Başlık</th>
-            <th class="col-status">Durum</th>
-            <th class="col-date">Güncellendi</th>
+            <th class="col-title" i18n="@@colTitle">Başlık</th>
+            <th class="col-status" i18n="@@colStatus">Durum</th>
+            <th class="col-date" i18n="@@colUpdated">Güncellendi</th>
             <th class="col-actions"></th>
           </tr>
         </thead>
@@ -75,6 +76,7 @@
                     mat-icon-button
                     [matMenuTriggerFor]="statusMenu"
                     matTooltip="Durum değiştir"
+                    i18n-matTooltip="@@tooltipChangeStatus"
                     class="action-btn"
                   >
                     <lucide-icon name="chevron-right" [size]="16" />
@@ -92,6 +94,7 @@
                   <button
                     mat-icon-button
                     matTooltip="Düzenle"
+                    i18n-matTooltip="@@tooltipEdit"
                     class="action-btn"
                     (click)="openEditDialog(item.id)"
                   >
@@ -102,6 +105,7 @@
                   <button
                     mat-icon-button
                     matTooltip="Sil"
+                    i18n-matTooltip="@@tooltipDelete"
                     class="action-btn danger-btn"
                     (click)="openDeleteConfirm(item)"
                   >

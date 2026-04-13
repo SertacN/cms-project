@@ -2,84 +2,471 @@
 <xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="tr" trgLang="en">
   <file id="ngi18n" original="ng.template">
     <unit id="loginWelcomeTitle">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:9,10</note>
-      </notes>
       <segment>
         <source>Hoş Geldiniz</source>
         <target>Welcome</target>
       </segment>
     </unit>
     <unit id="loginWelcomeSubtitle">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:10,11</note>
-      </notes>
       <segment>
         <source>Devam etmek için giriş yapın</source>
         <target>Sign in to continue</target>
       </segment>
     </unit>
     <unit id="loginDemoHint">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:16,18</note>
-      </notes>
       <segment>
         <source> Demo üyeliği &apos;USER&apos; rolündedir. Create, Delete, Update işemleri yapamaz </source>
         <target> Demo account has &apos;USER&apos; role. Cannot perform Create, Delete, Update operations </target>
       </segment>
     </unit>
     <unit id="emailPlaceholder">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:67,68</note>
-      </notes>
       <segment>
         <source>ornek@email.com</source>
         <target>example@email.com</target>
       </segment>
     </unit>
     <unit id="signInProcess">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:98,100</note>
-      </notes>
       <segment>
         <source>Giriş yapılıyor...</source>
         <target>Logging in...</target>
       </segment>
     </unit>
     <unit id="signIn">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:100,101</note>
-      </notes>
       <segment>
         <source>Giriş Yap</source>
         <target>Login</target>
       </segment>
     </unit>
     <unit id="footerSign">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.html:107,110</note>
-      </notes>
       <segment>
         <source>© 2026 Dashboard. Tüm hakları saklıdır.</source>
         <target>© 2026 Dashboard. All rights reserved.</target>
       </segment>
     </unit>
     <unit id="loginError">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.ts:55</note>
-      </notes>
       <segment>
         <source>Login sırasında bir hata oluştu</source>
         <target>An error occurred during login</target>
       </segment>
     </unit>
     <unit id="unexpectedError">
-      <notes>
-        <note category="location">src/app/features/auth/login/login.ts:62</note>
-      </notes>
       <segment>
         <source>Beklenmeyen bir hata oluştu</source>
         <target>An unexpected error occurred</target>
+      </segment>
+    </unit>
+    <unit id="createCategoryTitle">
+      <segment>
+        <source>Yeni Kategori Oluştur</source>
+        <target>Create New Category</target>
+      </segment>
+    </unit>
+    <unit id="fieldTitle">
+      <segment>
+        <source>Başlık</source>
+        <target>Title</target>
+      </segment>
+    </unit>
+    <unit id="errorTitleRequired">
+      <segment>
+        <source>Başlık zorunludur</source>
+        <target>Title is required</target>
+      </segment>
+    </unit>
+    <unit id="errorTitleMinlength">
+      <segment>
+        <source>En az 3 karakter olmalıdır</source>
+        <target>Must be at least 3 characters</target>
+      </segment>
+    </unit>
+    <unit id="errorTitleMaxlength">
+      <segment>
+        <source>En fazla 50 karakter olmalı</source>
+        <target>Must be at most 50 characters</target>
+      </segment>
+    </unit>
+    <unit id="fieldParentCategory">
+      <segment>
+        <source>Üst Kategori</source>
+        <target>Parent Category</target>
+      </segment>
+    </unit>
+    <unit id="selectPlaceholder">
+      <segment>
+        <source>-- Seçiniz --</source>
+        <target>-- Select --</target>
+      </segment>
+    </unit>
+    <unit id="fieldOrderBy">
+      <segment>
+        <source>Sıra</source>
+        <target>Order</target>
+      </segment>
+    </unit>
+    <unit id="errorOrderByMin">
+      <segment>
+        <source>Eksi değer girilemez</source>
+        <target>Negative values are not allowed</target>
+      </segment>
+    </unit>
+    <unit id="statusActive">
+      <segment>
+        <source>Aktif</source>
+        <target>Active</target>
+      </segment>
+    </unit>
+    <unit id="cancel">
+      <segment>
+        <source>İptal</source>
+        <target>Cancel</target>
+      </segment>
+    </unit>
+    <unit id="create">
+      <segment>
+        <source>Oluştur</source>
+        <target>Create</target>
+      </segment>
+    </unit>
+    <unit id="createParameterTitle">
+      <segment>
+        <source>Yeni Parametre Ekle</source>
+        <target>Add New Parameter</target>
+      </segment>
+    </unit>
+    <unit id="fieldLabel">
+      <segment>
+        <source>Görünen Etiket</source>
+        <target>Display Label</target>
+      </segment>
+    </unit>
+    <unit id="placeholderLabel">
+      <segment>
+        <source>örn: Yolcu Sayısı</source>
+        <target>e.g.: Passenger Count</target>
+      </segment>
+    </unit>
+    <unit id="errorRequired">
+      <segment>
+        <source>Zorunlu alan</source>
+        <target>Required field</target>
+      </segment>
+    </unit>
+    <unit id="fieldTechnicalName">
+      <segment>
+        <source>Teknik Ad</source>
+        <target>Technical Name</target>
+      </segment>
+    </unit>
+    <unit id="placeholderTechnicalName">
+      <segment>
+        <source>örn: passenger_count</source>
+        <target>e.g.: passenger_count</target>
+      </segment>
+    </unit>
+    <unit id="fieldType">
+      <segment>
+        <source>Tip</source>
+        <target>Type</target>
+      </segment>
+    </unit>
+    <unit id="fieldRequired">
+      <segment>
+        <source>Zorunlu Alan</source>
+        <target>Required Field</target>
+      </segment>
+    </unit>
+    <unit id="fieldOptions">
+      <segment>
+        <source>Seçenekler</source>
+        <target>Options</target>
+      </segment>
+    </unit>
+    <unit id="fieldOptionN">
+      <segment>
+        <source>Seçenek <ph id="0" equiv="INTERPOLATION" disp="{{ $index + 1 }}"/></source>
+        <target>Option <ph id="0" equiv="INTERPOLATION" disp="{{ $index + 1 }}"/></target>
+      </segment>
+    </unit>
+    <unit id="add">
+      <segment>
+        <source>Ekle</source>
+        <target>Add</target>
+      </segment>
+    </unit>
+    <unit id="editCategoryTitle">
+      <segment>
+        <source>Kategoriyi Düzenle</source>
+        <target>Edit Category</target>
+      </segment>
+    </unit>
+    <unit id="sectionGeneralInfo">
+      <segment>
+        <source>Genel Bilgiler</source>
+        <target>General Information</target>
+      </segment>
+    </unit>
+    <unit id="fieldSefUrl">
+      <segment>
+        <source>URL (SEO)</source>
+        <target>URL (SEO)</target>
+      </segment>
+    </unit>
+    <unit id="hintSefUrl">
+      <segment>
+        <source>Boş bırakılırsa otomatik oluşur</source>
+        <target>Auto-generated if left blank</target>
+      </segment>
+    </unit>
+    <unit id="sectionParentParameters">
+      <segment>
+        <source>Üst Kategori Parametreleri</source>
+        <target>Parent Category Parameters</target>
+      </segment>
+    </unit>
+    <unit id="inheritedHint">
+      <segment>
+        <source>Miras alınmış</source>
+        <target>Inherited</target>
+      </segment>
+    </unit>
+    <unit id="badgeRequired">
+      <segment>
+        <source>Zorunlu</source>
+        <target>Required</target>
+      </segment>
+    </unit>
+    <unit id="sectionParameters">
+      <segment>
+        <source>Parametreler</source>
+        <target>Parameters</target>
+      </segment>
+    </unit>
+    <unit id="tooltipDelete">
+      <segment>
+        <source>Sil</source>
+        <target>Delete</target>
+      </segment>
+    </unit>
+    <unit id="tooltipEdit">
+      <segment>
+        <source>Düzenle</source>
+        <target>Edit</target>
+      </segment>
+    </unit>
+    <unit id="noParameterYet">
+      <segment>
+        <source>Henüz parametre tanımı yok</source>
+        <target>No parameter definitions yet</target>
+      </segment>
+    </unit>
+    <unit id="delete">
+      <segment>
+        <source><pc id="0" equivStart="START_TAG_LUCIDE_ICON" equivEnd="CLOSE_TAG_LUCIDE_ICON" type="other" dispStart="&lt;lucide-icon name=&quot;trash-2&quot; [size]=&quot;15&quot; /&gt;" dispEnd="&lt;lucide-icon name=&quot;trash-2&quot; [size]=&quot;15&quot; /&gt;"></pc> Sil</source>
+        <target><pc id="0" equivStart="START_TAG_LUCIDE_ICON" equivEnd="CLOSE_TAG_LUCIDE_ICON" type="other" dispStart="&lt;lucide-icon name=&quot;trash-2&quot; [size]=&quot;15&quot; /&gt;" dispEnd="&lt;lucide-icon name=&quot;trash-2&quot; [size]=&quot;15&quot; /&gt;"></pc> Delete</target>
+      </segment>
+    </unit>
+    <unit id="save">
+      <segment>
+        <source>Kaydet</source>
+        <target>Save</target>
+      </segment>
+    </unit>
+    <unit id="editParameterTitle">
+      <segment>
+        <source>Parametre Düzenle</source>
+        <target>Edit Parameter</target>
+      </segment>
+    </unit>
+    <unit id="edit">
+      <segment>
+        <source>Düzenle</source>
+        <target>Edit</target>
+      </segment>
+    </unit>
+    <unit id="categories">
+      <segment>
+        <source>Kategoriler</source>
+        <target>Categories</target>
+      </segment>
+    </unit>
+    <unit id="searchCategoryPlaceholder">
+      <segment>
+        <source>Kategori ara...</source>
+        <target>Search category...</target>
+      </segment>
+    </unit>
+    <unit id="noSearchResults">
+      <segment>
+        <source>Sonuç bulunamadı</source>
+        <target>No results found</target>
+      </segment>
+    </unit>
+    <unit id="noCategoryYet">
+      <segment>
+        <source>Henüz kategori yok</source>
+        <target>No categories yet</target>
+      </segment>
+    </unit>
+    <unit id="createFirstCategory">
+      <segment>
+        <source>İlk kategoriyi oluştur</source>
+        <target>Create first category</target>
+      </segment>
+    </unit>
+    <unit id="tooltipActivePassive">
+      <segment>
+        <source>Aktif / Pasif</source>
+        <target>Active / Passive</target>
+      </segment>
+    </unit>
+    <unit id="statusPassive">
+      <segment>
+        <source>Pasif</source>
+        <target>Passive</target>
+      </segment>
+    </unit>
+    <unit id="createContentTitle">
+      <segment>
+        <source>Yeni İçerik</source>
+        <target>New Content</target>
+      </segment>
+    </unit>
+    <unit id="placeholderContentTitle">
+      <segment>
+        <source>İçerik başlığını girin</source>
+        <target>Enter content title</target>
+      </segment>
+    </unit>
+    <unit id="fieldContent">
+      <segment>
+        <source>İçerik</source>
+        <target>Content</target>
+      </segment>
+    </unit>
+    <unit id="placeholderContent">
+      <segment>
+        <source>İçeriği buraya yazın...</source>
+        <target>Write content here...</target>
+      </segment>
+    </unit>
+    <unit id="fieldSummary">
+      <segment>
+        <source>Özet</source>
+        <target>Summary</target>
+      </segment>
+    </unit>
+    <unit id="placeholderSummary">
+      <segment>
+        <source>Kısa açıklama (isteğe bağlı)</source>
+        <target>Short description (optional)</target>
+      </segment>
+    </unit>
+    <unit id="editContentTitle">
+      <segment>
+        <source>İçeriği Düzenle</source>
+        <target>Edit Content</target>
+      </segment>
+    </unit>
+    <unit id="placeholderAllStatuses">
+      <segment>
+        <source>Tüm Durumlar</source>
+        <target>All Statuses</target>
+      </segment>
+    </unit>
+    <unit id="newContent">
+      <segment>
+        <source>Yeni İçerik</source>
+        <target>New Content</target>
+      </segment>
+    </unit>
+    <unit id="noContentYet">
+      <segment>
+        <source>Henüz içerik yok</source>
+        <target>No content yet</target>
+      </segment>
+    </unit>
+    <unit id="noContentSub">
+      <segment>
+        <source>Bu kategoriye ilk içeriği ekleyin</source>
+        <target>Add the first content to this category</target>
+      </segment>
+    </unit>
+    <unit id="colTitle">
+      <segment>
+        <source>Başlık</source>
+        <target>Title</target>
+      </segment>
+    </unit>
+    <unit id="colStatus">
+      <segment>
+        <source>Durum</source>
+        <target>Status</target>
+      </segment>
+    </unit>
+    <unit id="colUpdated">
+      <segment>
+        <source>Güncellendi</source>
+        <target>Updated</target>
+      </segment>
+    </unit>
+    <unit id="tooltipChangeStatus">
+      <segment>
+        <source>Durum değiştir</source>
+        <target>Change status</target>
+      </segment>
+    </unit>
+    <unit id="ariaLabelBreadcrumb">
+      <segment>
+        <source>Breadcrumb</source>
+        <target>Breadcrumb</target>
+      </segment>
+    </unit>
+    <unit id="tooltipSwitchToEnglish">
+      <segment>
+        <source>English</source>
+        <target>English</target>
+      </segment>
+    </unit>
+    <unit id="tooltipSwitchToTurkish">
+      <segment>
+        <source>Türkçe</source>
+        <target>Türkçe</target>
+      </segment>
+    </unit>
+    <unit id="tooltipDarkMode">
+      <segment>
+        <source>Dark Mode</source>
+        <target>Dark Mode</target>
+      </segment>
+    </unit>
+    <unit id="tooltipLightMode">
+      <segment>
+        <source>Light Mode</source>
+        <target>Light Mode</target>
+      </segment>
+    </unit>
+    <unit id="menuProfile">
+      <segment>
+        <source>Profil</source>
+        <target>Profile</target>
+      </segment>
+    </unit>
+    <unit id="menuLogout">
+      <segment>
+        <source>Çıkış Yap</source>
+        <target>Logout</target>
+      </segment>
+    </unit>
+    <unit id="tooltipExpand">
+      <segment>
+        <source>Genişlet</source>
+        <target>Expand</target>
+      </segment>
+    </unit>
+    <unit id="tooltipCollapse">
+      <segment>
+        <source>Daralt</source>
+        <target>Collapse</target>
       </segment>
     </unit>
   </file>

@@ -3,10 +3,10 @@
   <div class="categories-panel">
     <!-- Panel header -->
     <div class="panel-header">
-      <h2 class="panel-title">Kategoriler</h2>
+      <h2 i18n="@@categories" class="panel-title">Kategoriler</h2>
       <button mat-flat-button color="primary" class="add-btn" (click)="openCreateCategoryDialog()">
         <lucide-icon name="plus" [size]="16" />
-        Ekle
+        <span i18n="@@add">Ekle</span>
       </button>
     </div>
 
@@ -16,6 +16,7 @@
       <input
         class="search-input"
         type="text"
+        i18n-placeholder="@@searchCategoryPlaceholder"
         placeholder="Kategori ara..."
         [value]="searchQuery()"
         (input)="searchQuery.set($any($event.target).value)"
@@ -37,9 +38,17 @@
     } @else if (filteredCategories().length === 0) {
       <div class="empty-state">
         <lucide-icon name="file-text" [size]="32" />
-        <p>{{ searchQuery() ? 'Sonuç bulunamadı' : 'Henüz kategori yok' }}</p>
+        @if (searchQuery()) {
+          <p i18n="@@noSearchResults">Sonuç bulunamadı</p>
+        } @else {
+          <p i18n="@@noCategoryYet">Henüz kategori yok</p>
+        }
         @if (!searchQuery()) {
-          <button mat-stroked-button (click)="openCreateCategoryDialog()">
+          <button
+            i18n="@@createFirstCategory"
+            mat-stroked-button
+            (click)="openCreateCategoryDialog()"
+          >
             İlk kategoriyi oluştur
           </button>
         }
@@ -54,18 +63,22 @@
               (change)="editCategoryActivated(category.id, $event.checked)"
               color="primary"
               matTooltip="Aktif / Pasif"
+              i18n-matTooltip="@@tooltipActivePassive"
             />
             <a [routerLink]="[category.id]" routerLinkActive="active" class="category-link">
               <span class="category-name">{{ category.title }}</span>
-              <span class="category-badge" [class.active]="category.isActive">
-                {{ category.isActive ? 'Aktif' : 'Pasif' }}
-              </span>
+              @if (category.isActive) {
+                <span class="category-badge active" i18n="@@statusActive">Aktif</span>
+              } @else {
+                <span class="category-badge" i18n="@@statusPassive">Pasif</span>
+              }
             </a>
             <button
               mat-icon-button
               class="edit-btn"
               (click)="editCategoryDialog(category.id)"
               matTooltip="Düzenle"
+              i18n-matTooltip="@@tooltipEdit"
             >
               <lucide-icon name="pencil" [size]="16" />
             </button>
@@ -80,18 +93,22 @@
                   (change)="editCategoryActivated(child.id, $event.checked)"
                   color="primary"
                   matTooltip="Aktif / Pasif"
+                  i18n-matTooltip="@@tooltipActivePassive"
                 />
                 <a [routerLink]="[child.id]" routerLinkActive="active" class="category-link">
                   <span class="category-name">{{ child.title }}</span>
-                  <span class="category-badge" [class.active]="child.isActive">
-                    {{ child.isActive ? 'Aktif' : 'Pasif' }}
-                  </span>
+                  @if (child.isActive) {
+                    <span class="category-badge active" i18n="@@statusActive">Aktif</span>
+                  } @else {
+                    <span class="category-badge" i18n="@@statusPassive">Pasif</span>
+                  }
                 </a>
                 <button
                   mat-icon-button
                   class="edit-btn"
                   (click)="editCategoryDialog(child.id)"
                   matTooltip="Düzenle"
+                  i18n-matTooltip="@@tooltipEdit"
                 >
                   <lucide-icon name="pencil" [size]="16" />
                 </button>
